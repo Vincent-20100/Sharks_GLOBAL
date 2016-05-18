@@ -1,4 +1,5 @@
 # Written by Jerzy Baran 2015
+# Modified by Florian Talour 2016
 
 # This code takes filenames (videos) as arguments and extracts each frame
 # from them.
@@ -32,64 +33,34 @@ def hashName(destination, fileName, index):
 	return index, hashed
 
 def processVideo(destination, videoFile):
-	# Open the file for reading
-	file = cv2.VideoCapture(videoFile)
-	index = 0	# Used to number the frames
 
 	# If the destination direction doesn't exist, create it
 	if not os.path.exists("./" + destination):
 		os.mkdir("./" + destination)
+		os.mkdir("./" + destination + "hq/");
 
-	os.mkdir("./" + destination + "hq/");
+	# Open the file for reading
+	file = cv2.VideoCapture(videoFile)
+	index = 0	# Used to number the frames
 
 	# Extract a frame
 	ret, frame = file.read()
 
-	# Save the frame to file
-	if ret:
-		# the following line was taken from
-		# http://nerdfever.com/numpy-goodness-deinterlacing-video-in-numpy/
-		# deinterlacing the video
-		
-		'''
-		recover the over part of the image that was lost
-		must change the variables names frame to frame1
-		and keep the frame object as a temporary image
-
-		frame2.append(frame[0]/2 + frame[1]/2)
-		frame2[2:-2:2] = frame[1:-3:2]/2 + frame[3:-1:2]/2
-		frame2[frame.len()] = frame[frame.len()-1]/2 + frame[frame.len()]/2
-		
-		side images (first and last) are the average of themself with the image next to them
-		
-		X is an average pixel
-		0 1 2 3 4 5 6
-		  X   X   X
-
-		0 1 2 3 4 5 6
-		X   X   X   X
-
-		'''
-
-		#frame[1:-1:2] = frame[0:-2:2]/2 + frame[2::2]/2
-
-		index, hashed = hashName(destination, videoFile, index)
-		cv2.imwrite(destination + hashed + ".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
-		cv2.imwrite(destination + "hq/" + hashed + ".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
-		# index += 1
-
 	while ret:
-		# Extract a frame
-		ret, frame = file.read()
 
-		# Save the frame to file
-		if ret:
-			#frame[1:-1:2] = frame[0:-2:2]/2 + frame[2::2]/2
+			# the following line was taken from
+			# http://nerdfever.com/numpy-goodness-deinterlacing-video-in-numpy/
+			# deinterlacing the video
+			frame[1:-1:2] = frame[0:-2:2]/2 + frame[2::2]/2
+
 			index, hashed = hashName(destination, videoFile, index)
 			cv2.imwrite(destination + hashed + ".jpg", frame, 
 				[int(cv2.IMWRITE_JPEG_QUALITY), 80])
 			cv2.imwrite(destination + "hq/" + hashed + ".jpg", 
 				frame, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+
+		# Extract the next frame
+		ret, frame = file.read()
 
 		# index += 1
 
