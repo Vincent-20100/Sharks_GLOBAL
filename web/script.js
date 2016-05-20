@@ -33,6 +33,14 @@ document.onkeydown = function(e) {
     
     // detect shortcut key press
     switch(e.keyCode) {
+    	case 78 : // 'N'
+    	case 110 : // 'n'
+    		if (event.altKey) {
+    			newImage();
+    		} else {
+    			console.log(e.keyCode);
+    		}
+    		break;
     	case 82 : // 'R'
     	case 114 : // 'r'
     		if (event.altKey) {
@@ -41,10 +49,10 @@ document.onkeydown = function(e) {
     			console.log(e.keyCode);
     		}
     		break;
-    	case 78 : // 'N'
-    	case 110 : // 'n'
+    	case 84 : // 'T'
+    	case 116 : // 't'
     		if (event.altKey) {
-    			newImage();
+    			showHideTips();
     		} else {
     			console.log(e.keyCode);
     		}
@@ -57,6 +65,7 @@ document.onkeydown = function(e) {
 var isMousePressed = false;
 var initPos = [0, 0];
 var mousePos = [0,0,0,0];
+var mouseAction = resizeSelectedZone;
 
 function initZone() {
 	var elem = document.getElementById("selectedZone");
@@ -72,52 +81,93 @@ function initZone() {
 	
 	isMousePressed = true;
 	
-	/* remove the class dontShow which contains the css 'display: none' */
-	elem.className = elem.className.replace(/dontShow/,"");
-	/* hide the border frame */
-	document.getElementById("maskNorth").className =
-		document.getElementById("maskNorth").className.replace(/ dontShow/,"") + " dontShow";
-	document.getElementById("maskSouth").className =
-		document.getElementById("maskSouth").className.replace(/ dontShow/,"") + " dontShow";
-	document.getElementById("maskEast").className =
-		document.getElementById("maskEast").className.replace(/ dontShow/,"") + " dontShow";
-	document.getElementById("maskWest").className =
-		document.getElementById("maskWest").className.replace(/ dontShow/,"") + " dontShow";
+	console.log(elem.getBoundingClientRect().left + " < " + initPos[0] + "\n" +
+		initPos[0] + " < " + (elem.getBoundingClientRect().left + elem.getBoundingClientRect().width) + "\n" +
+		elem.getBoundingClientRect().top + " < " + initPos[1] + "\n" +
+		initPos[1] + " < " + (elem.getBoundingClientRect().top + elem.getBoundingClientRect().height)
+	);
+	/* drag the zone */
+	if ((elem.getBoundingClientRect().left < initPos[0]) &&
+		(initPos[0] < (elem.getBoundingClientRect().left + elem.getBoundingClientRect().width)) && 
+		(elem.getBoundingClientRect().top < initPos[1]) &&
+		(initPos[1] < (elem.getBoundingClientRect().top + elem.getBoundingClientRect().height))) {
+		// The mouse point is inside the rectangle
+		mouseAction = dragZone;
+		console.log("in");
+	} else {
+		// The mouse point is not inside the rectangle
+		/* select a new zone */
+		mouseAction = resizeSelectedZone;
+		console.log("out");
+		
+		/* remove the class dontShow which contains the css 'display: none' */
+		elem.className = elem.className.replace(/dontShow/,"");
+		/* hide the border frame */
+		document.getElementById("maskNorth").className =
+			document.getElementById("maskNorth").className.replace(/ dontShow/,"") + " dontShow";
+		document.getElementById("maskSouth").className =
+			document.getElementById("maskSouth").className.replace(/ dontShow/,"") + " dontShow";
+		document.getElementById("maskEast").className =
+			document.getElementById("maskEast").className.replace(/ dontShow/,"") + " dontShow";
+		document.getElementById("maskWest").className =
+			document.getElementById("maskWest").className.replace(/ dontShow/,"") + " dontShow";
+	}
+}
+
+function dragZone(x, y) {
+	var elem = document.getElementById("selectedZone");
+	
+	mousePos[0] = mousePos[2];
+	mousePos[1] = mousePos[3];
+	mousePos[2] = x;
+	mousePos[3] = y;
+	
+	elem.style.left =
+		(elem.getBoundingClientRect().left + mousePos[2] - mousePos[0]) + "px";
+	elem.style.top =
+		(elem.getBoundingClientRect().top + mousePos[3] - mousePos[1]) + "px";
 }
 
 /* function which draw the selected area */
 function selectZone() {
 	if (isMousePressed) {
-		var div = document.getElementById("container");
 		var elem = document.getElementById("selectedZone");
 		var e = window.event;
-	
-		/* get the new position of the mouse */
-		var x = e.clientX;
-		var y = e.clientY;
-	
-		/* sort the coordonates */
-		if (x < initPos[0]) {
-			mousePos[0] = x;
-			mousePos[2]= initPos[0];
-		} else {
-			mousePos[0] = initPos[0];
-			mousePos[2] = x;
-		}
-		if (y < initPos[1]) {
-			mousePos[1] = y;
-			mousePos[3]= initPos[1];
-		} else {
-			mousePos[1] = initPos[1];
-			mousePos[3] = y;
-		}
-	
-		/* set the frame coordonates */
-		elem.style.left = (mousePos[0] - div.getBoundingClientRect().left) + "px";
-		elem.style.top = (mousePos[1] - div.getBoundingClientRect().top) + "px";
-		elem.style.width = (mousePos[2] - mousePos[0]) + "px";
-		elem.style.height = (mousePos[3] - mousePos[1]) + "px";
+		
+		/* execute the appropriate action :
+			- drag the selection zone
+			- resize a new selection zone
+		*/
+		/* send the new position of the mouse */
+		mouseAction(e.clientX, e.clientY);
 	}
+}
+
+function resizeSelectedZone(x, y) {
+	var div = document.getElementById("container");
+	var elem = document.getElementById("selectedZone");
+	
+	/* sort the coordonates */
+	if (x < initPos[0]) {
+		mousePos[0] = x;
+		mousePos[2]= initPos[0];
+	} else {
+		mousePos[0] = initPos[0];
+		mousePos[2] = x;
+	}
+	if (y < initPos[1]) {
+		mousePos[1] = y;
+		mousePos[3]= initPos[1];
+	} else {
+		mousePos[1] = initPos[1];
+		mousePos[3] = y;
+	}
+
+	/* set the frame coordonates */
+	elem.style.left = (mousePos[0] - div.getBoundingClientRect().left) + "px";
+	elem.style.top = (mousePos[1] - div.getBoundingClientRect().top) + "px";
+	elem.style.width = (mousePos[2] - mousePos[0]) + "px";
+	elem.style.height = (mousePos[3] - mousePos[1]) + "px";
 }
 
 function endSelectZone() {
@@ -191,10 +241,10 @@ function resetZone() {
 		document.getElementById("maskWest").className.replace(/ dontShow/,"") + " dontShow";
 }
 
+/*
 var indexImage = -1;
 var listImages = [];
 
-/*
 function newImage() {
 	var elem = document.getElementById("container");
 	
@@ -250,6 +300,6 @@ function newImage() {
 */
 
 
-function myFunction() {
+function showHideTips() {
 	document.getElementById("tipsMenu").classList.toggle("dontShow");
 }
