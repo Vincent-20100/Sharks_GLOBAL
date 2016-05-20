@@ -1,19 +1,32 @@
 <script language="javascript" type="text/javascript">
 	//This object must extends/ HttpRequestBuilder class
+	//constuctor
 	function ServeurRequestBuilder(){
-		//both function must override HttpRequestBuilder fonctionName
+		
 
-		newRequest = function(){
-			json.setOutputType();
-			// Allow zero valued properties to be outputted
-			json.setUsePrototypes(false);
-			return super.newRequest();
-		};
-
-		jsonContent = function(content){
-			// Uncomment this line to print each JSON object sent to the server
-			//Gdx.app.log("debug", json.prettyPrint(content));
-			return super.jsonContent(content);
-		};
 	}
+
+	//Methods
+	//Both function must extends HttpRequestBuilder
+	ServeurRequestBuilder.prototype.newRequest = function(){
+		json.setOutputType();
+		// Allow zero valued properties to be outputted
+		json.setUsePrototypes(false);
+		return super.newRequest();
+	}
+
+	ServeurRequestBuilder.prototype.jsonContent = function(content){
+		// Uncomment this line to print each JSON object sent to the server
+		//Gdx.app.log("debug", json.prettyPrint(content));
+		if(typeof content != "undefined")
+			return super.jsonContent(content);
+		else
+			return super.jsonContent();
+	}
+
+
+
 </script>
+<noscript>
+	<h3> This web site requires JavaScript</h3>
+</noscript>

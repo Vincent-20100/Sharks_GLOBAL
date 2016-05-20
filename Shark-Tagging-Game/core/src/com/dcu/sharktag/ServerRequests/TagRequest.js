@@ -1,12 +1,11 @@
 <script language="javascript" type="text/javascript">
-
+	//constuctor
 	function TagRequest(token, imageId, tags){
 		this.token = token;
 		this.imageId = imageId;
-
 		this.tags = SimpleTag[]; //verify if SimpleTag can be accessed
 
-		// unused variable
+		// not class variables
 		this.nonOverlapping = SimpleTag[];
 		this.tmpArray = SimpleTag[];
 
@@ -33,3 +32,6 @@
 		this.tags = nonOverlapping.sort();
 	}
 </script>
+<noscript>
+	<h3> This web site requires JavaScript</h3>
+</noscript>
