@@ -68,18 +68,21 @@ body #containerHead #tipsMenu.dontShow {
 }
 body #container {
 	background-color: #eee; /* light grey */
+	margin: 0 auto;
+	position: relative;
+	cursor: cell;
+}
+body #container #imageContainer {
 	background-image: url("images/sharks/tutorial.jpg");
 	background-repeat: no-repeat;
-	margin: 57px auto;
-	position: relative;
 	height: 1080px;
 	width: 1920px;
 }
 #selectedZone {
 	/* constant style */
-	border: dashed 1px #fff; /* white */
+	border: dashed 2px #fff; /* white */
 	position: absolute;
-	cursor: cell;
+	cursor: pointer;
 	/* changing style with js */
 	left: 0;
 	top: 0;
