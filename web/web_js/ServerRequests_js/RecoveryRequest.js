@@ -1,15 +1,9 @@
-<script language="javascript" type="text/javascript">
 
-	//constuctor
-	function RecoveryRequest(username, code, password) {
-		this.username = username;
-		if(typeof code !== "undefined") {this.code = code;}
-		if(typeof password !== "undefined") {this.password = password;}
-	}
-	
-	module.exports = RecoveryRequest;
-</script>
+//constuctor
+function RecoveryRequest(username, code, password) {
+	this.username = username;
+	if(typeof code !== "undefined") {this.code = code;}
+	if(typeof password !== "undefined") {this.password = password;}
+}
 
-<noscript>
-	<h3> This web site requires JavaScript</h3>
-</noscript>
+module.exports = RecoveryRequest;
