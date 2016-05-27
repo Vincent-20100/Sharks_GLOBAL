@@ -1,23 +1,9 @@
-// global var
-//var xhr = new XmlHttpRequest();
-
-/* Constructor of the object XmlHttpRequest */
-/*
-function XmlHttpRequest() {
-	
-}
-*/
-/* =========
-   functions
-   ========= */
-
 var serverURL = "http://povilas.ovh:8080";
-
+// TODO soon
+//var serverURL = "http://136.206.48.60/SharksTag";
 
 function request(url, callback, method, postContent) {
 	var xhr = getXMLHttpRequest();
-	//allow the server to get an exterior request
-	//xhr.withCredentials = true;
 	
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && (this.status == 200 || this.status == 0)) {
@@ -36,7 +22,6 @@ function request(url, callback, method, postContent) {
 		console.log(xhr);
 		xhr.timeout = 1000;
 	}
-	//xhr.setRequestHeader("Origin","http://dcu.ie");
 	xhr.send(postContent);
 }
 
@@ -48,14 +33,6 @@ function readData_connectVincent(sData) {
 function readData_getImage(sData) {
 	document.getElementById('resultGetImage').innerHTML = sData;
 }
-
-//httpReq.request(testRequest, httpReq.readData);
-/*
-var comm = new Communication();
-var testRequest = comm.buildRequest("/login",
-									new LoginRequest("20100", "123"));
-*/
-
 
 function getXMLHttpRequest() {
 	if (window.XMLHttpRequest || window.ActiveXObject) {
@@ -76,12 +53,4 @@ function getXMLHttpRequest() {
 		return null;
 	}
 }
-
-
-
-
-
-
-
-
 
