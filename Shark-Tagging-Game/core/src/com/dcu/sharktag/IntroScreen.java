@@ -38,7 +38,7 @@ public class IntroScreen extends ScreenAdapter{
 		
 		viewport = new FitViewport(game.getWidth(), game.getHeight(), camera);
 		
-		logo = new Texture(Gdx.files.internal("libgdx-logo.png"));
+		logo = new Texture(Gdx.files.internal(SharkTag.ASSETS_REP + "libgdx-logo.png"));
 	}
 	
 	@Override
