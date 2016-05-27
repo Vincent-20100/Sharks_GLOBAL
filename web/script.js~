@@ -128,7 +128,7 @@ function dragZone(x, y) {
 		(elem.getBoundingClientRect().top + mousePos[3] - mousePos[1]) + "px";
 }
 
-/* draw the selected area */
+/* function which draw the selected area */
 function selectZone() {
 	if (isMousePressed) {
 		var elem = document.getElementById("selectedZone");

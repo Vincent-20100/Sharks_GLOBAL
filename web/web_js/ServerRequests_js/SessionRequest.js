@@ -1,13 +1,7 @@
-<script language="javascript" type="text/javascript">
 
-	//constuctor
-	function SessionRequest(token){
-		this.token = token;
-	}
+//constuctor
+function SessionRequest(token){
+	this.token = token;
+}
 
-	module.exports = SessionRequest;
-</script>
-
-<noscript>
-	<h3> This web site requires JavaScript</h3>
-</noscript>
+module.exports = SessionRequest;

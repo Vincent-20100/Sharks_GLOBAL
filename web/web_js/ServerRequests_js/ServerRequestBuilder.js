@@ -1,25 +1,23 @@
 //This object must extends/ HttpRequestBuilder class
 //constuctor
-/*
-function ServerRequestBuilder(){
-	this = new HttpRequestBuilder();
+function ServeurRequestBuilder(){
+
 }
 
 //Methods
 //Both function must extends HttpRequestBuilder
-ServerRequestBuilder.prototype.newRequest = function(){
-	this.json.setOutputType();
+ServeurRequestBuilder.prototype.newRequest = function(){
+	json.setOutputType();
 	// Allow zero valued properties to be outputted
-	this.json.setUsePrototypes(false);
-	return this.newRequest();
+	json.setUsePrototypes(false);
+	return super.newRequest();
 }
 
-ServerRequestBuilder.prototype.jsonContent = function(content){
+ServeurRequestBuilder.prototype.jsonContent = function(content){
 	// Uncomment this line to print each JSON object sent to the server
 	//Gdx.app.log("debug", json.prettyPrint(content));
 	if(typeof content != "undefined")
-		return this.jsonContent(content);
+		return super.jsonContent(content);
 	else
-		return this.jsonContent();
+		return super.jsonContent();
 }
-*/
