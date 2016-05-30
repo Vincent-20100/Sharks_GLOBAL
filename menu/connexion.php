@@ -44,8 +44,8 @@
 				</div>
 			</form>
 		</li>
-		<li><a href="register.html" class="list-group-item">Register</a></li>
-		<li><a href="forgotPassword.html" class="list-group-item">Forgot Password</a></li> 
+		<li><a href="register.php" class="list-group-item">Register</a></li>
+		<li><a href="forgotPassword.php" class="list-group-item">Forgot Password</a></li> 
 	</ul>
 	
 </div>

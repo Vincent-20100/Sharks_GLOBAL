@@ -14,7 +14,7 @@
 			
 		<div class="menu_simple">
 			<ul>
-				<li><a href="menu.html">Back</a></li>
+				<li><a href="menu.php">Back</a></li>
 			</ul>
 		</div>
 	</body>
