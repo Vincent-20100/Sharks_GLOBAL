@@ -21,9 +21,9 @@
 					<ul class="nav nav-pills nav-stacked list-group">
 						<li><a class="col-sm-12 list-group-item" href="#">Play</a></li>
 						<li><a class="col-sm-12 list-group-item" href="#">Tutorial</a></li>
-						<li><a class="col-sm-12 list-group-item" href="scores.html">Highscores</a></li>
-						<li><a class="col-sm-12 list-group-item" href="credits.html">Credits</a></li>
-						<li><a class="col-sm-12 list-group-item" href="connexion.html">Log out</a></li>
+						<li><a class="col-sm-12 list-group-item" href="scores.php">Highscores</a></li>
+						<li><a class="col-sm-12 list-group-item" href="credits.php">Credits</a></li>
+						<li><a class="col-sm-12 list-group-item" href="connexion.php">Log out</a></li>
 					</ul>
 				</div>
 			</div>

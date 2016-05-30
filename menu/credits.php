@@ -24,7 +24,7 @@
 
 			<div class="menu_simple">
 					<ul class="nav nav-pills nav-stacked list-group">
-						<li><a class="col-sm-12 list-group-item" href="menu.html">Back</a></li>
+						<li><a class="col-sm-12 list-group-item" href="menu.php">Back</a></li>
 					</ul>
 				</div>
 		</div>
