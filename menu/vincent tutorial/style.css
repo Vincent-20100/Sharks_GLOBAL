@@ -1,0 +1,99 @@
+body {
+	margin: 0;
+	font-family: Arial;
+}
+body #containerHead {
+	background-color: #bbb; /* grey */
+	border-bottom: solid #bbb 10px;
+	font-size: 20px;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	z-index:2;
+}
+body #containerHead #appButtons {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	float: right;
+	max-width: 50%;
+}
+body #containerHead #appButtons a li {
+	padding: 12px 20px;
+}
+body #containerHead #appButtons a{
+	display: inline-block;
+	float: right;
+	opacity: 0.7;
+	text-decoration: none;
+	transition: 0.3s;
+}
+body #containerHead #appButtons a:hover {
+	opacity: 1;
+}
+body #containerHead #appButtons a#tipsButton {
+	background-color: #333; /* light black */
+	color: #fff;
+}
+body #containerHead #appButtons a#reset {
+	background-color: #00f; /* blue */
+	color: #fff; /* white */
+}
+body #containerHead #appButtons a#newImage {
+	background-color: #f00; /* red */
+	color: #fff; /* white */
+}
+body #containerHead #appMenu p {
+	display: inline;
+}
+body #containerHead #appMenu {
+	padding: 12px 15px;
+}
+body #containerHead #tipsMenu {
+	padding: 0 15px;
+}
+body #containerHead #tipsMenu {
+	background-color: #ddd;
+	color: #000;
+	transition: 0.5s;
+	max-height: 200px;
+	overflow: hidden;
+}
+body #containerHead #tipsMenu.dontShow {
+	display: block;
+	max-height: 0;
+	overflow: hidden;
+}
+body #container {
+	background-color: #eee; /* light grey */
+	margin: 0 auto;
+	position: relative;
+	cursor: cell;
+}
+body #container #imageContainer {
+	background-image: url("images/sharks/tutorial.jpg");
+	background-repeat: no-repeat;
+	height: 1080px;
+	width: 1920px;
+}
+#selectedZone {
+	/* constant style */
+	border: dashed 2px #fff; /* white */
+	position: absolute;
+	cursor: pointer;
+	/* changing style with js */
+	left: 0;
+	top: 0;
+	height: 0;
+	width: 0;
+}
+.mask {
+	background-color: rgba(0,0,0,0.3); /* black with transparency */
+	position: absolute;
+}
+.dontShow {
+	display: none;
+}
+

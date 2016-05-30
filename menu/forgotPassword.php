@@ -31,7 +31,7 @@
 				</div>
 			</form>
 		</li>
-		<li class="list-group-item"><a href="connexion.html" class="list-group-item">Back</a></li>
+		<li class="list-group-item"><a href="connexion.php" class="list-group-item">Back</a></li>
 	</ul>
 	
 </div>

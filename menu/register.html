@@ -17,29 +17,29 @@
 	<!-- Vertical Menu -->
 	<ul class="nav nav-pills nav-stacked" id"menu">
 		<li>
-			<form class="form-horizontal list-group-item" role="form" action="#" method="post">
+			<form class="form-horizontal list-group-item" name="registerForm" role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off" onsubmit="return validateForm()">
 				<div class="raw form-group">
 					<label class="col-sm-4 control-label" for="usr">Username:</label>
 					<div class="col-sm-8">
-						<input class="form-control" type="text" id="usr" autocomplete="false">
+						<input class="form-control" type="text" name="usr" autofocus required>
 					</div>
 				</div>
 				<div class="raw form-group">
 					<label class="col-sm-4 control-label" for="email">Email:</label>
 					<div class="col-sm-8">
-						<input class="form-control" type="text" id="email" autocomplete="false">
+						<input class="form-control" type="text" name="email" required>
 					</div>
 				</div>
 				<div class="raw form-group">
 					<label class="col-sm-4 control-label" for="psw">Password:</label>
 					<div class="col-sm-8">
-						<input class="form-control" type="password" id="psw" autocomplete="false">
+						<input class="form-control" type="password" name="psw" required>
 					</div>
 				</div>
 				<div class="raw form-group">
 					<label class="col-sm-4 control-label" for="psw-repeat">Repeat password:</label>
 					<div class="col-sm-8">
-						<input class="form-control" type="password" id="psw-repeat" autocomplete="false">
+						<input class="form-control" type="password" name="psw-repeat" required>
 					</div>
 				</div>
 				<div class="raw form-group">
@@ -53,6 +53,32 @@
 	</ul>
 	
 </div>
+
+<script type="text/javascript">
+	function validateForm() {
+    var usr = document.forms["registerForm"]["usr"].value;
+	var email = document.forms["registerForm"]["email"].value;
+    var psw = document.forms["registerForm"]["psw"].value;
+    var psw-repeat = document.forms["registerForm"]["psw-repeat"].value;
+    if (usr == null || usr == "" ) {
+        alert("Name must be filled out");
+        return false;
+    }
+    else if (email == null || email == "") {
+    	alert("Email must be filled out");
+        return false;
+    }
+    else if (psw == null || psw == "") {
+    	alert("Password must be filled out");
+        return false;
+    }
+    else if (psw != psw-repeat){
+    	alert("Passwords are not the same");
+        return false;
+    }
+
+}
+</script>
 
 </body>
 </html>

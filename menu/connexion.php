@@ -17,23 +17,23 @@
 	<!-- Vertical Menu -->
 	<ul class="nav nav-pills nav-stacked">
 		<li>
-			<form class="form-horizontal list-group-item" role="form" action="#" method="post">
+			<form class="form-horizontal list-group-item" role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 				<div class="raw form-group">
-					<label class="col-sm-2 control-label" for="usr">Username:</label>
-					<div class="col-sm-10">
-						<input class="form-control" type="text" id="usr">
+					<label class="col-sm-4 control-label" for="usr">Username:</label>
+					<div class="col-sm-8">
+						<input class="form-control" type="text" name="usr" required>
 					</div>
 					
 				</div>
 				<div class="raw form-group">
-					<label class="col-sm-2 control-label" for="psw">Password:</label>
-					<div class="col-sm-10">
-						<input class="form-control" type="password" id="psw">
+					<label class="col-sm-4 control-label" for="psw">Password:</label>
+					<div class="col-sm-8">
+						<input class="form-control" type="password" name="psw" required>
 					</div>
 				</div>
 				<div class="raw form-group">
-					<div class="col-sm-6">
-						<input class="form-control" type="checkbox" id="remember">
+					<div class="col-sm-6 pull-left">
+						<input class="form-control" type="checkbox" name="remember" disabled>
 					</div>
 					<label class="col-sm-6 control-label" style="text-align: left;" for="remember"> Keep me logged in</label>
 				</div>

@@ -21,7 +21,7 @@
 			<p>Florian Talour</p>
 			<p>Vincent Bessouet</p>
 			<p>Cassien Ippolito</p>
-			
+
 			<div class="menu_simple">
 					<ul class="nav nav-pills nav-stacked list-group">
 						<li><a class="col-sm-12 list-group-item" href="menu.html">Back</a></li>
