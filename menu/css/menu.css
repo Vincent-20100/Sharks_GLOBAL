@@ -1,15 +1,9 @@
-
-h1, h2, p {
-	text-align: center;
-}
-
 html {
 	height: 100%;
 	width: 100%;
 }
 
-#fond {
-	
+#fond {	
 	width: 100%;
 	z-index: 0;
 }
@@ -22,10 +16,30 @@ html {
 	z-index: 1;
 }
 
+h1, h2{
+	text-align: center;
+}
+
+p{
+	font-size: 18px;
+	text-align: center;
+}
+
+table{
+	border-collapse: collapse;
+	margin : 100px auto auto auto;
+	width : 30%;
+	background-color: white;
+}
+
+td, th{
+	border: 1px solid black;
+	color: red;
+	font-size: 20px;
+	text-align: center;
+}
+
 body {
-	color:black;
-	background-color:white;
-/*	background-image: url("image_2.png");*/
 	background-repeat: no-repeat;
 	background-position: top center;
 	margin: 0;
@@ -34,7 +48,7 @@ body {
 .menu_simple {
 	height: 69px;
 	width: 160px;
-	margin-top: 20%;
+	margin-top: 120px;
 	margin-left: auto;
 	margin-right: auto;
 }
