@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 	<title>Shark Tagging Game</title>
@@ -18,87 +18,94 @@
 	<?php// require_once(realpath(dirname(__FILE__) . '/..').'/php_script/registerFormCheck.php') ?>
 	<?php// require_once(realpath(dirname(__FILE__) . '/..').'/php_script/supports_input_placeholder.php') ?>
 
+	<style type="text/css">
+	.error {color: #FF0000;}
+	</style>
 	
 </head>
 <body background="images/back.jpg">
 
 <?php 
-	$usrInputErr = $emailInputErr = $passwordInputErr = $password_againInputErr = "";
-	$usrInput = $emailInput = $passwordInput = $password_againInput = "";
+	$usernameErr = $emailErr = $passwordErr = $password_againErr = "";
+	$username = $email = $password = $password_again = "";
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	  	if (empty($_POST["usrInput"])) {
+	  	if (empty($_POST["username"])) {
 	    	$nameErr = "Username is required";
 		} else {
-		    $usrInput = test_input($_POST["usrInput"]);
-		    // check if usrInput only contains letters and whitespace
-		    if (!preg_match("/^[a-zA-Z ]*$/",$usrInput)) {
+			//success !
+		    $username = test_input($_POST["username"]);
+
+		    // check if username only contains letters and whitespace
+		    if (!preg_match("/^[a-zA-Z ]*$/",$username)) {
 		      $nameErr = "Only letters and white space allowed";
 		    }
 		}
 		  
-		if (empty($_POST["emailInput"])) {
-		   	$emailInputErr = "EmailInput is required";
+		if (empty($_POST["email"])) {
+		   	$emailErr = "email is required";
 	  	} else {
-		    $emailInput = test_input($_POST["emailInput"]);
+		    //success !
+		    $email = test_input($_POST["email"]);
+
 		    // check if e-mail address is well-formed
-		    if (!filter_var($emailInput, FILTER_VALIDATE_EMAIL)) {
-		      $emailInputErr = "Invalid emailInput format";
+		    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		      $emailErr = "Invalid email format";
 		    }
 		}
 
-		if (empty($_POST["passwordInput"])) {
-		   	$passwordInputErr = "Password is required";
+		if (empty($_POST["password"])) {
+		   	$passwordErr = "Password is required";
 	  	} else {
 	  		//success !
-		    $passwordInput = test_input($_POST["passwordInput"]);
+		    $password = test_input($_POST["password"]);
 		    
-			if (empty($_POST["password_againInput"])) {
-			   	$password_againInputErr = "Password repeat is required";
+			if (empty($_POST["password_again"])) {
+			   	$password_againErr = "Password repeat is required";
 		  	} else {
 		  		//success !
-			    $password_againInput = test_input($_POST["password_againInput"]);
+			    $password_again = test_input($_POST["password_again"]);
 
 			    //Testing password conditions
-			    if ($_POST["passwordInput"] != $_POST["password_againInput"]) {
-				   	$passwordInputErr = "Passwords are not the same";
-				   	$password_againInputErr = "Passwords are not the same";
+			    if ($_POST["password"] != $_POST["password_again"]) {
+				   	$passwordErr = "Passwords are not the same";
+				   	$password_againErr = "Passwords are not the same";
 				}
 				else {
 				   	// success!
 
 					//The password must be at least 8 character long
-			    	if(strlen($_POST["passwordInput"])<8) {
-			    		$passwordInputErr = "Password must be at least 8 character long";
+			    	if(strlen($_POST["password"])<8) {
+			    		$passwordErr = "Password must be at least 8 character long";
 			    	} 
 			    	else {
 
 			    		//success !
 
 						//The password must not contain the username
-						if(strpos($_POST["passwordInput"], $_POST["usrInput"])) {
-							$passwordInputErr = "Passwords must not contain the username";
+						if(strpos($_POST["password"], $_POST["username"])) {
+							$passwordErr = "Passwords must contain the username";
 						}
 						else {
 							//success !
 
 							//The password must contain one number
-							if(strspn($_POST["passwordInput"], "0123456789")) {
-								$passwordInputErr = "Passwords must not contain at least one numerical value";
+							if(strspn($_POST["password"], "0123456789")) {
+								$passwordErr = "Passwords must contain at least one numerical value";
 							}
 							else {
 								//success !
 
 								//The password must contain one lower case character
-								if(strspn($_POST["passwordInput"], "abcdefghijklmnopqrstuvwxyz")>0) {
-									$passwordInputErr = "Passwords must not contain at least one lower case character";
+								if(strspn($_POST["password"], "abcdefghijklmnopqrstuvwxyz")>0) {
+									$passwordErr = "Passwords must not contain at least one lower case character";
 								}
 								else {
 									//success !
 
 									//The password must contain one upper case character
-									if(strspn($_POST["passwordInput"], "ABCDEFGHIJKLMNOPQRSTUVWXYZ")>0) {
-										$passwordInputErr = "Passwords must not contain at least one upper case character";
+									if(strspn($_POST["password"], "ABCDEFGHIJKLMNOPQRSTUVWXYZ")>0) {
+										$passwordErr = "Passwords must contain at least one upper case character";
 									}
 									else {
 										//success !
@@ -123,36 +130,40 @@
 
 <div class="container">
 	<!-- Vertical Menu -->
-	<ul class="nav nav-pills nav-stacked" id"menu">
+	<ul class="nav nav-pills nav-stacked" id="menu">
 		<li>
 			<form class="form-horizontal list-group-item" id="registerForm" role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off" onsubmit="return validateForm()">
-				<div class="raw form-group">
-					<label class="col-sm-4 control-label" for="usrInput">Username:</label>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" for="username">Username:</label>
 					<div class="col-sm-8">
-						<input class="form-control" type="text" id="usrInput" value="<?php echo $usr?>" autofocus required>
+						<input class="form-control" type="text" name="username" id="username" value="<?php echo $username?>" autofocus required>
+						<span class="error">* <?php echo $usernameErr;?></span>
 					</div>
 				</div>
-				<div class="raw form-group">
-					<label class="col-sm-4 control-label" for="emailInput">EmailInput:</label>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" for="email">email:</label>
 					<div class="col-sm-8">
-						<input class="form-control" type="email" id="emailInputInput" placeholder="Enter a valid email adress" value="<?php echo $emailInput?>" required>
+						<input class="form-control" type="email" name="email" id="email" placeholder="Enter a valid email adress" value="<?php echo $email?>" required>
+						<span class="error">* <?php echo $emailErr;?></span>
 					</div>
 				</div>
-				<div class="raw form-group">
-					<label class="col-sm-4 control-label" for="passwordInput">Password:</label>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" for="password">Password:</label>
 					<div class="col-sm-8">
-						<input class="form-control" type="password" id="passwordInput" value="<?php echo $passwordInput?>" required>
+						<input class="form-control" type="password" name="password" id="password" value="<?php echo $password?>" required>
+						<span class="error">* <?php echo $passwordErr;?></span>
 					</div>
 				</div>
-				<div class="raw form-group">
-					<label class="col-sm-4 control-label" for="password_againInput">Repeat password:</label>
+				<div class="form-group">
+					<label class="col-sm-4 control-label" for="password_again">Repeat password:</label>
 					<div class="col-sm-8">
-						<input class="form-control" type="password" id="password_againInput" value="<?php echo $password_againInput?>" required>
+						<input class="form-control" type="password" name="password_again" id="password_again" value="<?php echo $password_again?>" required>
+						<span class="error">* <?php echo $password_againErr;?></span>
 					</div>
 				</div>
-				<div class="raw form-group">
+				<div class="form-group">
 					<div class="col-sm-12">
-						<input class="btn btn-default" type="submit" value="Register">
+						<button type="submit" class="btn btn-default">Register</button>
 					</div>
 				</div>
 			</form>
@@ -166,11 +177,11 @@
 	
 /*
 	function validateForm() {
-	    var usrInput = document.forms["registerForm"]["usrInput"].value;
-		var emailInput = document.forms["registerForm"]["emailInput"].value;
-	    var passwordInput = document.forms["registerForm"]["passwordInput"].value;
-	    var password_againInput = document.forms["registerForm"]["password_againInput"].value;
-	    if (usrInput == null || usrInput == "" ) {
+	    var username = document.forms["registerForm"]["username"].value;
+		var email = document.forms["registerForm"]["email"].value;
+	    var password = document.forms["registerForm"]["password"].value;
+	    var password_again = document.forms["registerForm"]["password_again"].value;
+	    if (username == null || username == "" ) {
 	        alert("Name must be filled out");
 	        return false;
 	    }
@@ -178,11 +189,11 @@
 	    	alert("Email must be filled out");
 	        return false;
 	    }
-	    else if (passwordInput == null || passwordInput == "") {
+	    else if (password == null || password == "") {
 	    	alert("Password must be filled out");
 	        return false;
 	    }
-	    else if (passwordInput != password_againInput){
+	    else if (password != password_again){
 	    	alert("Passwords are not the same");
 	        return false;
 	    }
@@ -190,50 +201,49 @@
 	}
 */
 
-
+	//Quick validation of the inputs
 	$(document).ready(function () {
 		$('#registerForm').validate({
 			rules: {
-				usrInput: {
+				username: {
 					required: true,
 					lettersonly: true
 				},
-				emailInput: {
+				email: {
 					required: true,
 					email: true
 				},
-				passwordInput: {
+				password: {
 					required: true,
 					minlength: 8
 				},
-				password_againInput: {
+				password_again: {
 					required: true,
 					minlength: 8
 				}
 
 			},
 			messages: {
-				usrInput: {
+				username: {
 					required: "Enter a username",
 					lettersonly: "Username must contain only letters"
 				},
-				emailInput: {
+				email: {
 					required: "Enter an email adress",
 					email: "Email must be valid"
 				},
-				passwordInput: {
+				password: {
 					required: "Enter a password",
 					minlength: "Password must be 8 character long at least"
 				},
-				password_againInput: {
+				password_again: {
 					required: "Enter the password again",
 					minlength: "Password must be 8 character long at least"
 				}
 			},
-
 			submitHandler: function(form) {
-            	form.submit();
-       		}
+	        	form.submit();
+	   		}
 		})
 	});
 
