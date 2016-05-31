@@ -1,48 +1,43 @@
-html {
-	height: 100%;
-	width: 100%;
-}
-
-#fond {	
-	width: 100%;
-	z-index: 0;
-}
-
-#devant {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	z-index: 1;
-}
-
 h1, h2{
 	text-align: center;
 }
 
-p{
-	font-size: 18px;
-	text-align: center;
-}
-
-table{
+#HighscoresTable {
 	border-collapse: collapse;
-	margin : 100px auto auto auto;
-	width : 30%;
-	background-color: white;
+	border-style: solid;
+	border-width: 3px;
+	width: 50%;
+	margin: 20% 25% 30% 25%;
 }
 
 td, th{
 	border: 1px solid black;
 	color: red;
 	font-size: 20px;
+}
+
+td {
 	text-align: center;
+}
+
+th[name="col1"], td[name="col1"] {
+	width: 40%
+}
+
+td[name="col2"], td[name="col2"] {
+	width: 60%
 }
 
 body {
 	background-repeat: no-repeat;
 	background-position: top center;
 	margin: 0;
+}
+
+p {
+	color: white;
+	text-align: center;
+	font-size: 18px;
 }
 
 .menu_simple {
@@ -54,10 +49,8 @@ body {
 }
 
 .menu_simple ul {	
-	
 	padding: auto;
 	list-style-type: none;
-
 }
 
 .menu_simple ul li a {

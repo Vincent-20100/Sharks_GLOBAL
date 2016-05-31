@@ -12,24 +12,29 @@
 		<title>Shark Tagging Game</title>
 	</head>
 	<body background="images/scores.jpg">
-		<div id="devant">
-			<div class="container">
-				<h2> <font color = blue>
-					Highscores
-				</h2>
-				<table width=30% border=1 class="table-bordered">
-					<tr>
-						<th width=60%>Player</td>
-						<th width=40%>Score</td>
-					</tr>
-					<tr>
-						<td width=60%>play1</td>
-						<td width=40%>55</td>
-					</tr>
-					<tr>
-						<td width=60%>play2</td>
-						<td width=40%>45</td>
-					</tr>
+
+		<div class="container">
+			<h2> 
+				<font color = white>Highscores</font>
+			</h2>
+			<div class="raw"></div>
+				<table class="table table-bordered table-condensed" id="HighscoresTable">
+					<thead>
+						<tr>
+							<th name="col1">Player</th>
+							<th name="col2">Score</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td name="col1">play1</td>
+							<td name="col2">55</td>
+						</tr>
+						<tr>
+							<td name="col1">play2</td>
+							<td name="col2">45</td>
+						</tr>
+					</tbody>
 				</table>
 				<div class="menu_simple">
 					<ul class="nav nav-pills nav-stacked list-group">
