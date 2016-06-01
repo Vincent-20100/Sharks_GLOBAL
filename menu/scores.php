@@ -25,21 +25,29 @@
 		<div class="container">
 			<div class="panel panel-default">
 				<!-- Default panel contents -->
-				<div class="panel-heading text-center"> <font size = 10px>Highscores</div>
+				<div class="panel-heading text-center"> 
+					<font size = 10px> Highscores </font>
+				</div>
+				
 				<!-- Table -->
-				<table class="table">
-   					<tr>
-						<th width=60% class="text-center">Player</th>
-						<th width=40% class="text-center">Score</th>
-					</tr>
-					<tr>
-						<td width=60%>play1</td>
-						<td width=40%>55</td>
-					</tr>
-					<tr>
-						<td width=60%>play2</td>
-						<td width=40%>45</td>
-					</tr>
+				<table class="table table-bordered table-condensed" id="HighscoresTable">
+					<thead>
+	   					<tr>
+							<th name="col1" class="text-center">Player</th>
+							<th name="col2" class="text-center">Score</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td name="col1">play1</td>
+							<td name="col2">55</td>
+						</tr>
+						<tr>
+							<td name="col1">play2</td>
+							<td name="col2">45</td>
+						</tr>
+					</tbody>
+					
 				</table>
 			</div>
 
