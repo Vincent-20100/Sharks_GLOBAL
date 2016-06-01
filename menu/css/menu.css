@@ -3,11 +3,20 @@ html {
 	width: 100%;
 }
 
+body {
+	background-repeat: no-repeat;
+	background-position: top center;
+	margin: 0;
+	padding-top : 90px;
+	vertical-align: center;
+}
+
 h1, h2{
 	text-align: center;
 }
 
 p{
+	color: white;
 	font-size: 18px;
 	text-align: center;
 }
@@ -19,12 +28,12 @@ td, th{
 	text-align: center;
 }
 
-body {
-	background-repeat: no-repeat;
-	background-position: top center;
-	margin: 0;
-	padding-top : 90px;
-	vertical-align: center;
+th[name="col1"], td[name="col1"] {
+	width: 40%
+}
+
+td[name="col2"], td[name="col2"] {
+	width: 60%
 }
 
 .menu_simple {
