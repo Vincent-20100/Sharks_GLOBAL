@@ -2,7 +2,7 @@ body {
 	margin: 0;
 	font-family: Arial;
 }
-body #containerHead {
+#containerHead {
 	background-color: #bbb; /* grey */
 	border-bottom: solid #bbb 10px;
 	font-size: 20px;
@@ -12,7 +12,7 @@ body #containerHead {
 	width: 100%;
 	z-index:2;
 }
-body #containerHead #appButtons {
+#appButtons {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -20,75 +20,163 @@ body #containerHead #appButtons {
 	float: right;
 	max-width: 50%;
 }
-body #containerHead #appButtons a li {
+#appButtons a li {
 	padding: 12px 20px;
 }
-body #containerHead #appButtons a{
+#appButtons a{
 	display: inline-block;
 	float: right;
 	opacity: 0.7;
 	text-decoration: none;
 	transition: 0.3s;
 }
-body #containerHead #appButtons a:hover {
+
+#appButtons a:hover {
 	opacity: 1;
 }
-body #containerHead #appButtons a#tipsButton {
+#tipsButton {
 	background-color: #333; /* light black */
 	color: #fff;
 }
-body #containerHead #appButtons a#reset {
+
+#reset {
 	background-color: #00f; /* blue */
 	color: #fff; /* white */
 }
-body #containerHead #appButtons a#newImage {
+
+#resetAll{
+    background-color: #0f0; /* green */
+	color: #fff;
+}
+
+#newImage {
 	background-color: #f00; /* red */
 	color: #fff; /* white */
 }
-body #containerHead #appMenu p {
+#appMenu p {
 	display: inline;
 }
-body #containerHead #appMenu {
+#appMenu {
 	padding: 12px 15px;
 }
-body #containerHead #tipsMenu {
+#tipsMenu {
 	padding: 0 15px;
-}
-body #containerHead #tipsMenu {
 	background-color: #ddd;
 	color: #000;
 	transition: 0.5s;
 	max-height: 200px;
 	overflow: hidden;
 }
-body #containerHead #tipsMenu.dontShow {
+#tipsMenu.dontShow {
 	display: block;
 	max-height: 0;
 	overflow: hidden;
 }
-body #container {
-	background-color: #eee; /* light grey */
-	margin: 0 auto;
-	position: relative;
+#container {
+	background-color: #fdfdfd; /* cream white */
 	cursor: cell;
 }
-body #container #imageContainer {
-	background-image: url("images/sharks/tutorial.jpg");
-	background-repeat: no-repeat;
-	height: 1080px;
-	width: 1920px;
+#imageContainer {
+	height: 90%;
+	width: 90%;
+	margin: 57px auto 0;
 }
-#selectedZone {
-	/* constant style */
+#imageContainer img {
+	height: 100%;
+	width: 100%;
+}
+
+#containerBelow{
+    background-color: #bbb; /* grey */
+	font-size: 25px;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index:2;
+
+}
+#setZone{
+    list-style-type: none;
+	padding: 12px 20px;
+	overflow: hidden;
+	float: right;
+	max-width: 50%;
+    background-color: #f0f;
+	color: #fff; /* white */
+	text-decoration: none;
+}
+
+
+	
+div[name="selectedZoneSet"]{
+    cursor: cell;
+     /* constant style */
 	border: dashed 2px #fff; /* white */
 	position: absolute;
-	cursor: pointer;
+	
 	/* changing style with js */
 	left: 0;
 	top: 0;
 	height: 0;
 	width: 0;
 }
+
+div[name="touch"]{
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    /* constant style */
+	border: dashed 2px #fff; /* white */
+	position: absolute;
+	
+	/* changing style with js */
+	left: 0;
+	top: 0;
+	height: 0;
+	width: 0;
+}
+
+div[name="grab"]{ 
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+    /* constant style */
+	border: dashed 2px #fff; /* white */
+	position: absolute;
+	
+	/* changing style with js */
+	left: 0;
+	top: 0;
+	height: 0;
+	width: 0;
+}
+
+
+
+
+.point{
+    
+    border:2px solid #679403;
+    background:#bfd70e;
+    border-radius:50%;
+    width:20px;
+    height:20px;
+
+}
+
+div[name="pointodd"]{
+    cursor: nwse-resize;
+}
+
+div[name="pointeven"]{
+    cursor: nesw-resize;
+}
+
+div[name="pointSet"]{
+    cursor: cell;
+    display: none;
+}
+
 .mask {
 	background-color: rgba(0,0,0,0.3); /* black with transparency */
 	position: absolute;
@@ -96,4 +184,3 @@ body #container #imageContainer {
 .dontShow {
 	display: none;
 }
-
