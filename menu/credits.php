@@ -12,19 +12,21 @@
 		<title>Shark Tagging Game</title>
 	</head>
 	<body background="images/scores.jpg">
-		<h2> <font color = white>
-			Credits
-		</h2>
-		<br><br><font color = #483D8B>
-		<p>Tristan Le Nair</p>			
-		<p>Florian Talour</p>
-		<p>Vincent Bessouet</p>
-		<p>Cassien Ippolito</p>
+		<div id="devant">
+			<h2> <font color = blue>
+				Credits
+			</h2>
+			<br><br><font color = #483D8B>
+			<p>Tristan Le Nair</p>			
+			<p>Florian Talour</p>
+			<p>Vincent Bessouet</p>
+			<p>Cassien Ippolito</p>
 
-		<div class="menu_simple">
-				<ul class="nav nav-pills nav-stacked list-group">
-					<li><a class="col-sm-12 list-group-item" href="menu.php">Back</a></li>
-				</ul>
+			<div class="menu_simple">
+					<ul class="nav nav-pills nav-stacked list-group">
+						<li><a class="col-sm-12 list-group-item" href="menu.php">Back</a></li>
+					</ul>
+				</div>
 		</div>
 	</body>
 </html>

@@ -1,7 +1,7 @@
 body {
 	background-size: 1920px 1080px;
 	background-repeat: no-repeat;
-	background-position: top center;
+	background-position: top;
 }
 
 ul {
@@ -11,6 +11,6 @@ ul {
 }
 
 li {
-	list-style-type: none;
+	list-style-type:none;
 	text-align: center;
 }

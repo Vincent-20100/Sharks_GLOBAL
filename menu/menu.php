@@ -12,18 +12,20 @@
 		<title>Shark Tagging Game</title>
 	</head>
 	<body background="images/image_2.png">
-		<div class="raw">
-			<h1> <font color = blue>
-				Shark Tagging Game
-			</h1>
-			<div class="menu_simple">
-				<ul class="nav nav-pills nav-stacked list-group">
-					<li><a class="col-sm-12 list-group-item" href="#">Play</a></li>
-					<li><a class="col-sm-12 list-group-item" href="#">Tutorial</a></li>
-					<li><a class="col-sm-12 list-group-item" href="scores.php">Highscores</a></li>
-					<li><a class="col-sm-12 list-group-item" href="credits.php">Credits</a></li>
-					<li><a class="col-sm-12 list-group-item" href="connexion.php">Log out</a></li>
-				</ul>
+		<div id="devant">
+			<div class="raw">
+				<h1> <font color = blue>
+					Shark Tagging Game
+				</h1>
+				<div class="menu_simple">
+					<ul class="nav nav-pills nav-stacked list-group">
+						<li><a class="col-sm-12 list-group-item" href="#">Play</a></li>
+						<li><a class="col-sm-12 list-group-item" href="#">Tutorial</a></li>
+						<li><a class="col-sm-12 list-group-item" href="scores.php">Highscores</a></li>
+						<li><a class="col-sm-12 list-group-item" href="credits.php">Credits</a></li>
+						<li><a class="col-sm-12 list-group-item" href="connexion.php">Log out</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</body>

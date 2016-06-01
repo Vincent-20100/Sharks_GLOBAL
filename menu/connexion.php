@@ -75,7 +75,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-sm-offset-4 col-sm-2">
+					<div class="col-sm-offset-5 col-sm-1">
 						<input class="form-control" type="checkbox" name="remember">
 					</div>
 					<label class="col-sm-6 control-label" style="text-align: left;" for="remember">Keep me logged in</label>

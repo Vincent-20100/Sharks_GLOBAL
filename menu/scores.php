@@ -12,35 +12,31 @@
 		<title>Shark Tagging Game</title>
 	</head>
 	<body background="images/scores.jpg">
-
 		<div class="container">
-			<h2> 
-				<font color = white>Highscores</font>
-			</h2>
-			<div class="raw"></div>
-				<table class="table table-bordered table-condensed" id="HighscoresTable">
-					<thead>
-						<tr>
-							<th name="col1">Player</th>
-							<th name="col2">Score</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td name="col1">play1</td>
-							<td name="col2">55</td>
-						</tr>
-						<tr>
-							<td name="col1">play2</td>
-							<td name="col2">45</td>
-						</tr>
-					</tbody>
+			<div class="panel panel-default">
+				<!-- Default panel contents -->
+				<div class="panel-heading text-center"> <font size = 10px>Highscores</div>
+				<!-- Table -->
+				<table class="table">
+   					<tr>
+						<th width=60% class="text-center">Player</th>
+						<th width=40% class="text-center">Score</th>
+					</tr>
+					<tr>
+						<td width=60%>play1</td>
+						<td width=40%>55</td>
+					</tr>
+					<tr>
+						<td width=60%>play2</td>
+						<td width=40%>45</td>
+					</tr>
 				</table>
-				<div class="menu_simple">
-					<ul class="nav nav-pills nav-stacked list-group">
-						<li><a class="col-sm-12 list-group-item" href="menu.php">Back</a></li>
-					</ul>
-				</div>
+			</div>
+
+			<div class="menu_simple">
+				<ul class="nav nav-pills nav-stacked list-group">
+					<li><a class="col-sm-12 list-group-item btn-lg" href="menu.php">Back</a></li>
+				</ul>
 			</div>
 		</div>
 	</body>

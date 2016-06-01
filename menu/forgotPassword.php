@@ -3,11 +3,9 @@
 <head>
 	<title>Shark Tagging Game</title>
 	<meta charset="UTF-8">
-
-	<link rel="stylesheet" href="css/recover.css">
-
 	 <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/connexion.css">
 	<!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<!-- Latest compiled JavaScript -->
@@ -55,57 +53,30 @@
 	}
 ?>
 
-<!--
-/****************************************************************************/
-/* HTML inpired from "Login and Register tabbed form"						*/
-/* Bootstrap 3.3.0 Snippet by pukey22 										*/
-/* http://bootsnipp.com/snippets/featured/login-and-register-tabbed-form 	*/
-/****************************************************************************/
- -->
 <div class="container">
-	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
-			<div class="panel panel-recover">
-				<div class="panel-heading">
-					<div class="row">
-						<div class="col-xs-12">
-							<a href="#" class="active" id="recover-form-link">Recover Account</a>
-						</div>
-					</div>
-					<hr>
-				</div>
-				<div class="panel-body">
-					<div class="row">
-						<div class="col-lg-12">
-							<form id="recover-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" role="form" style="display: block;">
-								<div class="form-group">
-									<input type="text" name="usernameOrEmailErr" id="usernameOrEmailErr" tabindex="1" class="form-control" placeholder="Email Address" value="<?php echo $usernameOrEmail?>">
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="recover-submit" id="recover-submit" tabindex="2" class="form-control btn btn-success btn-md" value="Recover Account">
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
+	<!-- Vertical Menu -->
+	<ul class="nav nav-pills nav-stacked" id="menu">
+		<li>
+			<form class="form-horizontal list-group-item" id="forgotPasswordForm" role="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="false">
+				<div class="form-group">
+					<label class="col-sm-6 control-label" for="usernameOrEmail">Username/Email:</label>
+					<div class="col-sm-6">
+						<input class="form-control" type="text" id="usernameOrEmail" name="usernameOrEmail" value="<?php echo $usernameOrEmail?>" required>
+						<span class="error">* <?php echo $usernameOrEmailErr;?></span>
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
+				<div class="form-group">
+					<div class="col-sm-12">
+						<!-- <button type="submit" class="btn btn-default">Request code</button> -->
+						<input type="submit" name="submit" value="Request code">
+					</div>
+				</div>
+			</form>
+		</li>
+		<li class="list-group-item"><a href="connexion.php" class="list-group-item">Back</a></li>
+	</ul>
+	
 </div>
 
-<script type="text/javascript">
-	$(function() {
-	    $('#recover-form-link').click(function(e) {
-			$("#recover-form").delay(100).fadeIn(100);
-			$(this).addClass('active');
-			e.preventDefault();
-		});
-	});
-</script>
-
-
+</body>
 </html>
