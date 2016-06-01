@@ -23,9 +23,6 @@
 
 </head>
 <body background="images/back.jpg">
-<?php
-	include('http://136.206.48.60/SharksTag/noscript.php');
-?>
 
 <?php 
 	$usernameErr = $emailErr = $passwordErr = $password_againErr = "";

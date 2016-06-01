@@ -21,21 +21,19 @@
 	</style>
 
 </head>
-	<body background="images/image_2.png">
-		<div id="devant">
-			<div class="raw">
-				<h1> <font color = blue>
-					Shark Tagging Game
-				</h1>
-				<div class="menu_simple">
-					<ul class="nav nav-pills nav-stacked list-group">
-						<li><a class="col-sm-12 list-group-item" href="#">Play</a></li>
-						<li><a class="col-sm-12 list-group-item" href="#">Tutorial</a></li>
-						<li><a class="col-sm-12 list-group-item" href="scores.php">Highscores</a></li>
-						<li><a class="col-sm-12 list-group-item" href="credits.php">Credits</a></li>
-						<li><a class="col-sm-12 list-group-item" href="connexion.php">Log out</a></li>
-					</ul>
-				</div>
+	<body background="images/back.jpg">
+		<div class="raw">
+			<h1> <font color = blue>
+				Shark Tagging Game
+			</h1>
+			<div class="menu_simple text-center">
+			<div class="btn-group-vertical ">
+				<a href="scores.php" class="btn btn-info btn-lg" role="button">Play</a>
+				<a href="scores.php" class="btn btn-info btn-lg" role="button">Tutorial</a>
+				<a href="scores.php" class="btn btn-info btn-lg" role="button">Highscores</a>
+				<a href="credits.php" class="btn btn-info btn-lg" role="button">Credits</a>
+				<a href="login.php" class="btn btn-info btn-lg" role="button">Log out</a>
+			</div>
 			</div>
 		</div>
 	</body>

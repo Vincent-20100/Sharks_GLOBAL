@@ -21,7 +21,7 @@
 	</style>
 
 </head>
-	<body background="images/scores.jpg">
+	<body background="images/back.jpg">
 		<div class="container">
 			<div class="panel panel-default">
 				<!-- Default panel contents -->
@@ -50,11 +50,11 @@
 					
 				</table>
 			</div>
-
-			<div class="menu_simple">
-				<ul class="nav nav-pills nav-stacked list-group">
-					<li><a class="col-sm-12 list-group-item btn-lg" href="menu.php">Back</a></li>
-				</ul>
+			<br><br>
+			<div class="raw">
+				<div class="col-offset-3 col-lg-6 text-center">
+					<a href="menu.php" class="btn btn-info btn-lg" role="button">Back</a>
+				</div>			
 			</div>
 		</div>
 	</body>
