@@ -84,7 +84,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="recover-submit" id="remember-submit" tabindex="2" class="form-control btn btn-remember" value="Recover Account">
+											<input type="submit" name="recover-submit" id="recover-submit" tabindex="2" class="form-control btn btn-success btn-md" value="Recover Account">
 										</div>
 									</div>
 								</div>
@@ -99,7 +99,6 @@
 
 <script type="text/javascript">
 	$(function() {
-
 	    $('#recover-form-link').click(function(e) {
 			$("#recover-form").delay(100).fadeIn(100);
 			$(this).addClass('active');
