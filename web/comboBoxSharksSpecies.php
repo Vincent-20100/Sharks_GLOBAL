@@ -1,5 +1,9 @@
 <?php
-	/* Vincent Bessouet, 2016 */
+	/* Vincent Bessouet, DCU School of Computing, 2016 */
+	/* allow external pages */
+	header('Access-Control-Allow-Origin: *');
+	
+	
 	
 	$filedir = '/home/socguest/Desktop/Sharks_GLOBAL/web/private/sharksNames.txt';
 	
@@ -17,6 +21,7 @@
 	// build the html combobox
 	print "<select>";
 	print "<option value='empty'>-- Tag a species --</option>";
+	$category = false;
 	foreach($species as $s) {
 		// avoid empty strings possibly provided by split function
 		if($s !== ""){

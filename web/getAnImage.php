@@ -1,7 +1,11 @@
 <?php
+	/* Vincent Bessouet, DCU School of Computing, 2016 */
+	/* allow external pages */
+	header('Access-Control-Allow-Origin: *');
+	
 	
 	$dir = array();
-	$dir['html'] = '/SharksTag/serverFiles/images/sharks';
+	$dir['html'] = 'http://136.206.48.60/SharksTag/serverFiles/images/sharks';
 	$dir['server'] = '/home/socguest/Desktop/serverFiles/images/sharks';
 	
 	

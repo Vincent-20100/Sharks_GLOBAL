@@ -1,3 +1,5 @@
+var serverAddr = "http://136.206.48.60/SharksTag/";
+
 
 var posym ={
 	x:0,
@@ -13,6 +15,12 @@ var right = false;
 var bot = false;
 
 $(function (){
+	/* load the comboBox */
+	$("<span>").load(serverAddr + 'comboBoxSharksSpecies.php', function(response) {
+		$("#appMenu").append(response);
+	});
+	
+	
 	
 	$("#container").mousemove(function(e) {
 		posym.x = e.pageX;
@@ -425,13 +433,11 @@ function resetAllZone(){
 
 
 function newImage() {
-	$("#imageContainer").load('/SharksTag/getAnImage.php');
+	$("#imageContainer").load(serverAddr + '/getAnImage.php');
 	
 	/* end by del the selected zone */
 	resetZone();
 }
-
-
 
 function showHideTips() {
 	document.getElementById("tipsMenu").classList.toggle("dontShow");
