@@ -23,16 +23,16 @@
 </head>
 	<body background="images/back.jpg">
 		<div class="raw">
-			<h1> <font color = blue>
+			<h1> <font color = red>
 				Shark Tagging Game
 			</h1>
 			<div class="menu_simple text-center">
-			<div class="btn-group-vertical ">
-				<a href="scores.php" class="btn btn-info btn-lg" role="button">Play</a>
-				<a href="scores.php" class="btn btn-info btn-lg" role="button">Tutorial</a>
-				<a href="scores.php" class="btn btn-info btn-lg" role="button">Highscores</a>
-				<a href="credits.php" class="btn btn-info btn-lg" role="button">Credits</a>
-				<a href="login.php" class="btn btn-info btn-lg" role="button">Log out</a>
+			<div class="btn-vertical">
+				<a href="scores.php" class="btn btn-primary btn-lg btn-block" role="button">Play</a>
+				<a href="scores.php" class="btn btn-primary btn-lg btn-block" role="button">Tutorial</a>
+				<a href="scores.php" class="btn btn-primary btn-lg btn-block" role="button">Highscores</a>
+				<a href="credits.php" class="btn btn-primary btn-lg btn-block" role="button">Credits</a>
+				<a href="login.php" class="btn btn-primary btn-lg btn-block" role="button">Log out</a>
 			</div>
 			</div>
 		</div>
