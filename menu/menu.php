@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
-	<title>Shark Tagging Game</title>
-	<meta charset="UTF-8">
-	 <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/menu.css">
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-	<!-- Latest compiled JavaScript -->
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<!-- Latest jQuery Library -->
-	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
-	<!-- Latest jQuery Validation Plugin -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/menu.css">
 
-	<style type="text/css">
-	.error {color: #FF0000;}
-	</style>
+		 <!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+		<!-- Latest compiled JavaScript -->
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<!-- Latest jQuery Library -->
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+		<!-- Latest jQuery Validation Plugin -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 
-</head>
+		<style type="text/css">
+		.error {color: #FF0000;}
+		</style>
+
+		<title>Shark Tagging Game</title>
+
+	</head>
 	<body background="images/back.jpg">
 		<div class="raw">
 			<h1> <font color = red>
