@@ -19,6 +19,7 @@
 		
 		<div id="appMenu">
 			<p>Select an area on the image below and tag the species aside</p>
+			<!-- <?php include('comboBoxSharksSpecies.php'); ?> -->
 		</div>
 		
 		
@@ -33,8 +34,8 @@
 		</div>
 	</div>
 
-	<div id="container" onmousedown="initZone()" onmousemove="selectZone()" onmouseup="endSelectZone()">
-		<div id="imageContainer">
+	<div id="container" onmousedown="initZone()" onmousemove="setZone()" onmouseup="endSelectZone()" class="noSelect">
+		<div id="imageContainer" class="noSelect"   >
 			<img src="images/sharks/tutorial.jpg">
 		</div>
 	</div>
