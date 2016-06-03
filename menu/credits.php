@@ -2,17 +2,27 @@
 <html>
 
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" type="text/css" href="css/menu.css" />
-		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-		<!-- jQuery library -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-		<!-- Latest compiled JavaScript -->
-		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-		<title>Shark Tagging Game</title>
-	</head>
-	<body background="images/scores.jpg">
-		<div id="devant">
+	<title>Shark Tagging Game</title>
+	<meta charset="UTF-8">
+	 <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/menu.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<!-- Latest jQuery Library -->
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+	<!-- Latest jQuery Validation Plugin -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+	<style type="text/css">
+	.error {color: #FF0000;}
+	</style>
+
+</head>
+	<body background="images/back.jpg">
+		<div class="raw">
 			<h2> <font color = blue>
 				Credits
 			</h2>
@@ -21,12 +31,12 @@
 			<p>Florian Talour</p>
 			<p>Vincent Bessouet</p>
 			<p>Cassien Ippolito</p>
-
-			<div class="menu_simple">
-					<ul class="nav nav-pills nav-stacked list-group">
-						<li><a class="col-sm-12 list-group-item" href="menu.php">Back</a></li>
-					</ul>
-				</div>
+			<br><br>
+			<div class="raw">
+				<div class="col-offset-3 col-lg-6 text-center">
+					<a href="menu.php" class="btn btn-info btn-lg" role="button">Back</a>
+				</div>			
+			</div>
 		</div>
 	</body>
 </html>
