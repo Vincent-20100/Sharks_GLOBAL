@@ -23,7 +23,7 @@
 						<li><a class="col-sm-12 list-group-item" href="#">Tutorial</a></li>
 						<li><a class="col-sm-12 list-group-item" href="scores.php">Highscores</a></li>
 						<li><a class="col-sm-12 list-group-item" href="credits.php">Credits</a></li>
-						<li><a class="col-sm-12 list-group-item" href="connexion.php">Log out</a></li>
+						<li><a class="col-sm-12 list-group-item" href="login.php">Log out</a></li>
 					</ul>
 				</div>
 			</div>

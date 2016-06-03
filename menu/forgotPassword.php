@@ -77,14 +77,17 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-lg-12">
-							<form id="recover-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" role="form" style="display: block;">
+							<form id="recover-form" action="http://povilas.ovh:8080/recoverpassword<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
 								<div class="form-group">
 									<input type="text" name="usernameOrEmailErr" id="usernameOrEmailErr" tabindex="1" class="form-control" placeholder="Email Address" value="<?php echo $usernameOrEmail?>">
 								</div>
 								<div class="form-group">
 									<div class="row">
-										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="recover-submit" id="recover-submit" tabindex="2" class="form-control btn btn-success btn-md" value="Recover Account">
+										<div class="col-sm-offset-3 col-sm-6">
+											<input type="submit" name="recover-submit" id="recover-submit" tabindex="2" class="btn btn-success btn-lg btn-block" value="Recover Account">
+										</div>
+										<div class="col-sm-3">
+											<a href="login.php" role="button" name="cancel" id="cancel" tabindex="3" class="btn btn-danger btn-lg btn-block">Cancel</a>
 										</div>
 									</div>
 								</div>
@@ -106,6 +109,5 @@
 		});
 	});
 </script>
-
 
 </html>
