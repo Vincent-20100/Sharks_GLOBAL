@@ -1,0 +1,49 @@
+html {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	background-repeat: no-repeat;
+	background-position: top center;
+	margin: 0;
+	padding-top : 90px;
+	vertical-align: center;
+}
+
+h1, h2{
+	text-align: center;
+}
+
+p{
+	color: red;
+	font-size: 18px;
+	text-align: center;
+}
+
+td, th{
+	border: 1px solid black;
+	color: red;
+	font-size: 20px;
+	text-align: center;
+}
+
+th[name="col1"], td[name="col1"] {
+	width: 40%
+}
+
+td[name="col2"], td[name="col2"] {
+	width: 60%
+}
+
+.menu_simple {
+	height: 69px;
+	width: 160px;
+	margin-top: 70px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.panel {
+	margin-top: 120px;
+}

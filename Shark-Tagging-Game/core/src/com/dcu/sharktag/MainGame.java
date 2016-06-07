@@ -167,7 +167,7 @@ public class MainGame extends AbstractScreen{
 		Texture t;
 		if(game.getComm().isFirstTimer()){
 			// Load tutorial image from local asset directory
-			t = new Texture(Gdx.files.internal("tutorial.jpg"));
+			t = new Texture(Gdx.files.internal(SharkTag.ASSETS_REP + "tutorial.jpg"));
 		}
 		else{
 			String imageUrl = game.getComm().requestImage();
@@ -457,7 +457,7 @@ public class MainGame extends AbstractScreen{
 	
 	// Parse JSON file to populate the selection box
 	private void buildSpecies(String file){
-		JsonValue mainJson = new JsonReader().parse(Gdx.files.internal("species.json"));
+		JsonValue mainJson = new JsonReader().parse(Gdx.files.internal(SharkTag.ASSETS_REP + "species.json"));
 		JsonValue spec = mainJson.get("species");
 		
 		// Insert all species into the list, but ignore the first entry

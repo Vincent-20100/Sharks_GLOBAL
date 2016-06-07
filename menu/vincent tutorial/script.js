@@ -63,10 +63,8 @@ document.onkeydown = function(e) {
 var isMousePressed = false;
 var initPos = [0, 0];
 var mousePos = [0,0,0,0];
+
 var mouseAction = setZone;
-
-
-
 
 function initZone() {
 	if(isDragging != true && isResizing != true){
@@ -526,6 +524,69 @@ function newImage() {
 
 }
 
+
+
+function showHideTips() {
+	document.getElementById("tipsMenu").classList.toggle("dontShow");
+}
+
+/*
+var indexImage = -1;
+var listImages = [];
+
+function newImage() {
+	var elem = document.getElementById("container");
+	
+	if(listImages.length == 0){
+		//no image in the list of images
+		//load the list of files available
+		
+		listImages = (function(dir) {
+
+			var filesystem = require("fs");
+			var results = [];
+
+			filesystem.readdirSync(dir).forEach(function(file) {
+
+				file = dir+'/'+file;
+				var stat = filesystem.statSync(file);
+
+				if (stat && stat.isDirectory()) {
+				    //directory
+				} else results.push(file);
+
+			});
+
+			return results;
+
+		})(window.location.pathname+"/");
+		console.log(listImages);
+	}
+	
+	if(listImages.length == 0){
+		if(elem.getElementById("labelError") == undefined){
+			var newDiv = document.createElement("DIV");
+			var txt = document.createTextNode("No image found");
+			newDiv.appendChild(txt);
+			newDiv.style["size"] = "48px";
+			newDiv.style["text-align"] = "center";
+			newDiv.style["padding"] = "20px";
+			newDiv.style["border"] = "solid #f00 2px";
+			newDiv.style["margin"] = "auto";
+			elem.appendChild(newDiv)
+		}
+	}
+	else{
+		if(elem.getElementById("labelError") != undefined){
+			elem.removeChild(elem.getElementById("labelError"));
+		}
+		elem.style.back
+	}
+	
+	/* end by del the selected zone */
+/*	resetZone();
+}
+*/
 
 
 function showHideTips() {
