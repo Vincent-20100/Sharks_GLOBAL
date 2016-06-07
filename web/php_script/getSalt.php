@@ -15,7 +15,7 @@
 			print $row[0];
 		}
 		else {
-			print_notConnected();
+			echo "Failed";
 		}
 		$result->close();
 	}
