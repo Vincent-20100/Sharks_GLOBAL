@@ -52,8 +52,8 @@
 			</div>
 			<br><br>
 			<div class="raw">
-				<div class="col-offset-3 col-lg-6 text-center">
-					<a href="menu.php" class="btn btn-info btn-lg" role="button">Back</a>
+				<div class="col-offset-6 col-lg-12 col-sm-12 col-md-24 col-xl-36 col-xs-12 text-center">
+					<a href="menu.php" class="btn btn-primary btn-lg" role="button">Back</a>
 				</div>			
 			</div>
 		</div>
