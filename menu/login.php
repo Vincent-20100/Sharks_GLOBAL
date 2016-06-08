@@ -10,19 +10,20 @@
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-	<!-- Latest compiled JavaScript -->
+	<!-- Latest compiled bootstap JavaScript -->
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<!-- Latest jQuery Library -->
-	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
 	<!-- Latest jQuery Validation Plugin -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
 
 	<style type="text/css">
 	.error {color: #FF0000;}
 	</style>
 
+
 </head>
 <body background="images/back.jpg">
+
+<!-- to put on server side
 
 <?php 
 	$usernameErr = $emailErr = $passwordErr = $password_againErr = "";
@@ -39,7 +40,7 @@
 		    $username = test_input($_POST["username"]);
 
 		    // check if username only contains letters and whitespace
-		    if (!preg_match("/^[a-zA-Z ]*$/",$username)) {
+		    if (!preg_match("/^[a-zA-Z0-9 ]*$/",$username)) {
 		      $nameErr = "Only letters and white space allowed";
 		    }
 		}
@@ -86,26 +87,26 @@
 
 						//The password must not contain the username
 						if(strpos($_POST["password"], $_POST["username"])) {
-							$passwordErr = "Passwords must contain the username";
+							$passwordErr = "Passwords must not contain the username";
 						}
 						else {
 							//success !
 
-							//The password must contain one number
+							//The password must contain at least one number
 							if(strspn($_POST["password"], "0123456789")) {
 								$passwordErr = "Passwords must contain at least one numerical value";
 							}
 							else {
 								//success !
 
-								//The password must contain one lower case character
+								//The password must contain at least one lower case character
 								if(strspn($_POST["password"], "abcdefghijklmnopqrstuvwxyz")>0) {
-									$passwordErr = "Passwords must not contain at least one lower case character";
+									$passwordErr = "Passwords must contain at least one lower case character";
 								}
 								else {
 									//success !
 
-									//The password must contain one upper case character
+									//The password must contain at least one upper case character
 									if(strspn($_POST["password"], "ABCDEFGHIJKLMNOPQRSTUVWXYZ")>0) {
 										$passwordErr = "Passwords must contain at least one upper case character";
 									}
@@ -129,6 +130,7 @@
 	  return $data;
 	}
 ?>
+-->
 
 <!--
 /****************************************************************************/
@@ -154,8 +156,8 @@
 				</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-lg-12">
-							<form id="login-form" action="http://povilas.ovh:8080/login<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
+						<div class="col-lg-12"> <!-- action="http://povilas.ovh:8080/login<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" -->
+							<form id="login-form" action="http://povilas.ovh:8080/login<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype='application/json' role="form" style="display: block;">
 								<div class="form-group">
 									<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="<?php echo $usernameErr;?>">
 								</div>
@@ -166,10 +168,11 @@
 									<input type="checkbox" tabindex="3" class="" name="remember" id="remember" <?php if (isset($remember)) echo "checked";?>>
 									<label for="remember"> Remember Me</label>
 								</div>
+								<div id="demo"></div>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-primary btn-lg btn-block" onclick="return false;" value="Log In">
+											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-primary btn-lg btn-block" onclick="loginSubmit()" value="Log In">
 										</div>
 									</div>
 								</div>
@@ -182,8 +185,8 @@
 										</div>
 									</div>
 								</div>
-							</form>
-							<form id="register-form" action="http://povilas.ovh:8080/register<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
+							</form> <!-- action="http://povilas.ovh:8080/register" -->
+							<form id="register-form" action="<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype='application/json' role="form" style="display: none;">
 								<div class="form-group">
 									<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
 								</div>
@@ -238,6 +241,56 @@
 </script>
 
 <script type="text/javascript">
+
+	/*
+	$.ajaxSetup({
+		contentType: "application/json; charset=utf-8",
+		dataType: "json"
+	});
+
+	$(document).ready(function(){
+		$('#login-submit').click(function() {
+			var formData = JSON.stringify($("#login-form").serializeArray());
+			$.ajax({
+				url: "http://povilas.ovh:8080/login",
+				type: "POST",
+				data: formData,
+				error: function(xhr, error) {
+					alert('Error!  Status = ' + xhr.status + ' Message = ' + error);
+				},
+				success: function(data) {
+					//have you service return the created object
+					var items = [];
+					items.push('<table cellpadding="4" cellspacing="4">');
+					items.push('<tr><td>username</td><td>' + data.username + '</td></tr>');
+					items.push('<tr><td>password</td><td>' + data.password + '</td></tr>');
+					items.push('</table>');  
+					$('#login-result').html(items.join(''));
+				}
+			});
+			return false; 
+		});
+	});
+	*/
+
+	function loginSubmit(){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		  	if (xhttp.readyState == 4 && xhttp.status == 200) {
+		   		$("#demo").text(xhttp.responseText);
+		   		alert(xhttp.responseText);
+		  	}
+		};
+		xhttp.open("POST", "http://povilas.ovh:8080/login", true);
+		xhttp.setRequestHeader("Content-type", "application/json");
+		var formData = JSON.stringify($("#login-form").serializeArray());
+		alert(formData);
+		xhttp.send(formData);
+	}
+
+</script>
+
+<script type="text/javascript">
 	//Quick validation of the inputs to login
 	$(document).ready(function () {
 		$('#login-form').validate({
@@ -248,7 +301,8 @@
 				},
 				password: {
 					required: true,
-					minlength: 8
+					minlength: 8,
+					number: true
 				}
 			},
 			messages: {
@@ -258,7 +312,8 @@
 				},
 				password: {
 					required: "Enter a password",
-					minlength: "Password must be 8 character long at least"
+					minlength: "Password must be at least 8 character long",
+					number: "Password must contain at least one number"
 				}
 			},
 			submitHandler: function(form) {
@@ -283,11 +338,13 @@
 				},
 				password: {
 					required: true,
-					minlength: 8
+					minlength: 8,
+					number: true
 				},
 				password_again: {
 					required: true,
-					minlength: 8
+					minlength: 8,
+					number: true
 				}
 
 			},
@@ -302,11 +359,13 @@
 				},
 				password: {
 					required: "Enter a password",
-					minlength: "Password must be 8 character long at least"
+					minlength: "Password must be at least 8 character long",
+					number: "Password must contain at least one number"
 				},
 				password_again: {
 					required: "Enter the password again",
-					minlength: "Password must be 8 character long at least"
+					minlength: "Password must be at least 8 character long",
+					number: "Password must contain at least one number"
 				}
 			},
 			submitHandler: function(form) {
