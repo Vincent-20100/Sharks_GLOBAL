@@ -29,10 +29,7 @@ $( function () {
 // else it is "Failed"
 function checkAccount(salt) {
 	if (salt == "Failed") {
-		$("#form-error .alert").addClass("hide");
-		$("#form-error .alert-danger").html( get_notConnected() );
-		$("#form-error .alert-danger").removeClass("hide");
-		return false;
+		loginError( get_notConnected() );
 	}
 	
 	
@@ -53,20 +50,7 @@ function checkAccount(salt) {
 			password : hashedPasswd
 		},
 		// get the result
-		function (data) {
-			console.log(data)
-			if(data == 'Success'){
-				$("#form-error .alert").addClass("hide");
-				$("#form-error .alert-success").html( get_connected() );
-				$("#form-error .alert-success").removeClass("hide");
-			}
-			else{ // data == "Failed"
-				$("#form-error .alert").addClass("hide");
-				$("#form-error .alert-danger").html( get_notConnected() );
-				$("#form-error .alert-danger").removeClass("hide");
-				return false;
-			}
-		},
+		checkConnection,
 		// data type
 		'text'
 	);
@@ -74,7 +58,23 @@ function checkAccount(salt) {
 	return true;
 };
 
+function checkConnection(data) {
+	console.log(data);
+	
+	if(data == 'Success'){
+		loginError("alert-success", get_connected() );
+	}
+	else{ // data == "Failed"
+		loginError("alert-danger", get_notConnected() );
+		return false;
+	}
+}
 
+function loginError(type, msg) {
+	$("#login-error").removeClass("hide alert-danger alert-warning alert-info alert-success");
+	$("#login-error").addClass(type);
+	$("#login-error").html(msg);
+}
 
 /* **************************************************************************
    ************************************************************************** */
