@@ -29,7 +29,7 @@ $( function () {
 // else it is "Failed"
 function checkAccount(salt) {
 	if (salt == "Failed") {
-		loginError( get_notConnected() );
+		dispMsg("alert-danger", "ok-sign", get_notConnected() );
 	}
 	
 	
@@ -59,21 +59,27 @@ function checkAccount(salt) {
 };
 
 function checkConnection(data) {
-	console.log(data);
-	
 	if(data == 'Success'){
-		loginError("alert-success", get_connected() );
+		dispMsg("alert-success", "ok-sign", get_connected() );
 	}
 	else{ // data == "Failed"
-		loginError("alert-danger", get_notConnected() );
+		dispMsg("alert-danger", "remove-sign", data );
 		return false;
 	}
 }
 
-function loginError(type, msg) {
-	$("#login-error").removeClass("hide alert-danger alert-warning alert-info alert-success");
-	$("#login-error").addClass(type);
-	$("#login-error").html(msg);
+function dispMsg(type, glyphicon, msg) {
+	$("#disp-error-msg").removeClass("hide alert-danger alert-warning alert-info alert-success");
+	$("#disp-error-msg").addClass(type);
+	
+	var txt;
+	if (glyphicon === null) {
+		txt = msg;
+	}
+	else {
+		txt = "<span class='glyphicon glyphicon-" + glyphicon + "'></span> " + msg;
+	}
+	$("#disp-error-msg").html(txt);
 }
 
 /* **************************************************************************

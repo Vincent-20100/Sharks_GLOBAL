@@ -35,6 +35,13 @@
  -->
 <div class="container">
 	<div class="row">
+		<div id="disp-error" class="col-lg-6 col-lg-offset-3">
+			<div id="disp-error-msg" class="col-lg-12 text-center alert alert-success hide" ></div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="panel panel-login">
 				<div class="panel-heading">
@@ -51,7 +58,7 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-lg-12">
-							<form id="login-form" action="/SharksTag/" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
+							<form id="login-form" action="menu.php" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
 								<div id="login-form-error" class="raw">
 									<div id="login-error" class="col-lg-12 text-center alert alert-success hide" >
 									</div>
@@ -59,7 +66,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-offset-1 col-lg-10">
-											<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="<?php echo $usernameErr;?>">
+											<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value=""/>
 										</div>
 										<div class="col-lg-1"></div>
 									</div>
@@ -67,19 +74,19 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-offset-1 col-lg-10">
-											<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" value="<?php echo $passwordErr;?>">
+											<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" value=""/>
 										</div>
 										<div class="col-lg-1"></div>
 									</div>
 								</div>
 								<div class="form-group text-center">
-									<input type="checkbox" tabindex="3" class="" name="remember" id="remember" <?php if (isset($remember)) echo "checked";?>>
+									<input type="checkbox" tabindex="3" class="" name="remember" id="remember"/>
 									<label for="remember"> Remember Me</label>
 								</div>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-primary btn-lg btn-block" value="Log In">
+											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-primary btn-lg btn-block" value="Log In"/>
 										</div>
 									</div>
 								</div>
@@ -108,7 +115,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-offset-1 col-lg-10">
-											<input type="email" name="email" id="email-register" tabindex="1" class="form-control" placeholder="Email Address" value="">
+											<input type="email" name="email" id="email-register" tabindex="1" class="form-control" placeholder="Email Address" value=""/>
 										</div>
 										<div name="validation" id="email-validation" class="col-lg-1"></div>
 									</div>
@@ -116,21 +123,22 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-offset-1 col-lg-10">
-											<input type="password" name="password" id="password-register" tabindex="2" class="form-control" placeholder="Password" value="">
+											<input type="password" name="password" id="password-register" tabindex="2" class="form-control" placeholder="Password" value=""/>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-offset-1 col-lg-10">
-											<input type="password" name="confirm-password" id="confirm-password-register" tabindex="3" class="form-control" placeholder="Confirm Password" value="">
-										</div><div name="validation" id="confirm-password-validation" class="col-lg-1"></div>
+											<input type="password" name="confirm-password" id="confirm-password-register" tabindex="3" class="form-control" placeholder="Confirm Password" value=""/>
+										</div>
+										<div name="validation" id="confirm-password-validation" class="col-lg-1"></div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="btn btn-success btn-lg btn-block" value="Register Now" onclick="return false;">
+											<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="btn btn-success btn-lg btn-block" value="Register Now" onclick="return false;"/>
 										</div>
 									</div>
 								</div>
@@ -155,7 +163,7 @@
 				},
 				password: {
 					required: true,
-					minlength: 8,
+					minlength: 6,
 					number: true,
 					pwcheck: true
 				}

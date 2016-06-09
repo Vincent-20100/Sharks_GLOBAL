@@ -31,9 +31,9 @@
 		  		//success !
 			    $password = test_input($_POST["password"]);
 
-				//The password must be at least 8 character long
-		    	if(strlen($_POST["password"])<8) {
-		    		$passwordErr = "Password must be at least 8 character long";
+				//The password must be at least 6 character long
+		    	if(strlen($_POST["password"])<6) {
+		    		$passwordErr = "Password must be at least 6 character long";
 		    	} 
 		    	else {
 		    		//success !
@@ -65,46 +65,7 @@
 								}
 								else {
 									//success !
-							
-									// open connection
-									require 'dbConnect.php';
-									
-									$username = $_POST['username'];
-									$passwd_hash = $_POST['password'];
-									
-									// connect to the account by checking the hashed passwd
-									$query  = "SELECT id FROM Player
-												WHERE username = '$username'
-												AND password = '$passwd_hash'";
-									
-									if ($result = $mysqli->query($query)) {
-										if ($result->num_rows === 1) {
-											$row = $result->fetch_row();
-											// write the current session in the database
-											
-											$query = "UPDATE Player
-													SET session = '{$_SESSION['id']}'
-													WHERE username = '$username'";
-											
-											if($mysqli->query($query)) {
-												echo "Success";
-											}
-											else {
-												echo "Failed";
-											}
-										}
-										else {
-											echo "Failed";
-										}
-										$result->close();
-									}
-									
-									// close connection
-									include 'dbDisconnect.php';
-									
-								}
-								else {
-									echo "Failed";
+									loginAccount();
 								}
 							}
 						}
@@ -112,8 +73,50 @@
 				}
 			}
 		}
+		else {
+			echo "Failed";
+		}
 	}
 
+function loginAccount() {
+	// open connection
+	require 'dbConnect.php';
+	
+	$username = $_POST['username'];
+	$passwd_hash = $_POST['password'];
+	
+	// connect to the account by checking the hashed passwd
+	$query  = "SELECT id FROM Player
+				WHERE username = '$username'
+				AND password = '$passwd_hash'";
+	
+	if ($result = $mysqli->query($query)) {
+		if ($result->num_rows === 1) {
+			$row = $result->fetch_row();
+			// write the current session in the database
+			
+			$query = "UPDATE Player
+					SET session = '{$_SESSION['id']}'
+					WHERE username = '$username'";
+			
+			if($mysqli->query($query)) {
+				echo "Success";
+			}
+			else {
+				echo "Failed";
+			}
+		}
+		else {
+			echo "Failed";
+		}
+		$result->close();
+	}
+	
+	// close connection
+	include 'dbDisconnect.php';
+}
+	
+	
 	//modify any special character like <p> </p>
 	function test_input($data) {
 	  $data = trim($data);
