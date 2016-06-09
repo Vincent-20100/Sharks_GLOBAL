@@ -158,7 +158,7 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-lg-12"> <!-- action="http://povilas.ovh:8080/login<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" -->
-							<form id="login-form" action="http://povilas.ovh:8080/login<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="application/json" role="form" style="display: block;">
+							<form id="login-form" action="" method="POST" enctype="application/json" role="form" style="display: block;">
 								<div id="form-error" class="raw">
 									<div id="login-error" class="col-lg-12 text-center alert alert-danger hide" >
 									</div>
@@ -182,7 +182,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-primary btn-lg btn-block" onclick="loginSubmit()" value="Log In">
+											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-primary btn-lg btn-block" value="Log In">
 										</div>
 									</div>
 								</div>
@@ -196,7 +196,7 @@
 									</div>
 								</div>
 							</form><!-- action="http://povilas.ovh:8080/register<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" -->
-							<form id="register-form" action="http://povilas.ovh:8080/register<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="application/json" role="form" style="display: none;">
+							<form id="register-form" action="" method="POST" enctype="application/json" role="form" style="display: none;">
 								<div class="form-group">
 									<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
 								</div>
@@ -225,75 +225,8 @@
 	</div>
 </div>
 
-
-
 <script type="text/javascript">
 
-	/*
-	$.ajaxSetup({
-		contentType: "application/json; charset=utf-8",
-		dataType: "json"
-	});
-
-	$(document).ready(function(){
-		$('#login-submit').click(function() {
-			var formData = JSON.stringify($("#login-form").serializeArray());
-			$.ajax({
-				url: "http://povilas.ovh:8080/login",
-				type: "POST",
-				data: formData,
-				error: function(xhr, error) {
-					alert('Error!  Status = ' + xhr.status + ' Message = ' + error);
-				},
-				success: function(data) {
-					//have you service return the created object
-					var items = [];
-					items.push('<table cellpadding="4" cellspacing="4">');
-					items.push('<tr><td>username</td><td>' + data.username + '</td></tr>');
-					items.push('<tr><td>password</td><td>' + data.password + '</td></tr>');
-					items.push('</table>');  
-					$('#login-result').html(items.join(''));
-				}
-			});
-			return false; 
-		});
-	});
-	*/
-
-	function loginSubmit(){
-		
-		var xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function() {
-		  	if (xhttp.readyState == 4 && xhttp.status == 200) {
-		   		var myArr = JSON.parse(xmlhttp.responseText);
-        		alert(myArr);
-		  	}
-		};
-		xhttp.open("POST", "http://povilas.ovh:8080/login", true);
-		xhttp.setRequestHeader("Content-type", "application/json");
-		
-		var username = $('#username').val();
-		var password = $('#password').val();
-		var remember = $('#remember').val();
-/*
-		var formData = [{
-			$('#username').attr('name') : username,
-			$('#password').attr('name') : password,
-			$('#remember').attr('name') : remember
-		}];
-		alert(formData);*/
-
-		//var formData = JSON.stringify($("#login-form").serializeArray());
-		alert([{'username':'20100','password':'123'}]);
-		xhttp.send({'username':'20100','password':'123'});
-		
-	}
-
-</script>
-
-
-
-<script type="text/javascript">
 	//Quick validation of the inputs to login
 	$(document).ready(function () {
 		$('#login-form').validate({
@@ -324,9 +257,7 @@
 	   		}
 		});
 	});
-</script>
 
-<script type="text/javascript">
 	//Quick validation of the inputs to register
 	$(document).ready(function () {
 		$('#register-form').validate({
@@ -376,6 +307,7 @@
 	   		}
 		})
 	});
+
 </script>
 
 </body>
