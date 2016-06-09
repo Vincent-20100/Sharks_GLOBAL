@@ -24,114 +24,6 @@
 
 </head>
 <body background="images/back.jpg">
-<!--
-<?php 
-	$usernameErr = $emailErr = $passwordErr = $password_againErr = "";
-	$username = $email = $password = $password_again = "";
-	$remember = "";
-
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$remember = $_POST["remember"];
-
-	  	if (empty($_POST["username"])) {
-	    	$nameErr = "Username is required";
-		} else {
-			//success !
-		    $username = test_input($_POST["username"]);
-
-		    // check if username only contains letters and whitespace
-		    if (!preg_match("/^[a-zA-Z ]*$/",$username)) {
-		      $nameErr = "Only letters and white space allowed";
-		    }
-		}
-		  
-		if (empty($_POST["email"])) {
-		   	$emailErr = "email is required";
-	  	} else {
-		    //success !
-		    $email = test_input($_POST["email"]);
-
-		    // check if e-mail address is well-formed
-		    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		      $emailErr = "Invalid email format";
-		    }
-		}
-
-		if (empty($_POST["password"])) {
-		   	$passwordErr = "Password is required";
-	  	} else {
-	  		//success !
-		    $password = test_input($_POST["password"]);
-		    
-			if (empty($_POST["password_again"])) {
-			   	$password_againErr = "Password repeat is required";
-		  	} else {
-		  		//success !
-			    $password_again = test_input($_POST["password_again"]);
-
-			    //Testing password conditions
-			    if ($_POST["password"] != $_POST["password_again"]) {
-				   	$passwordErr = "Passwords are not the same";
-				   	$password_againErr = "Passwords are not the same";
-				}
-				else {
-				   	// success!
-
-					//The password must be at least 8 character long
-			    	if(strlen($_POST["password"])<8) {
-			    		$passwordErr = "Password must be at least 8 character long";
-			    	} 
-			    	else {
-
-			    		//success !
-
-						//The password must not contain the username
-						if(strpos($_POST["password"], $_POST["username"])) {
-							$passwordErr = "Passwords must contain the username";
-						}
-						else {
-							//success !
-
-							//The password must contain one number
-							if(strspn($_POST["password"], "0123456789")) {
-								$passwordErr = "Passwords must contain at least one numerical value";
-							}
-							else {
-								//success !
-
-								//The password must contain one lower case character
-								if(strspn($_POST["password"], "abcdefghijklmnopqrstuvwxyz")>0) {
-									$passwordErr = "Passwords must not contain at least one lower case character";
-								}
-								else {
-									//success !
-
-									//The password must contain one upper case character
-									if(strspn($_POST["password"], "ABCDEFGHIJKLMNOPQRSTUVWXYZ")>0) {
-										$passwordErr = "Passwords must contain at least one upper case character";
-									}
-									else {
-										//success !
-									}
-								}
-							}
-						}
-			    	}
-				}
-			}
-		}
-	}
-	
-
-	function test_input($data) {
-	  $data = trim($data);
-	  $data = stripslashes($data);
-	  $data = htmlspecialchars($data);
-	  return $data;
-	}
-
-?>
--->
 
 <!--
 /****************************************************************************/
@@ -233,29 +125,43 @@
 			rules: {
 				username: {
 					required: true,
-					lettersonly: true
+					usrcheck: true
 				},
 				password: {
 					required: true,
 					minlength: 8,
-					number: true
+					number: true,
+					pwcheck: true
 				}
 			},
 			messages: {
 				username: {
 					required: "Enter a username",
-					lettersonly: "Username must contain only letters"
+					usrcheck: "Username must contain only letters and digits"
 				},
 				password: {
 					required: "Enter a password",
-					minlength: "Password must be at least 8 character long",
-					number: "Password must contain at least one number"
+					minlength: "Password must be at least {0} character long",
+					number: "Password must contain at least one number",
+					pwcheck: "Your password must contain at least one uppercase letter, one lower case letter and one digit"
 				}
 			},
 			submitHandler: function(form) {
 	        	form.submit();
 	   		}
 		});
+
+		$.vadator.addMethod("pwcheck", function(value, element) {
+				return /^[A-Za-z0-9=!\-@._*$]*$/.test(value) // consist of only these
+					&& /[A-Z]/.test(value) // has a upper case letter
+					&& /[a-z]/.test(value) // has a lower case letter
+					&& /\d/.test(value); // has a digit
+		});
+
+		$.vadator.addMethod("usrcheck", function(value, element) {
+			return /^[A-Za-z0-9]*$/.test(value); // consist of only these
+		});
+
 	});
 
 	//Quick validation of the inputs to register
@@ -272,12 +178,12 @@
 				},
 				password: {
 					required: true,
-					minlength: 8,
+					minlength: 6,
 					number: true
 				},
 				password_again: {
 					required: true,
-					minlength: 8,
+					minlength: 6,
 					number: true
 				}
 
@@ -293,12 +199,12 @@
 				},
 				password: {
 					required: "Enter a password",
-					minlength: "Password must be at least 8 character long",
+					minlength: "Password must be at least {0} character long",
 					number: "Password must contain at least one number"
 				},
 				password_again: {
 					required: "Enter the password again",
-					minlength: "Password must be at least 8 character long",
+					minlength: "Password must be at least {0} character long",
 					number: "Password must contain at least one number"
 				}
 			},
