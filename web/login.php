@@ -14,124 +14,17 @@
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 	<!-- Latest compiled JavaScript -->
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<!-- Latest jQuery Library -->
-	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
 	<!-- Latest jQuery Validation Plugin -->
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
 	<script type="text/javascript" src="javascript/log.js"></script>
 	<script type="text/javascript" src="javascript/registerValidation.js"></script>
+	<script  src="javascript/loginEffects.js"></script>
 	<style type="text/css">
 	.error {color: #FF0000;}
 	</style>
 
 </head>
 <body background="images/back.jpg">
-
-<?php 
-	$usernameErr = $emailErr = $passwordErr = $password_againErr = "";
-	$username = $email = $password = $password_again = "";
-	$remember = "";
-
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$remember = $_POST["remember"];
-
-	  	if (empty($_POST["username"])) {
-	    	$nameErr = "Username is required";
-		} else {
-			//success !
-		    $username = test_input($_POST["username"]);
-
-		    // check if username only contains letters and whitespace
-		    if (!preg_match("/^[a-zA-Z ]*$/",$username)) {
-		      $nameErr = "Only letters and white space allowed";
-		    }
-		}
-		  
-		if (empty($_POST["email"])) {
-		   	$emailErr = "email is required";
-	  	} else {
-		    //success !
-		    $email = test_input($_POST["email"]);
-
-		    // check if e-mail address is well-formed
-		    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-		      $emailErr = "Invalid email format";
-		    }
-		}
-
-		if (empty($_POST["password"])) {
-		   	$passwordErr = "Password is required";
-	  	} else {
-	  		//success !
-		    $password = test_input($_POST["password"]);
-		    
-			if (empty($_POST["password_again"])) {
-			   	$password_againErr = "Password repeat is required";
-		  	} else {
-		  		//success !
-			    $password_again = test_input($_POST["password_again"]);
-
-			    //Testing password conditions
-			    if ($_POST["password"] != $_POST["password_again"]) {
-				   	$passwordErr = "Passwords are not the same";
-				   	$password_againErr = "Passwords are not the same";
-				}
-				else {
-				   	// success!
-
-					//The password must be at least 8 character long
-			    	if(strlen($_POST["password"])<8) {
-			    		$passwordErr = "Password must be at least 8 character long";
-			    	} 
-			    	else {
-
-			    		//success !
-
-						//The password must not contain the username
-						if(strpos($_POST["password"], $_POST["username"])) {
-							$passwordErr = "Passwords must contain the username";
-						}
-						else {
-							//success !
-
-							//The password must contain one number
-							if(strspn($_POST["password"], "0123456789")) {
-								$passwordErr = "Passwords must contain at least one numerical value";
-							}
-							else {
-								//success !
-
-								//The password must contain one lower case character
-								if(strspn($_POST["password"], "abcdefghijklmnopqrstuvwxyz")>0) {
-									$passwordErr = "Passwords must not contain at least one lower case character";
-								}
-								else {
-									//success !
-
-									//The password must contain one upper case character
-									if(strspn($_POST["password"], "ABCDEFGHIJKLMNOPQRSTUVWXYZ")>0) {
-										$passwordErr = "Passwords must contain at least one upper case character";
-									}
-									else {
-										//success !
-									}
-								}
-							}
-						}
-			    	}
-				}
-			}
-		}
-	}
-	
-
-	function test_input($data) {
-	  $data = trim($data);
-	  $data = stripslashes($data);
-	  $data = htmlspecialchars($data);
-	  return $data;
-	}
-?>
-
 <!--
 /****************************************************************************/
 /* HTML inpired from "Login and Register tabbed form"						*/
@@ -185,7 +78,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-primary btn-lg btn-block" onclick="return false;" value="Log In">
+											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-primary btn-lg btn-block" value="Log In">
 										</div>
 									</div>
 								</div>
@@ -250,32 +143,7 @@
 </div>
 
 <script type="text/javascript">
-	//FadIn / FadOut and active effect for login and register form
-	$(function() {
 
-	    $('#login-form-link').click(function(e) {
-			$("#login-form").delay(100).fadeIn(100);
-	 		$("#register-form").fadeOut(100);
-			$('#register-form-link').removeClass('active');
-			$(this).addClass('active');
-			e.preventDefault();
-		});
-		$('#register-form-link').click(function(e) {
-			$("#register-form").delay(100).fadeIn(100);
-	 		$("#login-form").fadeOut(100);
-			$('#login-form-link').removeClass('active');
-			$(this).addClass('active');
-			e.preventDefault();
-		});
-
-	});
-
-
-
-</script>
-
-<script type="text/javascript">
-	/*
 	//Quick validation of the inputs to login
 	$(document).ready(function () {
 		$('#login-form').validate({
@@ -286,7 +154,8 @@
 				},
 				password: {
 					required: true,
-					minlength: 8
+					minlength: 8,
+					number: true
 				}
 			},
 			messages: {
@@ -296,7 +165,8 @@
 				},
 				password: {
 					required: "Enter a password",
-					minlength: "Password must be 8 character long at least"
+					minlength: "Password must be at least 8 character long",
+					number: "Password must contain at least one number"
 				}
 			},
 			submitHandler: function(form) {
@@ -304,11 +174,7 @@
 	   		}
 		});
 	});
-	*/
-</script>
 
-<script type="text/javascript">
-	/*
 	//Quick validation of the inputs to register
 	$(document).ready(function () {
 		$('#register-form').validate({
@@ -323,11 +189,13 @@
 				},
 				password: {
 					required: true,
-					minlength: 8
+					minlength: 8,
+					number: true
 				},
 				password_again: {
 					required: true,
-					minlength: 8
+					minlength: 8,
+					number: true
 				}
 
 			},
@@ -342,11 +210,13 @@
 				},
 				password: {
 					required: "Enter a password",
-					minlength: "Password must be 8 character long at least"
+					minlength: "Password must be at least 8 character long",
+					number: "Password must contain at least one number"
 				},
 				password_again: {
 					required: "Enter the password again",
-					minlength: "Password must be 8 character long at least"
+					minlength: "Password must be at least 8 character long",
+					number: "Password must contain at least one number"
 				}
 			},
 			submitHandler: function(form) {
@@ -354,7 +224,7 @@
 	   		}
 		})
 	});
-	*/
+
 </script>
 
 </body>
