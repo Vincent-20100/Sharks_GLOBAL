@@ -9,14 +9,16 @@
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<!-- AngularJS library -->
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 	<!-- Latest compiled JavaScript -->
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!-- Latest jQuery Library -->
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
 	<!-- Latest jQuery Validation Plugin -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 	<script type="text/javascript" src="javascript/log.js"></script>
+	<script type="text/javascript" src="javascript/registerValidation.js"></script>
 	<style type="text/css">
 	.error {color: #FF0000;}
 	</style>
@@ -156,21 +158,25 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<form id="login-form" action="/SharksTag/" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
-								<div id="form-error" class="raw">
-									<div id="login-error" class="col-lg-12 text-center alert alert-danger hide" >
-									</div>
-									<div id="login-error" class="col-lg-12 text-center alert alert-warning hide" >
-									</div>
-									<div id="login-error" class="col-lg-12 text-center alert alert-info hide" >
-									</div>
+								<div id="login-form-error" class="raw">
 									<div id="login-error" class="col-lg-12 text-center alert alert-success hide" >
 									</div>
 								</div>
 								<div class="form-group">
-									<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="<?php echo $usernameErr;?>">
+									<div class="row">
+										<div class="col-lg-offset-1 col-lg-10">
+											<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="<?php echo $usernameErr;?>">
+										</div>
+										<div class="col-lg-1"></div>
+									</div>
 								</div>
 								<div class="form-group">
-									<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" value="<?php echo $passwordErr;?>">
+									<div class="row">
+										<div class="col-lg-offset-1 col-lg-10">
+											<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" value="<?php echo $passwordErr;?>">
+										</div>
+										<div class="col-lg-1"></div>
+									</div>
 								</div>
 								<div class="form-group text-center">
 									<input type="checkbox" tabindex="3" class="" name="remember" id="remember" <?php if (isset($remember)) echo "checked";?>>
@@ -193,23 +199,44 @@
 									</div>
 								</div>
 							</form>
-							<form id="register-form" action="http://povilas.ovh:8080/register<?php //echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
-								<div class="form-group">
-									<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+							<form id="register-form" action="menu.php" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
+								<div id="register-form-error" class="raw">
+									<div id="register-error" class="col-lg-12 text-center alert alert-success hide"></div>
 								</div>
 								<div class="form-group">
-									<input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+									<div class="row">
+										<div class="col-lg-offset-1 col-lg-10">
+											<input type="text" name="username" id="username-register" tabindex="1" class="form-control" placeholder="Username" value=""/>
+										</div>
+										<div name="validation" id="username-validation" class="col-lg-1"></div>
+									</div>
 								</div>
 								<div class="form-group">
-									<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" value="">
+									<div class="row">
+										<div class="col-lg-offset-1 col-lg-10">
+											<input type="email" name="email" id="email-register" tabindex="1" class="form-control" placeholder="Email Address" value="">
+										</div>
+										<div name="validation" id="email-validation" class="col-lg-1"></div>
+									</div>
 								</div>
 								<div class="form-group">
-									<input type="password" name="confirm-password" id="confirm-password" tabindex="3" class="form-control" placeholder="Confirm Password" value="">
+									<div class="row">
+										<div class="col-lg-offset-1 col-lg-10">
+											<input type="password" name="password" id="password-register" tabindex="2" class="form-control" placeholder="Password" value="">
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-lg-offset-1 col-lg-10">
+											<input type="password" name="confirm-password" id="confirm-password-register" tabindex="3" class="form-control" placeholder="Confirm Password" value="">
+										</div><div name="validation" id="confirm-password-validation" class="col-lg-1"></div>
+									</div>
 								</div>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="btn btn-success btn-lg btn-block" value="Register Now">
+											<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="btn btn-success btn-lg btn-block" value="Register Now" onclick="return false;">
 										</div>
 									</div>
 								</div>
@@ -248,6 +275,7 @@
 </script>
 
 <script type="text/javascript">
+	/*
 	//Quick validation of the inputs to login
 	$(document).ready(function () {
 		$('#login-form').validate({
@@ -276,9 +304,11 @@
 	   		}
 		});
 	});
+	*/
 </script>
 
 <script type="text/javascript">
+	/*
 	//Quick validation of the inputs to register
 	$(document).ready(function () {
 		$('#register-form').validate({
@@ -324,6 +354,7 @@
 	   		}
 		})
 	});
+	*/
 </script>
 
 </body>

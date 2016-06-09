@@ -72,5 +72,22 @@ body {
 	color: #666;
 }
 
-
-
+#register-form [name="validation"] {
+	text-align: left;
+	line-height: 18px;
+	font-size: 18px;
+	display: inline-block;
+	padding: 10px 0;
+}
+.icon-danger {
+	color: #a94442;
+}
+.icon-warning {
+	color: #8a6d3b;
+}
+.icon-info {
+	color: #31708f;
+}
+.icon-success {
+	color: #3c763d;
+}
