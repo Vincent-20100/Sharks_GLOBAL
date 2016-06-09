@@ -4,6 +4,7 @@
 	<title>Shark Tagging Game</title>
 	<meta charset="UTF-8">
 	
+	<!-- Custom CSS for login.php -->
 	<link rel="stylesheet" href="css/login.css">
 
 	<!-- Latest compiled and minified CSS -->
@@ -16,9 +17,16 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!-- Latest jQuery Validation Plugin -->
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+
 	<script type="text/javascript" src="javascript/log.js"></script>
+
 	<script type="text/javascript" src="javascript/registerValidation.js"></script>
+
+	<!-- Check the user inputs to log in and register -->
+	<script src="javascript/loginCheck.js"></script>
+	<!-- Effects to change view between log in and registry -->
 	<script  src="javascript/loginEffects.js"></script>
+
 	<style type="text/css">
 	.error {color: #FF0000;}
 	</style>
@@ -100,7 +108,7 @@
 									</div>
 								</div>
 							</form>
-							<form id="register-form" action="menu.php" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
+							<form id="register-form" action="/136.206.48.174/SharksTag/" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
 								<div id="register-form-error" class="raw">
 									<div id="register-error" class="col-lg-12 text-center alert alert-success hide"></div>
 								</div>
@@ -150,105 +158,6 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-
-	//Quick validation of the inputs to login
-	$(document).ready(function () {
-		$('#login-form').validate({
-			rules: {
-				username: {
-					required: true,
-					usrcheck: true
-				},
-				password: {
-					required: true,
-					minlength: 6,
-					number: true,
-					pwcheck: true
-				}
-			},
-			messages: {
-				username: {
-					required: "Enter a username",
-					usrcheck: "Username must contain only letters and digits"
-				},
-				password: {
-					required: "Enter a password",
-					minlength: "Password must be at least {0} character long",
-					number: "Password must contain at least one number",
-					pwcheck: "Your password must contain at least one uppercase letter, one lower case letter and one digit"
-				}
-			},
-			submitHandler: function(form) {
-	        	form.submit();
-	   		}
-		});
-
-		$.vadator.addMethod("pwcheck", function(value, element) {
-				return /^[A-Za-z0-9=!\-@._*$]*$/.test(value) // consist of only these
-					&& /[A-Z]/.test(value) // has a upper case letter
-					&& /[a-z]/.test(value) // has a lower case letter
-					&& /\d/.test(value); // has a digit
-		});
-
-		$.vadator.addMethod("usrcheck", function(value, element) {
-			return /^[A-Za-z0-9]*$/.test(value); // consist of only these
-		});
-
-	});
-
-	//Quick validation of the inputs to register
-	$(document).ready(function () {
-		$('#register-form').validate({
-			rules: {
-				username: {
-					required: true,
-					lettersonly: true
-				},
-				email: {
-					required: true,
-					email: true
-				},
-				password: {
-					required: true,
-					minlength: 6,
-					number: true
-				},
-				password_again: {
-					required: true,
-					minlength: 6,
-					number: true
-				}
-
-			},
-			messages: {
-				username: {
-					required: "Enter a username",
-					lettersonly: "Username must contain only letters"
-				},
-				email: {
-					required: "Enter an email adress",
-					email: "Email must be valid"
-				},
-				password: {
-					required: "Enter a password",
-					minlength: "Password must be at least {0} character long",
-					number: "Password must contain at least one number"
-				},
-				password_again: {
-					required: "Enter the password again",
-					minlength: "Password must be at least {0} character long",
-					number: "Password must contain at least one number"
-				}
-			},
-			submitHandler: function(form) {
-	        	form.submit();
-	   		}
-		})
-	});
-
-</script>
 
 </body>
 </html>

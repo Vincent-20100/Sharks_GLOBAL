@@ -32,12 +32,12 @@ function checkAccount(salt) {
 		dispMsg("alert-danger", "ok-sign", get_notConnected() );
 	}
 	
-	
-	// encrypt the password
+	// encrypt the password with i's salt
 	var shaObj = new jsSHA("SHA-512", "TEXT");
 	shaObj.update( $("#password").val() + salt );
 	var hashedPasswd = shaObj.getHash("HEX");
 	
+	//some logs
 	console.log( $("#password").val() + salt );
 	console.log(hashedPasswd);
 
