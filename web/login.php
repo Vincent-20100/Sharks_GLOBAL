@@ -25,7 +25,7 @@
 	<!-- Check the user inputs to log in and register -->
 	<script src="javascript/loginCheck.js"></script>
 	<!-- Effects to change view between log in and registry -->
-	<script  src="javascript/loginEffects.js"></script>
+	<script src="javascript/loginEffects.js"></script>
 
 	<style type="text/css">
 	.error {color: #FF0000;}
@@ -67,7 +67,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-offset-1 col-lg-10">
-											<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="<?php echo $usernameErr;?>">
+											<input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required>
 										</div>
 										<div class="col-lg-1"></div>
 									</div>
@@ -75,7 +75,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-offset-1 col-lg-10">
-											<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" value="<?php echo $passwordErr;?>">
+											<input type="password" name="password" id="password-login" tabindex="2" class="form-control" placeholder="Password"  value="" maxlength="30" required>
 										</div>
 										<div class="col-lg-1"></div>
 									</div>
@@ -108,7 +108,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-offset-1 col-lg-10">
-											<input type="text" name="username" id="username-register" tabindex="1" class="form-control" placeholder="Username" value=""/>
+											<input type="text" name="username" id="username-register" tabindex="1" class="form-control" placeholder="Username" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 										<div name="validation" id="username-validation" class="col-lg-1"></div>
 									</div>
@@ -116,7 +116,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-offset-1 col-lg-10">
-											<input type="email" name="email" id="email-register" tabindex="1" class="form-control" placeholder="Email Address" value="">
+											<input type="email" name="email" id="email-register" tabindex="2" class="form-control" placeholder="Email Address" value="" maxlength="30" required/>
 										</div>
 										<div name="validation" id="email-validation" class="col-lg-1"></div>
 									</div>
@@ -124,21 +124,21 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-offset-1 col-lg-10">
-											<input type="password" name="password" id="password-register" tabindex="2" class="form-control" placeholder="Password" value="">
+											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-lg-offset-1 col-lg-10">
-											<input type="password" name="confirm-password" id="confirm-password-register" tabindex="3" class="form-control" placeholder="Confirm Password" value="">
+											<input type="password" name="confirm-password" id="confirm-password-register" tabindex="4" class="form-control" placeholder="Confirm Password" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div><div name="validation" id="confirm-password-validation" class="col-lg-1"></div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="btn btn-success btn-lg btn-block" value="Register Now" onclick="return false;">
+											<input type="submit" name="register-submit" id="register-submit" tabindex="5" class="btn btn-success btn-lg btn-block" value="Register Now"/>
 										</div>
 									</div>
 								</div>

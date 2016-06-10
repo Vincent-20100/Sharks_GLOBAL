@@ -1,3 +1,10 @@
+/****************************************************/
+/*													*/
+/*			Try with jQuery Validation Plugin		*/
+/*													*/
+/****************************************************/
+
+/*
 // Validation of the inputs to login
 $(document).ready(function () {
 	$('#login-form').validate({
@@ -8,7 +15,7 @@ $(document).ready(function () {
 			},
 			password: {
 				required: true,
-				minlength: 6,
+				minlength: 6
 			}
 		},
 		messages: {
@@ -26,8 +33,8 @@ $(document).ready(function () {
    		}
 	});
 
-	$.vadator.addMethod("usrcheck", function(value, element) {
-		return /^[A-Za-z0-9]*$/.test(value); // consist of only these
+	$.validator.addMethod("usrcheck", function(value, element) {
+		return /^[A-Za-z0-9=!\-@._*$]*$/.test(value); // consist of only these
 	});
 
 
@@ -79,7 +86,7 @@ $(document).ready(function () {
 				required: "Enter the password again",
 				minlength: "Password must be at least {0} character long",
 				number: "Password must contain at least one number",
-				pwcheck: "Your password must contain at least one uppercase letter, one lower case letter and one digit",
+				pwcheck: "Your password must contain at least one uppercase letter, one lower case letter and one digit"
 
 			}
 		},
@@ -88,11 +95,11 @@ $(document).ready(function () {
    		}
 	});
 
-	$.vadator.addMethod("usrcheck", function(value, element) {
-		return /^[A-Za-z0-9]*$/.test(value); // consist of only these
+	$.validator.addMethod("usrcheck", function(value, element) {
+		return /^[A-Za-z0-9=!\-@._*$]*$/.test(value); // consist of only these
 	});
 
-	$.vadator.addMethod("pwcheck", function(value, element) {
+	$.validator.addMethod("pwcheck", function(value, element) {
 			return /^[A-Za-z0-9=!\-@._*$]*$/.test(value) // consist of only these
 				&& /[A-Z]/.test(value) // has a upper case letter
 				&& /[a-z]/.test(value) // has a lower case letter
@@ -100,4 +107,104 @@ $(document).ready(function () {
 	});
 
 
+});
+*/
+
+/****************************************************/
+/*													*/
+/*			Try with jQuery and API HTML5			*/
+/*													*/
+/****************************************************/
+
+// login part
+var username_login = document.getElementById("username-login");
+
+username_login.addEventListener("keyup", function (event) {
+  	if(username_login.validity.patternMismatch) {
+    	username_login.setCustomValidity("You entered an unautaurized character");
+  	} else {
+		if(username_login.validity.tooLong) {
+	    	username_login.setCustomValidity("You entered too much characters");
+		} else {
+			username_login.setCustomValidity("");
+		}
+	}
+});
+
+var password_login = document.getElementById("password-login");
+
+password_login.addEventListener("keyup", function (event) {
+    if(password_login.validity.tooShort) {
+    	password_login.setCustomValidity("You didn't entered enough characters");
+	} else {
+		if(password_login.validity.tooLong) {
+			password_login.setCustomValidity("You entered too much characters");
+		} else {
+			password_login.setCustomValidity("");
+		}
+	}
+	
+});
+
+//register part
+
+var username_register = document.getElementById("username-register");
+
+username_register.addEventListener("keyup", function (event) {
+  	if(username_register.validity.patternMismatch) {
+    	username_register.setCustomValidity("You entered an unautaurized character");
+  	} else {
+		if(username_register.validity.tooLong) {
+	    	username_register.setCustomValidity("You entered too much characters");
+		} else {
+			username_register.setCustomValidity("");
+		}
+	}
+});
+
+var email_register = document.getElementById("email-register");
+
+email_register.addEventListener("keyup", function (event) {
+  	if(email_register.validity.typeMismatch) {
+    	email_register.setCustomValidity("Email must be valid");
+  	} else {
+  		if(username_register.validity.tooLong) {
+	    	email_register.setCustomValidity("You entered too much characters");
+		} else {
+    		email_register.setCustomValidity("");
+    	}
+  	}
+});
+
+var password_register = document.getElementById("password-register");
+
+password_register.addEventListener("keyup", function (event) {
+	if(password_register.validity.patternMismatch) {
+    	password_register.setCustomValidity("You entered an unautaurized character");
+  	} else {
+		if(password_register.validity.tooLong) {
+			password_register.setCustomValidity("You entered too much characters");
+		} else {
+			password_register.setCustomValidity("");
+		}
+	}
+});
+
+var confirm_password_register = document.getElementById("confirm-password-register");
+
+confirm_password_register.addEventListener("keyup", function (event) {
+	if($(#"password-register").value != $(#"confirm-password-register").value)){
+		confirm_password_register.setCustomValidity("You must enter the same password as before");
+  	} else {
+  		if(confirm_password_register.validity.patternMismatch) {
+    		confirm_password_register.setCustomValidity("You entered an unautaurized character");
+		} else {
+			if(confirm_password_register.validity.tooLong) {
+				confirm_password_register.setCustomValidity("You entered too much characters");
+			} else {
+				confirm_password_register.setCustomValidity("");	
+			}
+			
+		}
+	}
 });
