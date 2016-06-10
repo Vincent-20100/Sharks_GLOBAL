@@ -33,7 +33,7 @@
 
 </head>
 <body background="images/back.jpg">
-
+<?php include 'noscript.php' ?>
 <!--
 /****************************************************************************/
 /* HTML inpired from "Login and Register tabbed form"						*/
@@ -43,7 +43,14 @@
  -->
 <div class="container">
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
+		<div id="disp-error" class="col-sm-6 col-sm-offset-3">
+			<div id="disp-error-msg" class="col-xs-12 text-center alert alert-success hide" ></div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-6 col-sm-offset-3">
 			<div class="panel panel-login">
 				<div class="panel-heading">
 					<div class="row">
@@ -58,42 +65,36 @@
 				</div>
 				<div class="panel-body">
 					<div class="row">
-						<div class="col-lg-12">
-							<form id="login-form" action="/136.206.48.174/SharksTag/" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
-								<div id="login-form-error" class="raw">
-									<div id="login-error" class="col-lg-12 text-center alert alert-success hide" >
+						<div class="col-xs-12">
+							<form id="login-form" action="menu.php" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-offset-1 col-sm-10">
+											<input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="row">
-										<div class="col-lg-offset-1 col-lg-10">
-											<input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required>
+										<div class="col-sm-offset-1 col-sm-10">
+											<input type="password" name="password" id="password-login" tabindex="2" class="form-control" placeholder="Password" value="" maxlength="30" required/>
 										</div>
-										<div class="col-lg-1"></div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<div class="col-lg-offset-1 col-lg-10">
-											<input type="password" name="password" id="password-login" tabindex="2" class="form-control" placeholder="Password"  value="" maxlength="30" required>
-										</div>
-										<div class="col-lg-1"></div>
 									</div>
 								</div>
 								<div class="form-group text-center">
-									<input type="checkbox" tabindex="3" class="" name="remember" id="remember" <?php if (isset($remember)) echo "checked";?>>
+									<input type="checkbox" tabindex="3" class="" name="remember" id="remember"/>
 									<label for="remember"> Remember Me</label>
 								</div>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="btn btn-primary btn-lg btn-block" value="Log In">
+											<input type="submit" name="submit" id="login-submit" tabindex="4" class="btn btn-primary btn-lg btn-block" value="Log In"/>
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="row">
-										<div class="col-lg-12">
+										<div class="col-sm-12">
 											<div class="text-center">
 												<a href="forgotPassword.php" tabindex="5" class="forgot-password">Forgot Password?</a>
 											</div>
@@ -102,43 +103,42 @@
 								</div>
 							</form>
 							<form id="register-form" action="/136.206.48.174/SharksTag/" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
-								<div id="register-form-error" class="raw">
-									<div id="register-error" class="col-lg-12 text-center alert alert-success hide"></div>
-								</div>
 								<div class="form-group">
 									<div class="row">
-										<div class="col-lg-offset-1 col-lg-10">
+										<div class="col-sm-offset-1 col-sm-10">
 											<input type="text" name="username" id="username-register" tabindex="1" class="form-control" placeholder="Username" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
-										<div name="validation" id="username-validation" class="col-lg-1"></div>
+										<div name="validation" id="username-validation" class="hidden-xs col-sm-1"></div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="row">
-										<div class="col-lg-offset-1 col-lg-10">
+										<div class="col-sm-offset-1 col-sm-10">
 											<input type="email" name="email" id="email-register" tabindex="2" class="form-control" placeholder="Email Address" value="" maxlength="30" required/>
 										</div>
-										<div name="validation" id="email-validation" class="col-lg-1"></div>
+										<div name="validation" id="email-validation" class="hidden-xs col-sm-1"></div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="row">
-										<div class="col-lg-offset-1 col-lg-10">
+										<div class="col-sm-offset-1 col-sm-10">
 											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+
 										</div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="row">
-										<div class="col-lg-offset-1 col-lg-10">
+										<div class="col-sm-offset-1 col-sm-10">
 											<input type="password" name="confirm-password" id="confirm-password-register" tabindex="4" class="form-control" placeholder="Confirm Password" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
-										</div><div name="validation" id="confirm-password-validation" class="col-lg-1"></div>
+										</div>
+										<div name="validation" id="confirm-password-validation" class="hidden-xs col-sm-1"></div>
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="register-submit" id="register-submit" tabindex="5" class="btn btn-success btn-lg btn-block" value="Register Now"/>
+											<input type="submit" name="submit" id="register-submit" tabindex="5" class="btn btn-success btn-lg btn-block" value="Register Now"/>
 										</div>
 									</div>
 								</div>
@@ -150,8 +150,6 @@
 		</div>
 	</div>
 </div>
-
-
 
 </body>
 </html>

@@ -20,12 +20,11 @@ $(document).ready(function () {
 		},
 		messages: {
 			username: {
-				required: "Enter a username",
-				usrcheck: "Username must contain only letters and digits"
+				required: "Enter a username"
 			},
 			password: {
 				required: "Enter a password",
-				minlength: "Password must be at least {0} character long",
+				minlength: "Password must be at least {0} character long"
 			}
 		},
 		submitHandler: function(form) {
@@ -33,11 +32,12 @@ $(document).ready(function () {
    		}
 	});
 
-	$.validator.addMethod("usrcheck", function(value, element) {
-		return /^[A-Za-z0-9=!\-@._*$]*$/.test(value); // consist of only these
-	});
-
-
+	$.validator.addMethod("usrcheck",
+		function(value, element) {
+			return /^[A-Za-z0-9]*$/.test(value); // consist of only these
+		},
+		"Username must contain only letters and digits"
+	);
 });
 
 // Validation of the inputs to register
@@ -55,22 +55,18 @@ $(document).ready(function () {
 			password: {
 				required: true,
 				minlength: 6,
-				number: true,
 				pwcheck: true
 			},
-			password_again: {
+			'confirm-password': {
 				required: true,
 				minlength: 6,
-				number: true,
-				pwcheck: true,
-				egalTo: '#password-register'
+				egalTo: '#password-register',
+				pwcheck: true
 			}
-
 		},
 		messages: {
 			username: {
-				required: "Enter a username",
-				usrcheck: "Username must contain only letters and digits"
+				required: "Enter a username"
 			},
 			email: {
 				required: "Enter an email adress",
@@ -78,16 +74,12 @@ $(document).ready(function () {
 			},
 			password: {
 				required: "Enter a password",
-				minlength: "Password must be at least {0} character long",
-				number: "Password must contain at least one number",
-				pwcheck: "Your password must contain at least one uppercase letter, one lower case letter and one digit"
+				minlength: "Password must be at least {0} character long"
 			},
-			password_again: {
+			'confirm-password': {
 				required: "Enter the password again",
 				minlength: "Password must be at least {0} character long",
-				number: "Password must contain at least one number",
-				pwcheck: "Your password must contain at least one uppercase letter, one lower case letter and one digit"
-
+				egalTo: "The two passwords must be the same"
 			}
 		},
 		submitHandler: function(form) {
@@ -95,16 +87,21 @@ $(document).ready(function () {
    		}
 	});
 
-	$.validator.addMethod("usrcheck", function(value, element) {
-		return /^[A-Za-z0-9=!\-@._*$]*$/.test(value); // consist of only these
-	});
+	$.validator.addMethod("usrcheck", 
+		function(value, element) {
+			return /^[A-Za-z0-9]*$/.test(value); // consist of only these
+		},
+		"Username must contain only letters and digits"
+	);
 
-	$.validator.addMethod("pwcheck", function(value, element) {
+	$.validator.addMethod("pwcheck", 
+		function(value, element) {
 			return /^[A-Za-z0-9=!\-@._*$]*$/.test(value) // consist of only these
 				&& /[A-Z]/.test(value) // has a upper case letter
 				&& /[a-z]/.test(value) // has a lower case letter
-				&& /\d/.test(value); // has a digit
-	});
+				&& /\d/.test(value); // has a digit},
+			"Your password must contain at least one uppercase letter, one lower case letter and one digit"
+	);
 
 
 });

@@ -79,57 +79,73 @@ function makeSalt( length ) {
 }
 
 
-function registerError(type, msg) {
-	$("#register-error").removeClass("hide alert-danger alert-warning alert-info alert-success");
-	$("#register-error").addClass(type);
-	$("#register-error").html(msg);
+function dispMsg(type, glyphicon, msg) {
+	$("#disp-error-msg").removeClass("hide alert-danger alert-warning alert-info alert-success");
+	$("#disp-error-msg").addClass(type);
+	
+	var txt;
+	if (glyphicon === null) {
+		txt = msg;
+	}
+	else {
+		txt = "<span class='glyphicon glyphicon-" + glyphicon + "'></span> " + msg;
+	}
+	$("#disp-error-msg").html(txt);
 }
 
 
 function checkCreated(data) {
 	console.log(data);
 	if(data.endsWith('Success')){
-		registerError("alert-success", "Account regestered. You are now connected. ");
+		dispMsg("alert-success", "ok-sign", "Account regestered. You are now connected.");
 	}
 	else{ // data == "Failed"
-		registerError("alert-danger", "An error occured. Your account is not created.");
+		dispMsg("alert-danger", "remove-sign", "<span class='glyficon glyficon-remove-sign'></span>An error occured. Your account is not created.");
 		return false;
 	}
 }
 
 function checkEmailExists(data) {
-	elemValidation( $("#email-validation"), data=="Failed");
+	elemValidation( "email", data=="Failed");
 	if (data=='Success') {
 		// 'success' means that the e-mail has been found,
 		// so this new account can't be created, print an error
-		registerError("alert-danger", "This e-mail is already used by an other account.");
+		dispMsg("alert-danger", "remove-sign", "This e-mail is already used by an other account.");
 	}
 	else {
-		$("#register-error").addClass("hide");
+		$("#disp-error-msg").addClass("hide");
 	}
 }
 
 function checkUsernameExists(data) {
-	elemValidation( $("#username-validation"), data=="Failed");
+	elemValidation( "username", data=="Failed");
 	if (data=='Success') {
 		// 'success' means that the username has been found,
 		// so this new account can't be created, print an error
-		registerError("alert-danger", "This username already exists.");
+		dispMsg("alert-danger", "remove-sign", "This username already exists.");
 	}
 	else {
-		$("#register-error").addClass("hide");
+		$("#disp-error-msg").addClass("hide");
 	}
 }
 
-function elemValidation(elem, isValid) {
+function elemValidation(elementName, isValid) {
+	var elem = $("#" + elementName + "-validation");
+	var elemInput = $("#" + elementName + "-register");
 	if(isValid) {
 		elem.removeClass("icon-danger icon-warning icon-info icon-success");
 		elem.addClass("icon-success");
 		elem.html("<span class='glyphicon glyphicon-ok-sign'></span>");
+
+		elemInput.removeClass("border-danger border-warning border-info border-success");
+		elemInput.addClass("border-success");
 	}
 	else {
 		elem.removeClass("icon-danger icon-warning icon-info icon-success");
 		elem.addClass("icon-danger");
 		elem.html("<span class='glyphicon glyphicon-remove-sign'></span>");
+
+		elemInput.removeClass("border-danger border-warning border-info border-success");
+		elemInput.addClass("border-danger");
 	}
 }

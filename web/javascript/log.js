@@ -12,7 +12,7 @@ $( function () {
 			'php_script/getSalt.php',
 			// POST's arguments
 			{
-				username : $("#username").val()
+				username : $("#username-login").val()
 			},
 			// get the result
 			checkAccount,
@@ -29,15 +29,15 @@ $( function () {
 // else it is "Failed"
 function checkAccount(salt) {
 	if (salt == "Failed") {
-		loginError( get_notConnected() );
+		dispMsg("alert-danger", "ok-sign", get_notConnected() );
 	}
 	
-	// encrypt the password with i's salt
+	
+	// encrypt the password
 	var shaObj = new jsSHA("SHA-512", "TEXT");
 	shaObj.update( $("#password").val() + salt );
 	var hashedPasswd = shaObj.getHash("HEX");
 	
-	//some logs
 	console.log( $("#password").val() + salt );
 	console.log(hashedPasswd);
 
@@ -46,7 +46,7 @@ function checkAccount(salt) {
 		'php_script/login.php',
 		// POST's arguments
 		{
-			username : $("#username").val(),
+			username : $("#username-login").val(),
 			password : hashedPasswd
 		},
 		// get the result
@@ -59,21 +59,27 @@ function checkAccount(salt) {
 };
 
 function checkConnection(data) {
-	console.log(data);
-	
 	if(data == 'Success'){
-		loginError("alert-success", get_connected() );
+		dispMsg("alert-success", "ok-sign", get_connected() );
 	}
 	else{ // data == "Failed"
-		loginError("alert-danger", get_notConnected() );
+		dispMsg("alert-danger", "remove-sign", data );
 		return false;
 	}
 }
 
-function loginError(type, msg) {
-	$("#login-error").removeClass("hide alert-danger alert-warning alert-info alert-success");
-	$("#login-error").addClass(type);
-	$("#login-error").html(msg);
+function dispMsg(type, glyphicon, msg) {
+	$("#disp-error-msg").removeClass("hide alert-danger alert-warning alert-info alert-success");
+	$("#disp-error-msg").addClass(type);
+	
+	var txt;
+	if (glyphicon === null) {
+		txt = msg;
+	}
+	else {
+		txt = "<span class='glyphicon glyphicon-" + glyphicon + "'></span> " + msg;
+	}
+	$("#disp-error-msg").html(txt);
 }
 
 /* **************************************************************************
