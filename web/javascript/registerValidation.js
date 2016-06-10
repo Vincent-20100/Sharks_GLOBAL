@@ -106,7 +106,7 @@ function checkCreated(data) {
 }
 
 function checkEmailExists(data) {
-	elemValidation( $("#email-validation"), data=="Failed");
+	elemValidation( "email", data=="Failed");
 	if (data=='Success') {
 		// 'success' means that the e-mail has been found,
 		// so this new account can't be created, print an error
@@ -118,7 +118,7 @@ function checkEmailExists(data) {
 }
 
 function checkUsernameExists(data) {
-	elemValidation( $("#username-validation"), data=="Failed");
+	elemValidation( "username", data=="Failed");
 	if (data=='Success') {
 		// 'success' means that the username has been found,
 		// so this new account can't be created, print an error
@@ -129,15 +129,23 @@ function checkUsernameExists(data) {
 	}
 }
 
-function elemValidation(elem, isValid) {
+function elemValidation(elementName, isValid) {
+	var elem = $("#" + elementName + "-validation");
+	var elemInput = $("#" + elementName + "-register");
 	if(isValid) {
 		elem.removeClass("icon-danger icon-warning icon-info icon-success");
 		elem.addClass("icon-success");
 		elem.html("<span class='glyphicon glyphicon-ok-sign'></span>");
+
+		elemInput.removeClass("border-danger border-warning border-info border-success");
+		elemInput.addClass("border-success");
 	}
 	else {
 		elem.removeClass("icon-danger icon-warning icon-info icon-success");
 		elem.addClass("icon-danger");
 		elem.html("<span class='glyphicon glyphicon-remove-sign'></span>");
+
+		elemInput.removeClass("border-danger border-warning border-info border-success");
+		elemInput.addClass("border-danger");
 	}
 }

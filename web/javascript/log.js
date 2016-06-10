@@ -12,7 +12,7 @@ $( function () {
 			'php_script/getSalt.php',
 			// POST's arguments
 			{
-				username : $("#username").val()
+				username : $("#username-login").val()
 			},
 			// get the result
 			checkAccount,
@@ -32,12 +32,12 @@ function checkAccount(salt) {
 		dispMsg("alert-danger", "ok-sign", get_notConnected() );
 	}
 	
-	// encrypt the password with i's salt
+	
+	// encrypt the password
 	var shaObj = new jsSHA("SHA-512", "TEXT");
 	shaObj.update( $("#password").val() + salt );
 	var hashedPasswd = shaObj.getHash("HEX");
 	
-	//some logs
 	console.log( $("#password").val() + salt );
 	console.log(hashedPasswd);
 
@@ -46,7 +46,7 @@ function checkAccount(salt) {
 		'php_script/login.php',
 		// POST's arguments
 		{
-			username : $("#username").val(),
+			username : $("#username-login").val(),
 			password : hashedPasswd
 		},
 		// get the result

@@ -94,3 +94,15 @@ body {
 .icon-success {
 	color: #3c763d;
 }
+.border-danger {
+	border-color: #a94442 !important;
+}
+.border-warning {
+	border-color: #8a6d3b !important;
+}
+.border-info {
+	border-color: #31708f !important;
+}
+.border-success {
+	border-color: #3c763d !important;
+}
