@@ -1,3 +1,9 @@
+<?php
+// Start the session
+session_start();
+$loginOK = false;
+?>
+
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -10,7 +16,7 @@
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<!-- jQuery library -->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<!-- AngularJS library -->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 	<!-- Latest compiled JavaScript -->
@@ -102,7 +108,7 @@
 									</div>
 								</div>
 							</form>
-							<form id="register-form" action="/136.206.48.174/SharksTag/" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
+							<form id="register-form" action="menu.php" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">

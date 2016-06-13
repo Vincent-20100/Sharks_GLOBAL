@@ -144,7 +144,6 @@ password_login.addEventListener("keyup", function (event) {
 });
 
 //register part
-
 var username_register = document.getElementById("username-register");
 
 username_register.addEventListener("keyup", function (event) {
@@ -190,7 +189,7 @@ password_register.addEventListener("keyup", function (event) {
 var confirm_password_register = document.getElementById("confirm-password-register");
 
 confirm_password_register.addEventListener("keyup", function (event) {
-	if($(#"password-register").value != $(#"confirm-password-register").value)){
+	if($("#password-register").value != $("#confirm-password-register").value){
 		confirm_password_register.setCustomValidity("You must enter the same password as before");
   	} else {
   		if(confirm_password_register.validity.patternMismatch) {

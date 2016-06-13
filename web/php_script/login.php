@@ -1,35 +1,39 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Start the session
+session_start();
+$loginOK = false;
 
-		$username = "";
-		$passwd_hash = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-		if( isset($_POST['username']) && isset($_POST['password']) ) {
+	$username = "";
+	$passwd_hash = "";
 
-			//check username
-		  	if (empty($_POST["username"])) {
-		    	echo "Enter a username.";
-			} else {
-				//success !
-			    $username = test_input($_POST["username"]);
+	if( isset($_POST['username']) && isset($_POST['password']) ) {
 
-			    // check if username only contains letters and whitespace
-			    if (!preg_match("/^[a-zA-Z0-9=!\-@._*$]*$/",$username)) {
-			      	echo "Special characters are not allowed.";
-			    } 
-			    else {
-			    	$passwd_hash = test_input($_POST['password']);
-			
-					loginAccount();
-				}
+		//check username
+	  	if (empty($_POST["username"])) {
+	    	echo "Enter a username.";
+		} else {
+			//success !
+		    $username = test_input($_POST["username"]);
+
+		    // check if username only contains letters and whitespace
+		    if (!preg_match("/^[a-zA-Z0-9=!\-@._*$]*$/",$username)) {
+		      	echo "Special characters are not allowed.";
+		    } 
+		    else {
+		    	$passwd_hash = test_input($_POST['password']);
+		
+				loginAccount();
 			}
 		}
-		else {
-			echo "Uncomplete request :(";
-		}
 	}
+	else {
+		echo "Uncomplete request :(";
+	}
+}
 
 function loginAccount() {
 	// open connection
@@ -45,12 +49,17 @@ function loginAccount() {
 			// username found
 
 			$row = $result->fetch_row();
+			$_SESSION['id']=$row['id'];
+			$_SESSION['user']=$username;
+
 			// write the current session in the database
 			$query = "UPDATE Player
 					SET session = '{$_SESSION['id']}'
+					/* ip = $_SERVER['REMOTE_ADDR']*/
 					WHERE username = '$username'";
 			
 			if($mysqli->query($query)) {
+				$loginOK = true;
 				echo "Success";
 			}
 			else {
@@ -67,6 +76,16 @@ function loginAccount() {
 	
 	// close connection
 	include 'dbDisconnect.php';
+
+  	//redirection
+	if($loginOK == true) {
+		header("Location: menu.php");
+		exit();
+	}
+	else if(!isset($_SESSION['user'])) {
+		header("Location: login.php");
+		exit();
+	}
 }
 	
 	

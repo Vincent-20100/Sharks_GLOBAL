@@ -12,7 +12,7 @@
 	
 	
 	
-	$mysqli = new mysqli("localhost", "root", "", "sharksTaggingGame");
+	$mysqli = new mysqli("http://136.206.48.174", "root", "", "sharksTaggingGame");
 	if ($mysqli->connect_errno) {
 		//echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 	}

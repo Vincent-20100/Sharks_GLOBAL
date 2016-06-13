@@ -1,3 +1,8 @@
+<?php
+// Start the session
+session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -29,11 +34,11 @@
 			</h1>
 			<div class="menu_simple text-center">
 			<div class="btn-vertical">
-				<a href="scores.php" class="btn btn-primary btn-lg btn-block" role="button">Play</a>
-				<a href="scores.php" class="btn btn-primary btn-lg btn-block" role="button">Tutorial</a>
+				<a href="game.php" class="btn btn-primary btn-lg btn-block" role="button">Play</a>
+				<a href="tutorial.php" class="btn btn-primary btn-lg btn-block" role="button">Tutorial</a>
 				<a href="scores.php" class="btn btn-primary btn-lg btn-block" role="button">Highscores</a>
 				<a href="credits.php" class="btn btn-primary btn-lg btn-block" role="button">Credits</a>
-				<a href="login.php" class="btn btn-primary btn-lg btn-block" role="button">Log out</a>
+				<a href="php_script/logout.php" class="btn btn-primary btn-lg btn-block" role="button">Log out</a>
 			</div>
 			</div>
 		</div>
