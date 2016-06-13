@@ -1,36 +1,38 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Start the session
+session_start();
+$loginOK = false;
 
-		$username = "";
-		$passwd_hash = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-		if( isset($_POST['username']) && isset($_POST['password']) ) {
+	$username = "";
+	$passwd_hash = "";
 
-			//check username
-		  	if (empty($_POST["username"])) {
-		    	echo "Enter a username.";
-			} else {
-				//success !
-			    $username = test_input($_POST["username"]);
-
-			    // check if username only contains letters and whitespace
-			    if (!preg_match("/^[a-zA-Z0-9=!\-@._*$]*$/",$username)) {
-			      	echo "Special characters are not allowed.";
-			    } 
-			    else {
-			    	$passwd_hash = test_input($_POST['password']);
-			
-					return loginAccount($username, $passwd_hash);
-				}
+	if( isset($_POST['username']) && isset($_POST['password']) ) {
+		//check username
+	  	if (empty($_POST["username"])) {
+	    	echo "Enter a username.";
+		} else {
+			$username = test_input($_POST['username']);
+		
+		    // check if username only contains letters and whitespace
+		    if (!preg_match("/^[a-zA-Z0-9=!\-@._*$]*$/",$username)) {
+		      	echo "Special characters are not allowed.";
+		    } 
+		    else {
+		    	$passwd_hash = test_input($_POST['password']);
+		
+				return loginAccount($username, $passwd_hash);
 			}
 		}
-		else {
-			echo "Uncomplete request :(";
-		}
-		return false;
 	}
+	else {
+		echo "Uncomplete request :(";
+	}
+	return false;
+}
 
 function loginAccount($username, $passwd_hash) {
 	
@@ -47,16 +49,21 @@ function loginAccount($username, $passwd_hash) {
 	if ($result = $mysqli->query($query)) {
 		if ($result->num_rows === 1) {
 			// username found
-
 			$row = $result->fetch_row();
-			// write the current session in the database
-			$query = "UPDATE Player
-					SET session = '{$_SESSION['id']}'
-					WHERE username = '$username'";
-			
-			if($mysqli->query($query)) {
-				echo "Success";
-				$return = true;
+			$_SESSION['id_player']=$row[0];
+			$_SESSION['user']=$username;
+
+			// store the current player session
+			if(setPlayerSession($mysqli, $username)){
+				// history the session statistics
+				if(setNewSession($mysqli)) {
+					$loginOK = true;
+					echo "Success";
+					$return = true;
+				}
+				else {
+					echo "Session unreachable.";
+				}
 			}
 			else {
 				// wrong password
@@ -73,10 +80,27 @@ function loginAccount($username, $passwd_hash) {
 	// close connection
 	include 'dbDisconnect.php';
 	
-	return $return;
+	
+  	
 }
 	
 	
+function setPlayerSession($mysqli, $username) {
+	// write the current session in the database
+	$query = "UPDATE Player
+			SET id_session = '{$_SESSION['id']}'
+			WHERE username = '$username'";
+	
+	return $mysqli->query($query);
+}
+
+function setNewSession($mysqli) {
+	$query = "INSERT INTO Session(`id`, `ip`,`id_player`)
+			VALUES('{$_SESSION['id']}', '{$_SERVER['REMOTE_ADDR']}', {$_SESSION['id_player']})";
+							
+	return $mysqli->query($query);
+}
+
 //modify any special character like <p> </p>
 function test_input($data) {
 	$data = trim($data);

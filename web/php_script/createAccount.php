@@ -25,8 +25,8 @@ if( isset($_POST['email']) && isset($_POST['username']) &&
 		$salt = $_POST['salt'];
 		$activationCode = bin2hex(random_bytes(5));
 		
-		$query  = "INSERT INTO Player(`username`, `email`, `password`, `salt`, `session`, `activationCode`)
-					VALUES('$username', '$email', '$passwd_hash', '$salt', '{$_SESSION['id']}', '$activationCode')";
+		$query  = "INSERT INTO Player(`username`, `email`, `password`, `salt`, `session`, `activationCode`/*, `ip`*/)
+					VALUES('$username', '$email', '$passwd_hash', '$salt', '{$_SESSION['id']}', '$activationCode'/*, '{$_SERVER['REMOTE_ADDR']}'*/)";
 		if ($mysqli->query($query)) {
 			echo "Success";
 		}

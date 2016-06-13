@@ -69,6 +69,8 @@ function checkAccount(salt) {
 };
 
 function checkConnection(data) {
+	console.log(data);
+	
 	if(data == 'Success'){
 		dispMsg("alert-success", "ok-sign", get_connected() );
 		window.location.href = $("#login-form").attr("next-page");
