@@ -22,16 +22,20 @@
 			    else {
 			    	$passwd_hash = test_input($_POST['password']);
 			
-					loginAccount();
+					return loginAccount($username, $passwd_hash);
 				}
 			}
 		}
 		else {
 			echo "Uncomplete request :(";
 		}
+		return false;
 	}
 
-function loginAccount() {
+function loginAccount($username, $passwd_hash) {
+	
+	$return = false;
+	
 	// open connection
 	require 'dbConnect.php';
 
@@ -52,6 +56,7 @@ function loginAccount() {
 			
 			if($mysqli->query($query)) {
 				echo "Success";
+				$return = true;
 			}
 			else {
 				// wrong password
@@ -67,6 +72,8 @@ function loginAccount() {
 	
 	// close connection
 	include 'dbDisconnect.php';
+	
+	return $return;
 }
 	
 	

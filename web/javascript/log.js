@@ -1,25 +1,34 @@
 
 
 $( function () {
+	
 	// add in head of the html file the file needed to encrypt
 	$("head").append("<script type='text/javascript' src='javascript/sha512.js'></script>");
 	
 	
-	$("#login-submit").click (function () {
+	$("#login-form").submit (function ( evt ) {
+		if(evt.preventDefault) {
+			evt.preventDefault();
+		}
+		else {
+			//internet explorer
+			evt.returnValue = false;
+		}
 		
-		$.post(
+		$.ajax({
+			async: true,
 			// destination page
-			'php_script/getSalt.php',
+			url: 'php_script/getSalt.php',
+			// use POST method
+			type: 'POST',
 			// POST's arguments
-			{
+			data: {
 				username : $("#username-login").val()
 			},
+			context: this,
 			// get the result
-			checkAccount,
-			// data type
-			'text'
-		);
-	
+			success: checkAccount
+		});
 	});
 		
 });
@@ -28,43 +37,44 @@ $( function () {
 // parameter is the salt if the correct account has been found
 // else it is "Failed"
 function checkAccount(salt) {
+	
 	if (salt == "Failed") {
 		dispMsg("alert-danger", "ok-sign", get_notConnected() );
 	}
+	else {
+		// encrypt the password
+		var shaObj = new jsSHA("SHA-512", "TEXT");
+		shaObj.update( $("#password-login").val() + salt );
+		var hashedPasswd = shaObj.getHash("HEX");
 	
-	
-	// encrypt the password
-	var shaObj = new jsSHA("SHA-512", "TEXT");
-	shaObj.update( $("#password").val() + salt );
-	var hashedPasswd = shaObj.getHash("HEX");
-	
-	console.log( $("#password").val() + salt );
-	console.log(hashedPasswd);
+		console.log( $("#password-login").val() + salt );
+		console.log(hashedPasswd);
 
-	$.post(
-		// destination page
-		'php_script/login.php',
-		// POST's arguments
-		{
-			username : $("#username-login").val(),
-			password : hashedPasswd
-		},
-		// get the result
-		checkConnection,
-		// data type
-		'text'
-	);
-	
-	return true;
+		$.ajax({
+			async: true,
+			// destination page
+			url: 'php_script/login.php',
+			// use POST method
+			type: 'POST',
+			// POST's arguments
+			data: {
+				username : $("#username-login").val(),
+				password : hashedPasswd
+			},
+			context: this,
+			// get the result
+			success: checkConnection
+		});
+	}
 };
 
 function checkConnection(data) {
 	if(data == 'Success'){
 		dispMsg("alert-success", "ok-sign", get_connected() );
+		window.location.href = $("#login-form").attr("next-page");
 	}
 	else{ // data == "Failed"
 		dispMsg("alert-danger", "remove-sign", data );
-		return false;
 	}
 }
 

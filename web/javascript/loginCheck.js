@@ -114,9 +114,9 @@ $(document).ready(function () {
 /****************************************************/
 
 // login part
-var username_login = document.getElementById("username-login");
+var username_login = $("#username-login");
 
-username_login.addEventListener("keyup", function (event) {
+username_login.keyup( function (event) {
   	if(username_login.validity.patternMismatch) {
     	username_login.setCustomValidity("You entered an unautaurized character");
   	} else {
@@ -128,9 +128,9 @@ username_login.addEventListener("keyup", function (event) {
 	}
 });
 
-var password_login = document.getElementById("password-login");
+var password_login = $("#password-login");
 
-password_login.addEventListener("keyup", function (event) {
+password_login.keyup( function (event) {
     if(password_login.validity.tooShort) {
     	password_login.setCustomValidity("You didn't entered enough characters");
 	} else {
@@ -145,9 +145,9 @@ password_login.addEventListener("keyup", function (event) {
 
 //register part
 
-var username_register = document.getElementById("username-register");
+var username_register = $("#username-register");
 
-username_register.addEventListener("keyup", function (event) {
+username_register.keyup( function (event) {
   	if(username_register.validity.patternMismatch) {
     	username_register.setCustomValidity("You entered an unautaurized character");
   	} else {
@@ -159,9 +159,9 @@ username_register.addEventListener("keyup", function (event) {
 	}
 });
 
-var email_register = document.getElementById("email-register");
+var email_register = $("#email-register");
 
-email_register.addEventListener("keyup", function (event) {
+email_register.keyup( function (event) {
   	if(email_register.validity.typeMismatch) {
     	email_register.setCustomValidity("Email must be valid");
   	} else {
@@ -173,9 +173,9 @@ email_register.addEventListener("keyup", function (event) {
   	}
 });
 
-var password_register = document.getElementById("password-register");
+var password_register = $("#password-register");
 
-password_register.addEventListener("keyup", function (event) {
+password_register.keyup( function (event) {
 	if(password_register.validity.patternMismatch) {
     	password_register.setCustomValidity("You entered an unautaurized character");
   	} else {
@@ -187,10 +187,10 @@ password_register.addEventListener("keyup", function (event) {
 	}
 });
 
-var confirm_password_register = document.getElementById("confirm-password-register");
+var confirm_password_register = $("#confirm-password-register");
 
-confirm_password_register.addEventListener("keyup", function (event) {
-	if($(#"password-register").value != $(#"confirm-password-register").value)){
+confirm_password_register.keyup( function (event) {
+	if($("#password-register").value != $("#confirm-password-register").value){
 		confirm_password_register.setCustomValidity("You must enter the same password as before");
   	} else {
   		if(confirm_password_register.validity.patternMismatch) {

@@ -5,63 +5,74 @@ $( function () {
 	$("head").append("<script type='text/javascript' src='javascript/sha512.js'></script>");
 	
 	
-	$("#register-submit").click (function () {
+	$("#register-form").submit (function (evt) {
+		if(evt.preventDefault) {
+			evt.preventDefault();
+		}
+		else {
+			//internet explorer
+			evt.returnValue = false;
+		}
+		
 		var generatedSalt = makeSalt(10);
 		// encrypt the password
 		var shaObj = new jsSHA("SHA-512", "TEXT");
 		shaObj.update( $("#password-register").val() + generatedSalt );
 		var passwordHashed = shaObj.getHash("HEX");
 		
-		$.post(
+		$.ajax({
+			async: true,
 			// destination page
-			'php_script/createAccount.php',
+			url: 'php_script/createAccount.php',
+			// use POST method 
+			type: 'POST',
 			// POST's arguments
-			{
+			data: {
 				email : $("#email-register").val(),
 				username : $("#username-register").val(),
 				password : passwordHashed,
 				salt : generatedSalt
 			},
 			// get the result
-			checkCreated,
-			// data type
-			'text'
-		);
+			success: checkCreated
+		});
 	
 	});
 	
 	
 	$("#email-register").blur (function () {
 		
-		$.post(
+		$.ajax({
+			async: true,
 			// destination page
-			'php_script/checkEmailExists.php',
+			url: 'php_script/checkEmailExists.php',
+			// use POST method
+			type: 'POST',
 			// POST's arguments
-			{
+			data: {
 				email : $("#email-register").val()
 			},
 			// get the result
-			checkEmailExists,
-			// data type
-			'text'
-		);
+			success: checkEmailExists
+		});
 	});
 	
 	
 	$("#username-register").blur (function () {
 		
-		$.post(
+		$.ajax({
+			async: true,
 			// destination page
-			'php_script/checkUsernameExists.php',
+			url: 'php_script/checkUsernameExists.php',
+			// use POST method
+			type: 'POST',
 			// POST's arguments
-			{
+			data: {
 				username : $("#username-register").val()
 			},
 			// get the result
-			checkUsernameExists,
-			// data type
-			'text'
-		);
+			success: checkUsernameExists
+		});
 	});
 	
 });
@@ -98,10 +109,11 @@ function checkCreated(data) {
 	console.log(data);
 	if(data.endsWith('Success')){
 		dispMsg("alert-success", "ok-sign", "Account regestered. You are now connected.");
+		
+		window.location.href = $("#register-form").attr("next-page");
 	}
 	else{ // data == "Failed"
 		dispMsg("alert-danger", "remove-sign", "<span class='glyficon glyficon-remove-sign'></span>An error occured. Your account is not created.");
-		return false;
 	}
 }
 

@@ -66,7 +66,7 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-xs-12">
-							<form id="login-form" action="menu.php" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
+							<form id="login-form" next-page="menu.php" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
@@ -102,11 +102,11 @@
 									</div>
 								</div>
 							</form>
-							<form id="register-form" action="/136.206.48.174/SharksTag/" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
+							<form id="register-form" next-page="menu.php" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="text" name="username" id="username-register" tabindex="1" class="form-control" placeholder="Username" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+											<input type="text" name="username" id="username-register" tabindex="1" class="form-control" placeholder="Username" value="" maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 										<div name="validation" id="username-validation" class="hidden-xs col-sm-1"></div>
 									</div>
@@ -114,7 +114,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="email" name="email" id="email-register" tabindex="2" class="form-control" placeholder="Email Address" value="" maxlength="30" required/>
+											<input type="email" name="email" id="email-register" tabindex="2" class="form-control" placeholder="Email Address" value="" maxlength="128" required/>
 										</div>
 										<div name="validation" id="email-validation" class="hidden-xs col-sm-1"></div>
 									</div>
@@ -122,7 +122,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password" value="" maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 
 										</div>
 									</div>
@@ -130,7 +130,7 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="password" name="confirm-password" id="confirm-password-register" tabindex="4" class="form-control" placeholder="Confirm Password" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+											<input type="password" name="confirm-password" id="confirm-password-register" tabindex="4" class="form-control" placeholder="Confirm Password" value="" maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 										<div name="validation" id="confirm-password-validation" class="hidden-xs col-sm-1"></div>
 									</div>
