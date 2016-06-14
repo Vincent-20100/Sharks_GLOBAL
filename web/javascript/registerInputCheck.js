@@ -1,15 +1,19 @@
+/****************************************************/
+/*													*/
+/*			   JQuery and API HTML5					*/
+/*													*/
+/****************************************************/
 $( function() {
 
 	var username_register = $("#username-register")[0];
+
 	$("#username-register").keyup( function (event) {
 	  	if(username_register.validity.patternMismatch) {
 			username_register.setCustomValidity("You entered an unautaurized character");
-	  	} else {
-			if(username_register.validity.tooLong) {
-				username_register.setCustomValidity("You entered too much characters");
-			} else {
-				username_register.setCustomValidity("");
-			}
+	  	} else if(username_register.validity.tooLong) {
+			username_register.setCustomValidity("You entered too much characters");
+		} else {
+			username_register.setCustomValidity("");
 		}
 	});
 
@@ -18,27 +22,31 @@ $( function() {
 	$("#email-register").keyup( function (event) {
 	  	if(email_register.validity.typeMismatch) {
 			email_register.setCustomValidity("Email must be valid");
-	  	} else {
-	  		if(username_register.validity.tooLong) {
+	  	} else if(username_register.validity.tooLong) {
 				email_register.setCustomValidity("You entered too much characters");
-			} else {
-				email_register.setCustomValidity("");
-			}
-	  	}
+		} else {
+			email_register.setCustomValidity("");
+		}
 	});
 
 	var password_register = $("#password-register")[0];
 
 	$("#password-register").keyup( function (event) {
-		if(password_register.validity.patternMismatch) {
-			password_register.setCustomValidity("You entered an unautaurized character");
+		if(password_register.length < 6) {
+			password_register.setCustomValidity("Password must be at least 6 character long");
+	  	} else if(password_register.validity.patternMismatch){
+	  		password_register.setCustomValidity("You entered an unautaurized character");
+	  	} else if(/\d/.test(password_register.value)){
+	  		password_register.setCustomValidity("Password must contain at least one digit");
+	  	} else if(/[A-Z]/.test(password_register.value)) {
+	  		password_register.setCustomValidity("Password must contain at least one uppercase character");
+	  	} else if(/[a-z]/.test(password_register.value)) {
+	  		password_register.setCustomValidity("Password must contain at least one lowercase character");
+	  	} else if (password_register.validity.tooLong) {
+	  		password_register.setCustomValidity("You entered too much characters");
 	  	} else {
-			if(password_register.validity.tooLong) {
-				password_register.setCustomValidity("You entered too much characters");
-			} else {
-				password_register.setCustomValidity("");
-			}
-		}
+	  		password_register.setCustomValidity("");
+	  	}
 	});
 
 	var confirm_password_register = $("#confirm-password-register")[0];
@@ -50,5 +58,5 @@ $( function() {
 	  		confirm_password_register.setCustomValidity("");
 	  	}
 	});
-
+	
 });
