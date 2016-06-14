@@ -3,7 +3,7 @@
 <head>
 	<title>Sharks Tag game</title>
 	<link rel="stylesheet" type="text/css" href="css/game.css">
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 	<script type="text/javascript" src="javascript/game.js"></script>
 </head>
 <body>
@@ -39,7 +39,7 @@
 
 	<div id="container" onmousedown="initZone()" onmousemove="setZone()" onmouseup="endSelectZone()" class="noSelect">
 		<div id="imageContainer" class="noSelect"   >
-			<img src="images/tutorial.jpg">
+			<img src="images/tutorial.jpg" style="pointer-events: none;">
 		</div>
 	</div>
 	<div id="containerBelow">

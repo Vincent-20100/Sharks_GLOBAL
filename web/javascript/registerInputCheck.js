@@ -3,6 +3,7 @@
 /*			   JQuery and API HTML5					*/
 /*													*/
 /****************************************************/
+
 $( function() {
 
 	var username_register = $("#username-register")[0];
@@ -36,11 +37,11 @@ $( function() {
 			password_register.setCustomValidity("Password must be at least 6 character long");
 	  	} else if(password_register.validity.patternMismatch){
 	  		password_register.setCustomValidity("You entered an unautaurized character");
-	  	} else if(/\d/.test(password_register.value)){
+	  	} else if(!password_register.value.match(/\d/)){
 	  		password_register.setCustomValidity("Password must contain at least one digit");
-	  	} else if(/[A-Z]/.test(password_register.value)) {
+	  	} else if(!password_register.value.match(/[A-Z]/)) {
 	  		password_register.setCustomValidity("Password must contain at least one uppercase character");
-	  	} else if(/[a-z]/.test(password_register.value)) {
+	  	} else if(!password_register.value.match(/[a-z]/)) {
 	  		password_register.setCustomValidity("Password must contain at least one lowercase character");
 	  	} else if (password_register.validity.tooLong) {
 	  		password_register.setCustomValidity("You entered too much characters");

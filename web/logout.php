@@ -6,6 +6,6 @@ session_start();
 // it keeps the session vars and global vars
 session_regenerate_id();
 
-header("Location: login.php");
+header("Location: php_secure/login.php");
 exit();
 ?>

@@ -1,6 +1,8 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 	
+header('Access-Control-Allow-Origin: *');
+	
 $return = false;
 if( isset($_POST['username']) ) {
 	
