@@ -7,18 +7,20 @@ $( function () {
 	
 	
 	$("#login-form").submit (function ( evt ) {
+		// disable the form action
 		if(evt.preventDefault) {
 			evt.preventDefault();
 		}
 		else {
-			//internet explorer
-			evt.returnValue = false;
+			evt.returnValue = false; //internet explorer
 		}
 		
+		
+		// proceed to the login
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'php_script/getSalt.php',
+			url: 'php_script/dbGetSalt.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -53,7 +55,7 @@ function checkAccount(salt) {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'php_script/login.php',
+			url: 'php_script/dbLogin.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments

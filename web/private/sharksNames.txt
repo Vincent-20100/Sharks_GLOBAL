@@ -8,7 +8,4 @@ Great Hammerhead Shark
 White Shark
 Blue Shark
 Nurse Shark
-
-#Fish
-
 Ray fish
