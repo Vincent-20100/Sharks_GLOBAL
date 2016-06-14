@@ -1,7 +1,8 @@
 <?php
 // Start the session
 session_start();
-$loginOK = false;
+$_SESSION["loginOK"] = false;
+$_SESSION["remember"] = false;
 ?>
 
 <!DOCTYPE HTML>
@@ -88,7 +89,7 @@ $loginOK = false;
 									</div>
 								</div>
 								<div class="form-group text-center">
-									<input type="checkbox" tabindex="3" class="" name="remember" id="remember"/>
+									<input type="checkbox" tabindex="3" class="" name="remember" id="remember" <?php echo ($_SESSION["remember"] == true ? 'checked' : '');?>/>
 									<label for="remember"> Remember Me</label>
 								</div>
 								<div class="form-group">
