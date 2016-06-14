@@ -24,14 +24,16 @@ $loginOK = false;
 	<!-- Latest jQuery Validation Plugin -->
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
 
-	<script type="text/javascript" src="javascript/log.js"></script>
+	<script type="text/javascript" src="javascript/login.js"></script>
 
 	<script type="text/javascript" src="javascript/registerValidation.js"></script>
 
-	<!-- Check the user inputs to log in and register -->
-	<script src="javascript/loginCheck.js"></script>
+	<!-- Check the user inputs to log in -->
+	<script src="javascript/loginInputCheck.js"></script>
+	<!-- Check the user inputs to register -->
+	<script src="javascript/registerInputCheck.js"></script>
 	<!-- Effects to change view between log in and registry -->
-	<script src="javascript/loginEffects.js"></script>
+	<script src="javascript/loginPageEffects.js"></script>
 
 	<style type="text/css">
 	.error {color: #FF0000;}

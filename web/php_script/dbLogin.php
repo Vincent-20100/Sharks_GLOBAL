@@ -14,13 +14,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		//check username
 	  	if (empty($_POST["username"])) {
 	    	echo "Enter a username.";
+		} elseif (empty($_POST["password"])) {
+			echo "Enter a password.";
 		} else {
 			$username = test_input($_POST['username']);
 		
 		    // check if username only contains letters and whitespace
 		    if (!preg_match("/^[a-zA-Z0-9=!\-@._*$]*$/",$username)) {
 		      	echo "Special characters are not allowed.";
-		    } 
+		    }
 		    else {
 		    	$passwd_hash = test_input($_POST['password']);
 		
@@ -80,8 +82,6 @@ function loginAccount($username, $passwd_hash) {
 	// close connection
 	include 'dbDisconnect.php';
 	
-	
-  	
 }
 	
 	
@@ -97,7 +97,7 @@ function setPlayerSession($mysqli, $username) {
 function setNewSession($mysqli) {
 	$query = "INSERT INTO Session(`id`, `ip`,`id_player`)
 			VALUES('{$_SESSION['id']}', '{$_SERVER['REMOTE_ADDR']}', {$_SESSION['id_player']})";
-							
+	
 	return $mysqli->query($query);
 }
 
@@ -108,7 +108,5 @@ function test_input($data) {
 	$data = htmlspecialchars($data);
 	return $data;
 }
-
-	
 	
 ?>

@@ -1,12 +1,9 @@
 <?php
-// On appelle la session
+// be able to use the session
 session_start();
 
-// On écrase le tableau de session
-//$_SESSION = array();
-
-// On détruit la session
-//session_destroy();
+// generate a new session id leads to fail connection with the previous session id
+// it keeps the session vars and global vars
 session_regenerate_id();
 
 header("Location: login.php");

@@ -23,7 +23,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'php_script/createAccount.php',
+			url: 'php_script/dbCreateAccount.php',
 			// use POST method 
 			type: 'POST',
 			// POST's arguments
@@ -45,7 +45,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'php_script/checkEmailExists.php',
+			url: 'php_script/dbCheckEmailExists.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -63,7 +63,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'php_script/checkUsernameExists.php',
+			url: 'php_script/dbCheckUsernameExists.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -113,7 +113,7 @@ function checkCreated(data) {
 		window.location.href = $("#register-form").attr("next-page");
 	}
 	else{ // data == "Failed"
-		dispMsg("alert-danger", "remove-sign", "<span class='glyficon glyficon-remove-sign'></span>An error occured. Your account is not created.");
+		dispMsg("alert-danger", "remove-sign", data);
 	}
 }
 
