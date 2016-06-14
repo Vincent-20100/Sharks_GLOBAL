@@ -5,8 +5,8 @@
 	
 	
 	$dir = array();
-	$dir['html'] = 'http://136.206.48.60/SharksTag/serverFiles/images/sharks';
-	$dir['server'] = '/home/socguest/Desktop/serverFiles/images/sharks';
+	$dir['html'] = 'http://136.206.48.174/SharksTag/serverFiles/public/images/sharks';
+	$dir['server'] = '/home/socguest/Desktop/serverFiles/public/images/sharks';
 	
 	
 	// get the list of images
