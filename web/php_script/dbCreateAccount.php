@@ -102,7 +102,7 @@ function createAccount($email, $username, $passwd_hash, $salt) {
 
 	// open connection
 	require 'dbConnect.php';
-	
+
 	if (setNewAccount($mysqli, $email, $username, $passwd_hash, $salt)) {
 		echo "Success";
 	}
@@ -132,3 +132,5 @@ function test_input($data) {
 }
 
 ?>
+
+
