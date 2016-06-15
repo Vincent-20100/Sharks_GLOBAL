@@ -3,7 +3,7 @@
 <head>
 	<title>Sharks Tag game</title>
 	<link rel="stylesheet" type="text/css" href="css/game.css">
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 	<script type="text/javascript" src="javascript/game.js"></script>
 </head>
 <body>
