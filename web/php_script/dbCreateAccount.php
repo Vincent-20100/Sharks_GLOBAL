@@ -1,0 +1,216 @@
+<?php
+	/* Vincent Bessouet, DCU School of Computing, 2016 */
+	
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	if( isset($_POST['email']) && isset($_POST['username']) &&
+		isset($_POST['password']) && isset($_POST['salt']) ) {
+		$username = $email = $password = $salt = "";
+	
+		if (empty($_POST["username"])) {
+	    	echo "Enter a username.\n";
+		} else {
+			$username = test_input($_POST['username']);
+			if (!preg_match("/^[a-zA-Z0-9=!\-@._*$]*$/",$username)) {
+		      echo "Only letters and white space allowed\n";
+		    }
+		}		
+		
+		if (empty($_POST["email"])) {
+			echo "Enter an email.\n";
+		} else {
+			$email = test_input($_POST["email"]);
+		    // check if e-mail address is well-formed
+		    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		      	echo "Invalid email format\n";
+		    }
+		}
+		
+		if (empty($_POST["salt"])) {
+			echo "Salt problem.\n";
+		} else {
+			$salt = test_input($_POST["salt"]);
+		}
+		
+		if (empty($_POST["password"])) {
+		   	echo "Password is required\n";
+	  	} else {
+	  		//success !
+		    $password = test_input($_POST["password"]);
+		    
+		    /************************************************************************************/
+		    /*    For now the password is hashed at this point, so we can't check it with php   */
+		    /*		and this is not important because a hashed password is not easy to find     */
+			/************************************************************************************/
+			
+		    // find potential accounts already using this username or email
+		    // check if this email is already used
+		    // check if this username is already used
+		    $r1 = require 'dbCheckEmailExists.php';
+		    $r2 = require 'dbCheckUsernameExists.php';
+		    if ($r1 || $r2) {
+		    	echo "Your Email or Username already exist in the database\n";
+		    }
+		    else {
+		    	createAccount($username, $email, $passwd_hash, $salt);
+		    	sendEMailNewAccount($email);
+		    }
+
+
+		    // uncomment it if you make the password transit in clear text throuth a https protocol
+		    /*
+			//The password must be at least 8 character long
+	    	if(strlen($_POST["password"])<8) {
+	    		echo "Password must be at least 8 character long\n";
+	    	}
+	    	else {
+	    		//success !
+
+				//The password must not contain the username
+				if(strpos($_POST["password"], $_POST["username"])) {
+					echo "Passwords must not contain the username\n";
+				}
+				else {
+					//success !
+
+					//The password must contain one number
+					if(1 != preg_match('~[0-9]~', $_POST["password"])) {
+						echo "Passwords must contain at least one numerical value\n";
+					}
+					else {
+						//success !
+
+						//The password must contain one lower case character
+						if(strspn($_POST["password"], "abcdefghijklmnopqrstuvwxyz")>0) {
+							echo "Passwords must contain at least one lower case character\n";
+						}
+						else {
+							//success !
+
+							//The password must contain one upper case character
+							if(strspn($_POST["password"], "ABCDEFGHIJKLMNOPQRSTUVWXYZ")>0) {
+								echo "Passwords must contain at least one upper case character\n";
+							}
+							else {
+								//success !
+
+								// find potential accounts already using this username or email
+								// check if this email is already used
+								// check if this username is already used
+								$r1 = require 'dbCheckEmailExists.php';
+								$r2 = require 'dbCheckUsernameExists.php';
+								if ($r1 || $r2) {
+									echo "Your Email or Username already exist in the database\n";
+								}
+								else {
+									createAccount($username, $email, $passwd_hash, $salt);
+									sendEMailNewAccount($email);
+								}
+							}
+						}
+					}
+		    	}
+		    }*/
+		}
+	}
+	else {
+		echo "User name, email or password were not set\n";
+	}
+}
+
+function createAccount($email, $username, $passwd_hash, $salt) {
+
+	// open connection
+	require 'dbConnect.php';
+	
+	if (setNewAccount($mysqli, $email, $username, $passwd_hash, $salt)) {
+		echo "Success";
+	}
+	else {
+		echo "An error occured. Your account was not created\n";
+	}
+	
+	// close connection
+	include 'dbDisconnect.php';
+}
+
+function setNewAccount($mysqli, $email, $username, $passwd_hash, $salt) {
+	$activationCode = bin2hex(random_bytes(5));
+
+	$query = "INSERT INTO Player(`username`, `email`, `password`, `salt`, `session`, `activationCode`)
+				VALUES('$username', '$email', '$passwd_hash', '$salt', '{$_SESSION['id']}', '$activationCode')";
+
+	return $mysqli->query($query);
+}
+
+function sendEMailNewAccount($email, $username) {
+	// open connection
+	require 'dbConnect.php';
+	
+	$activationCode = "";
+
+	
+	if (getActivationCode($mysqli, $email) == -1) {
+		// close connection
+		include 'dbDisconnect.php';
+
+		return false;
+	}
+	else {
+		$activationCode = $query->fetch_row()[0];
+
+		
+
+		// Send an automatic e-mail to give the activation code
+		
+		// Subject
+		$subject = "[SharksTag] Your account activation code";
+
+		// message
+		$message = "
+		<html>
+		<head>
+			<title>[SharksTag] Your account activation code</title>
+		</head>
+		<body>
+			<p>Hi $username!</p>
+			<p>Here is your activation code. Use the link below to activate your account.</p>
+			<p><a href='http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode</a>
+			<p>Have a good play!</a>
+		</body>
+		</html>";
+
+		// e-mail header
+		$headers  = "MIME-Version: 1.0" . "\r\n";
+		$headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
+
+		// En-têtes additionnels
+		$headers .= "To: $email" . "\r\n";
+		$headers .= "From: SharksTag<donotreply-sharkstag@computing.dcu.ie>" . "\r\n";
+
+		// Envoi
+		return mail($email, $subject, $message, $headers);
+	}
+}
+
+function getActivationCode($mysqli, $email) {
+	// get activation code
+	$query = "SELECT activationCode
+				FROM Player
+				WHERE email = '$email'";
+	if ($mysqli->num_rows() == 1) {
+		return $mysqli->query($query);
+	}
+	else {
+		return -1;
+	}
+}
+
+//modify any special character like <p> </p>
+function test_input($data) {
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data);
+	return $data;
+}
+
+?>
