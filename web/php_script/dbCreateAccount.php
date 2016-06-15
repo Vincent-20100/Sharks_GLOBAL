@@ -31,15 +31,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$salt = test_input($_POST["salt"]);
 		}
 		
-		//FUCK le password est deja hash
-		//FUCK MY LIFE
 		if (empty($_POST["password"])) {
 		   	echo "Password is required\n";
 	  	} else {
 	  		//success !
 		    $password = test_input($_POST["password"]);
 		    
+		    /************************************************************************************/
+		    /*    For now the password is hashed at this point, so we can't check it with php   */
+		    /*		and this is not important because a hashed password is not easy to find     */
+			/************************************************************************************/
+			
+		    // find potential accounts already using this username or email
+		    // check if this email is already used
+		    // check if this username is already used
+		    $r1 = require 'dbCheckEmailExists.php';
+		    $r2 = require 'dbCheckUsernameExists.php';
+		    if ($r1 || $r2) {
+		    	echo "Your Email or Username already exist in the database\n";
+		    }
+		    else {
+		    	createAccount($username, $email, $passwd_hash, $salt);
+		    	sendEMailNewAccount($email);
+		    }
 
+
+		    // uncomment it if you make the password transit in clear text throuth a https protocol
+		    /*
 			//The password must be at least 8 character long
 	    	if(strlen($_POST["password"])<8) {
 	    		echo "Password must be at least 8 character long\n";
@@ -91,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						}
 					}
 		    	}
-		    }
+		    }*/
 		}
 	}
 	else {
