@@ -19,7 +19,7 @@
 	
 	
 	// build the html combobox
-	print "<select>";
+	print "<select id='sharkSpecies'>";
 	print "<option value='empty'>-- Tag a species --</option>";
 	$category = false;
 	foreach($species as $s) {
