@@ -53,16 +53,9 @@ document.onkeydown = function(e) {
 				console.log(e.keyCode);
 			}
 			break;
-		case 84 : // 'T'
-		case 116 : // 't'
-			if (event.altKey) {
+		case 84 : 
 				showHideTips();
-			} else {
-				console.log(e.keyCode);
-			}
 			break;
-	    case 8 : deleteZone();
-	        break;
 	    case 46 : deleteZone();
 	        break;
 	    case 27 : resetAllZone();
@@ -100,6 +93,13 @@ function initZone() {
 	
 	isMousePressed = true;
 	
+	    var sharks = $("#sharkName :selected").attr("value");
+	    console.log("le nom du poisson : " + sharks);
+	    var elem = $("#selectedZone"+courant);
+	     console.log("species avant:" +elem.attr("species"));
+	    elem.attr("species", sharks);
+	    console.log("species apres:"+ elem.attr("species"));
+	    
 	}
 	
 }
@@ -111,12 +111,12 @@ function initZone() {
 function setZone() {
    if (isMousePressed){
         if(setOK===true){
-		    $("#container").append("<div id='selectedZone"+rank+"' value= '"+rank+"' class = 'selectedZone' name='touch' onmousedown = 'initDrag("+rank+")'  onmousemove='dragZone()' onmouseup ='endDrag()'></div>");
-		    $("#container").append("<div id='point1"+rank+"' value= '"+rank+"' class='point' name='pointodd' onmousedown = 'initResize1("+rank+")' onmousemove ='resizePoint1()'></div>");
-		    $("#container").append("<div id='point2"+rank+"' value= '"+rank+"' class='point' name='pointeven' onmousedown = 'initResize2("+rank+")' onmousemove ='resizePoint2()'></div>");
-		    $("#container").append("<div id='point3"+rank+"' value= '"+rank+"' class='point' name='pointodd'onmousedown = 'initResize3("+rank+")' onmousemove ='resizePoint3()'></div>");
-		    $("#container").append("<div id='point4"+rank+"' value= '"+rank+"' class='point' name='pointeven' onmousedown = 'initResize4("+rank+")' onmousemove ='resizePoint4()'></div>");
-		    first = true;   
+		    $("#container").append("<div id='selectedZone"+rank+"' value= '"+rank+"' species='' class = 'selectedZone' name='touch' onmousedown = 'initDrag("+rank+")'  onmousemove='dragZone()' onmouseup ='endDrag()'><span class='species'>coucou</span></div>");
+		    $("#container").append("<div id='point1"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd' onmousedown = 'initResize1("+rank+")' onmousemove ='resizePoint1()'></div>");
+		    $("#container").append("<div id='point2"+rank+"' value= '"+rank+"' species='' class='point' name='pointeven' onmousedown = 'initResize2("+rank+")' onmousemove ='resizePoint2()'></div>");
+		    $("#container").append("<div id='point3"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd'onmousedown = 'initResize3("+rank+")' onmousemove ='resizePoint3()'></div>");
+		    $("#container").append("<div id='point4"+rank+"' value= '"+rank+"' species='' class='point' name='pointeven' onmousedown = 'initResize4("+rank+")' onmousemove ='resizePoint4()'></div>");
+		    first = true;
 		    var elem = $("#selectedZone"+courant);
             elem.removeClass("selected");
 		    courant = rank;
@@ -205,7 +205,6 @@ function setZone() {
 
 
 function endSelectZone() {
-    console.log("Sort");
 	isMousePressed = false;
 	isDragging = false;
 	isResizing1 = false;
@@ -862,5 +861,6 @@ function newImage() {
 
 
 function showHideTips() {
-	document.getElementById("tipsMenu").classList.toggle("dontShow");
+	$("#tipsMenu").toggleClass("dontShow");
+	$("#player_audio").trigger("play");
 }

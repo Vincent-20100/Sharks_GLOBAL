@@ -7,6 +7,8 @@
 	<script type="text/javascript" src="javascript/game.js"></script>
 </head>
 <body>
+<embed src="/Sharks_GLOBAL/wave2.wav" autostart="true" loop="-1" hidden="true"></embed>
+<audio id='player_audio' src="/Sharks_GLOBAL/buble.wav"></audio>
 	<?php include('noscript.php'); ?>
 	<div id="containerHead">
 		<ul id="appButtons">
@@ -27,7 +29,7 @@
 			<p>Tips :</p>
 			<ul>
 				<li>T button shows/hides this tips. You can use the shortcut 'Alt' + 'T' as well.</li>
-				<li>Delete : Press backspace on the keyboard or click on the 'Delete' button</li>
+				<li>Delete : Press DELETE on the keyboard or click on the 'Delete' button</li>
 				<li>ResetAll : Press Escape on the keyboard or click on the 'ResetAll' button</li>
 				<li>NEW IMAGE : Press 'Alt' + 'N' on the keyboard or click on the 'New image' button</li>
 				<li>You can move the zones by dragging them with the mouse or by using the arrow keys</li>
@@ -39,7 +41,7 @@
 
 	<div id="container" onmousedown="initZone()" onmousemove="setZone()" onmouseup="endSelectZone()" class="noSelect">
 		<div id="imageContainer" class="noSelect"   >
-			<img src="images/tutorial.jpg" style="pointer-events: none;">
+			<img src="images/tutorial.jpg">
 		</div>
 	</div>
 	<div id="containerBelow">
