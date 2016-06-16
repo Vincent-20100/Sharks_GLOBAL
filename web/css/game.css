@@ -149,7 +149,7 @@ width: 160px;
 #imageContainer img {
 	height: 100%;
 	width: 100%;
-
+    pointer-events: none;
 }
 
 #containerBelow{
@@ -239,6 +239,7 @@ div[name="grab"]{
     position: absolute;
     bottom: 0px;
     left: 0px;
+    white-space: nowrap;
 }
 
 

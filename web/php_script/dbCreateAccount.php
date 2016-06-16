@@ -1,6 +1,8 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 	
+	header('Access-Control-Allow-Origin: *');
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if( isset($_POST['email']) && isset($_POST['username']) &&
 		isset($_POST['password']) && isset($_POST['salt']) ) {
@@ -51,8 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		    	echo "Your Email or Username already exist in the database\n";
 		    }
 		    else {
-		    	createAccount($username, $email, $passwd_hash, $salt);
-		    	sendEMailNewAccount($email);
+		    	createAccount($email, $username, $password, $salt);
+		    	//uncomment later
+		    	//sendEMailNewAccount($email, $username);
 		    }
 
 
@@ -136,8 +139,10 @@ function createAccount($email, $username, $passwd_hash, $salt) {
 function setNewAccount($mysqli, $email, $username, $passwd_hash, $salt) {
 	$activationCode = bin2hex(random_bytes(5));
 
-	$query = "INSERT INTO Player(`username`, `email`, `password`, `salt`, `session`, `activationCode`)
+	$query = "INSERT INTO Player(`username`, `email`, `password`, `salt`, `id_session`, `activationCode`)
 				VALUES('$username', '$email', '$passwd_hash', '$salt', '{$_SESSION['id']}', '$activationCode')";
+
+	echo $query;
 
 	return $mysqli->query($query);
 }
@@ -149,47 +154,56 @@ function sendEMailNewAccount($email, $username) {
 	$activationCode = "";
 
 	
-	if (getActivationCode($mysqli, $email) == -1) {
-		// close connection
-		include 'dbDisconnect.php';
+	if ($result = getActivationCode($mysqli, $email)){
+		if($result->num_rows == 1) {
+			$activationCode = $result->fetch_row()[0];
 
-		return false;
+			// close connection
+			include 'dbDisconnect.php';
+
+			// Send an automatic e-mail to give the activation code
+			
+			// Subject
+			$subject = "[SharksTag] Your account activation code";
+
+			// message
+			$message = "
+			<html>
+			<head>
+				<title>[SharksTag] Your account activation code</title>
+			</head>
+			<body>
+				<p>Hi $username!</p>
+				<p>Here is your activation code. Use the link below to activate your account.</p>
+				<p><a href='http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode</a>
+				<p>Have a good play!</a>
+			</body>
+			</html>";
+
+			// e-mail header
+			$headers  = "MIME-Version: 1.0" . "\r\n";
+			$headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
+
+			// En-têtes additionnels
+			$headers .= "To: $email" . "\r\n";
+			$headers .= "From: SharksTag<bessouet.vincent@gmail.com>" . "\r\n";
+
+			$status = mail($email, $subject, $message, $headers);
+
+			// Envoi
+			if($status) {
+                echo "Your message has been sent !";
+            }
+            else {
+                echo "An error occurred while trying to send the mail.";
+            }
+			return $status;
+		}
 	}
-	else {
-		$activationCode = $query->fetch_row()[0];
+	// close connection
+	include 'dbDisconnect.php';
 
-		
-
-		// Send an automatic e-mail to give the activation code
-		
-		// Subject
-		$subject = "[SharksTag] Your account activation code";
-
-		// message
-		$message = "
-		<html>
-		<head>
-			<title>[SharksTag] Your account activation code</title>
-		</head>
-		<body>
-			<p>Hi $username!</p>
-			<p>Here is your activation code. Use the link below to activate your account.</p>
-			<p><a href='http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode</a>
-			<p>Have a good play!</a>
-		</body>
-		</html>";
-
-		// e-mail header
-		$headers  = "MIME-Version: 1.0" . "\r\n";
-		$headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
-
-		// En-têtes additionnels
-		$headers .= "To: $email" . "\r\n";
-		$headers .= "From: SharksTag<donotreply-sharkstag@computing.dcu.ie>" . "\r\n";
-
-		// Envoi
-		return mail($email, $subject, $message, $headers);
-	}
+	return false;
 }
 
 function getActivationCode($mysqli, $email) {
@@ -197,12 +211,8 @@ function getActivationCode($mysqli, $email) {
 	$query = "SELECT activationCode
 				FROM Player
 				WHERE email = '$email'";
-	if ($mysqli->num_rows() == 1) {
-		return $mysqli->query($query);
-	}
-	else {
-		return -1;
-	}
+
+	return $mysqli->query($query);
 }
 
 //modify any special character like <p> </p>

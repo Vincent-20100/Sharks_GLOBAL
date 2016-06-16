@@ -33,7 +33,7 @@ $( function() {
 	var password_register = $("#password-register")[0];
 
 	$("#password-register").keyup( function (event) {
-		if(password_register.length < 6) {
+		if(password_register.value.length < 6) {
 			password_register.setCustomValidity("Password must be at least 6 character long");
 	  	} else if(password_register.validity.patternMismatch){
 	  		password_register.setCustomValidity("You entered an unautaurized character");
