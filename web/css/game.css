@@ -57,6 +57,8 @@ text-shadow: 0px -1px 1px rgba(0, 0, 0, .8);
 width: 60px;
 }
 
+
+
 #delete {
 background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, #00f), color-stop(0.5, #00f), color-stop(1, #fff));
 background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
@@ -147,7 +149,7 @@ width: 160px;
 #imageContainer img {
 	height: 100%;
 	width: 100%;
-
+    pointer-events: none;
 }
 
 #containerBelow{
@@ -207,6 +209,7 @@ div[name="selectedZoneSet"]{
 
     border: dashed 2px #fff; /* white */
 	position: absolute;
+	overflow: hidden;
 	
 	/* changing style with js */
 	left: 0;
@@ -220,29 +223,24 @@ div[name="touch"]{
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
-	position: absolute;
-	
-	/* changing style with js */
-	left: 0;
-	top: 0;
-	height: 0;
-	width: 0;
 }
 
 div[name="grab"]{ 
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;
-    /* constant style */
-	position: absolute;
-	
-	/* changing style with js */
-	left: 0;
-	top: 0;
-	height: 0;
-	width: 0;
 }
 
+.species {
+    background-color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 1px 5px 1px 7px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    white-space: nowrap;
+}
 
 
 

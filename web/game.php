@@ -3,10 +3,17 @@
 <head>
 	<title>Sharks Tag game</title>
 	<link rel="stylesheet" type="text/css" href="css/game.css">
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 	<script type="text/javascript" src="javascript/game.js"></script>
+	
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<!-- Latest compiled JavaScript -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
+<embed src="/SharksTag/music/wave.wav" autostart="true" loop="-1" hidden="true"></embed>
+<audio id='player_audio' src="/SharksTag/music/buble.wav"></audio>
 	<?php include('noscript.php'); ?>
 	<div id="containerHead">
 		<ul id="appButtons">
@@ -26,12 +33,12 @@
 		<div id="tipsMenu" class="dontShow">
 			<p>Tips :</p>
 			<ul>
-				<li>T button shows/hides this tips. You can use the shortcut 'Alt' + 'T' as well.</li>
-				<li>Delete : Press backspace on the keyboard or click on the 'Delete' button</li>
-				<li>ResetAll : Press Escape on the keyboard or click on the 'ResetAll' button</li>
+				<li>Show/hide tips by pressing T (shortcut = 'T')</li>
+				<li>Delete the selected zone by pressing DELETE (shortcut = 'Delete')</li>
+				<li>Remove all your shapes by pressing ResetAll (shortcut = 'Esc')</li>
 				<li>NEW IMAGE : Press 'Alt' + 'N' on the keyboard or click on the 'New image' button</li>
-				<li>You can move the zones by dragging them with the mouse or by using the arrow keys</li>
-				<li>You cane alse change the width and the height of the zones by grabbing green points or by using '+' and '-' ok your keyboard</li>
+				<li>Move the selected zone by dragging them with the mouse  (shortcut = arrows)</li>
+				<li>Change the selected shape's width and height by grabbing points (shortcut = '+' '-')</li>
 				
 			</ul>
 		</div>
@@ -39,7 +46,7 @@
 
 	<div id="container" onmousedown="initZone()" onmousemove="setZone()" onmouseup="endSelectZone()" class="noSelect">
 		<div id="imageContainer" class="noSelect"   >
-			<img src="images/tutorial.jpg" style="pointer-events: none;">
+			<img src="images/tutorial.jpg">
 		</div>
 	</div>
 	<div id="containerBelow">

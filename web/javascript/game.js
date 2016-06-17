@@ -29,6 +29,21 @@ $(function (){
 	});
 
 	
+	$("#sharkSpecies").change( function() {
+		var speciesSelected = $("#sharkSpecies :selected").attr("value");
+		var elem = $("#selectedZone"+courant);
+		
+		elem.attr("species", speciesSelected);
+		if (speciesSelected === 'empty') {
+			elem.html("");
+		}
+		else {
+			elem.html("<span class='species'>" + speciesSelected + "</span>");
+		}
+		
+	});
+	
+	
 });
 
 
@@ -38,49 +53,35 @@ document.onkeydown = function(e) {
 	// detect shortcut key press
 	switch(e.keyCode) {
 		case 78 : // 'N'
-		case 110 : // 'n'
-			if (event.altKey) {
-				newImage();
-			} else {
-				console.log(e.keyCode);
-			}
-			break;
-		case 82 : // 'R'
-		case 114 : // 'r'
-			if (event.altKey) {
-				resetZone();
-			} else {
-				console.log(e.keyCode);
-			}
+			newImage();
 			break;
 		case 84 : // 'T'
-		case 116 : // 't'
-			if (event.altKey) {
-				showHideTips();
-			} else {
-				console.log(e.keyCode);
-			}
+			showHideTips();
 			break;
-	    case 8 : deleteZone();
+	    case 46 : // 'delete'
+	    	deleteZone();
 	        break;
-	    case 46 : deleteZone();
+	    case 27 : //'Esc'
+	    	resetAllZone();
 	        break;
-	    case 27 : resetAllZone();
+	    case 107 : // '+'
+	    	plus();
 	        break;
-	    case 107 : plus();
+	    case 109 : // '-'
+	    	less();
 	        break;
-	    case 109 : less();
+	    case 37 : // left arrow
+	    	leftd();
 	        break;
-	    case 37 : leftd();
-	        break;
-	    case 38 : up();
+	    case 38 : // up arrow
+	    	up();
 	        break;  
-	    case 39 : rightd();
+	    case 39 : // right arrow
+	    	rightd();
 	        break;
-	    case 40 : down();
+	    case 40 : // down arrow
+	    	down();
 	        break;
-		default :
-			console.log(e.keyCode);
 	}
 };
 
@@ -100,6 +101,7 @@ function initZone() {
 	
 	isMousePressed = true;
 	
+	    
 	}
 	
 }
@@ -111,12 +113,12 @@ function initZone() {
 function setZone() {
    if (isMousePressed){
         if(setOK===true){
-		    $("#container").append("<div id='selectedZone"+rank+"' value= '"+rank+"' class = 'selectedZone' name='touch' onmousedown = 'initDrag("+rank+")'  onmousemove='dragZone()' onmouseup ='endDrag()'></div>");
-		    $("#container").append("<div id='point1"+rank+"' value= '"+rank+"' class='point' name='pointodd' onmousedown = 'initResize1("+rank+")' onmousemove ='resizePoint1()'></div>");
-		    $("#container").append("<div id='point2"+rank+"' value= '"+rank+"' class='point' name='pointeven' onmousedown = 'initResize2("+rank+")' onmousemove ='resizePoint2()'></div>");
-		    $("#container").append("<div id='point3"+rank+"' value= '"+rank+"' class='point' name='pointodd'onmousedown = 'initResize3("+rank+")' onmousemove ='resizePoint3()'></div>");
-		    $("#container").append("<div id='point4"+rank+"' value= '"+rank+"' class='point' name='pointeven' onmousedown = 'initResize4("+rank+")' onmousemove ='resizePoint4()'></div>");
-		    first = true;   
+		    $("#container").append("<div id='selectedZone"+rank+"' value= '"+rank+"' species='empty' class = 'selectedZone' name='touch' onmousedown = 'initDrag("+rank+")'  onmousemove='dragZone()' onmouseup ='endDrag()'></div>");
+		    $("#container").append("<div id='point1"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd' onmousedown = 'initResize1("+rank+")' onmousemove ='resizePoint1()'></div>");
+		    $("#container").append("<div id='point2"+rank+"' value= '"+rank+"' species='' class='point' name='pointeven' onmousedown = 'initResize2("+rank+")' onmousemove ='resizePoint2()'></div>");
+		    $("#container").append("<div id='point3"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd'onmousedown = 'initResize3("+rank+")' onmousemove ='resizePoint3()'></div>");
+		    $("#container").append("<div id='point4"+rank+"' value= '"+rank+"' species='' class='point' name='pointeven' onmousedown = 'initResize4("+rank+")' onmousemove ='resizePoint4()'></div>");
+		    first = true;
 		    var elem = $("#selectedZone"+courant);
             elem.removeClass("selected");
 		    courant = rank;
@@ -136,7 +138,9 @@ function setZone() {
 	    var point4 = $("#point4"+courant);
 	    var img = $('#imageContainer');
 	   
-
+		// set the selected option in the combobox to empty value
+		$("#sharkSpecies").val('empty');
+		
 	
 	    var pointRef ={
 		    x:0,		
@@ -205,24 +209,27 @@ function setZone() {
 
 
 function endSelectZone() {
-    console.log("Sort");
 	isMousePressed = false;
 	isDragging = false;
 	isResizing1 = false;
     isResizing2 = false;
     isResizing3 = false;
     isResizing4 = false;
-	    var elem = $("#selectedZone"+courant);
-	    var point1 = $("#point1"+courant);
-	    var point2 = $("#point2"+courant);
-	    var point3 = $("#point3"+courant);
-	    var point4 = $("#point4"+courant);
-	    point1.removeClass("dontShow");
-		point2.removeClass("dontShow");
-        point3.removeClass("dontShow");
-        point4.removeClass("dontShow");
-
-       var img = $('#imageContainer');
+    
+	var elem = $("#selectedZone"+courant);
+	var point1 = $("#point1"+courant);
+	var point2 = $("#point2"+courant);
+	var point3 = $("#point3"+courant);
+	var point4 = $("#point4"+courant);
+	
+	// display the points and the label which indicates the shark species
+	point1.removeClass("dontShow");
+	point2.removeClass("dontShow");
+	point3.removeClass("dontShow");
+	point4.removeClass("dontShow");
+	$("#selectedZone" + courant + " .species").removeClass("dontShow");
+	
+	var img = $('#imageContainer');
 		
 	if(outside1 === true){
 	    elem.width(elem.width() - (img.offset().left - elem.offset().left));
@@ -337,14 +344,17 @@ function initResize4(rank){
 
 function resizePoint1() {
 	if (isResizing1 === true){
-	    var elem = $("#selectedZone"+courant);
+		var elem = $("#selectedZone"+courant);
 	    var point1 = $("#point1"+courant);
 	    var point2 = $("#point2"+courant);
 	    var point3 = $("#point3"+courant);
 	    var point4 = $("#point4"+courant);
 	    var img = $('#imageContainer');
-	
-	   var pointRef ={
+	    
+	    // dont show the label with the shark name during the resize process
+	    $("#selectedZone" + courant + " .species").addClass("dontShow");
+	    
+	    var pointRef ={
 		    x:0,		
 		    y:0
 	    }
@@ -397,9 +407,11 @@ function resizePoint2(){
 	    var point3 = $("#point3"+courant);
 	    var point4 = $("#point4"+courant);
 	    var img = $('#imageContainer');
-	
+		
+		// dont show the label with the shark name during the resize process
+		$("#selectedZone" + courant + " .species").addClass("dontShow");
 	   
-	   var pointRef ={
+		var pointRef ={
 		    x:0,		
 		    y:0
 	    }
@@ -453,9 +465,11 @@ function resizePoint3(){
 	    var point3 = $("#point3"+courant);
 	    var point4 = $("#point4"+courant);
         var img = $('#imageContainer');
-	
+		
+		// dont show the label with the shark name during the resize process
+		$("#selectedZone" + courant + " .species").addClass("dontShow");
 	  
-	   var pointRef ={
+		var pointRef ={
 		    x:0,		
 		    y:0
 	    }
@@ -508,9 +522,11 @@ function resizePoint4(){
 	    var point3 = $("#point3"+courant);
 	    var point4 = $("#point4"+courant);
         var img = $('#imageContainer');
-	
-	   
-	   var pointRef ={
+		
+		// dont show the label with the shark name during the resize process
+	    $("#selectedZone" + courant + " .species").addClass("dontShow");
+		
+		var pointRef ={
 		    x:0,		
 		    y:0
 	    }
@@ -563,14 +579,19 @@ function initDrag(rank){
     isDragging = true;
     initPos[0]= posym.x
 	initPos[1] = posym.y
+	
     var elem = $("#selectedZone"+rank);
     var val = elem.attr("value");
+    
     elem = $("#selectedZone"+courant);
     elem.removeClass("selected");
     courant = val;
+    
     elem = $("#selectedZone"+courant);
     elem.addClass("selected");
     elem.attr("name","grab");
+    // set the selected option in the combobox to empty value
+	$("#sharkSpecies").val(elem.attr('species'));
     
 }
 
@@ -711,6 +732,8 @@ function deleteZone(){
 		var point3 = $("#point3"+courant);
 		var point4 = $("#point4"+courant);
 		
+		// set the selected option in the combobox to empty value
+		$("#sharkSpecies").val('empty');
 		
 		elem.remove();
 		point1.remove();
@@ -748,6 +771,9 @@ function resetAllZone(){
 	point2.remove();
 	point3.remove();
 	point4.remove();
+	
+	// set the selected option in the combobox to empty value
+	$("#sharkSpecies").val('empty');
 
 	setOK=true;
 }
@@ -853,7 +879,7 @@ function leftd(){
 }
 
 function newImage() {
-	$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php');
+	$("#imageContainer").load('http://136.206.48.60/SharksTag/php_script/getAnImage.php');
 		/* end by del the selected zone */
 		resetAllZone();
 
@@ -862,5 +888,6 @@ function newImage() {
 
 
 function showHideTips() {
-	document.getElementById("tipsMenu").classList.toggle("dontShow");
+	$("#tipsMenu").toggleClass("dontShow");
+	$("#player_audio").trigger("play");
 }

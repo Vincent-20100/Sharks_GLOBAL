@@ -15,15 +15,15 @@ $_SESSION["remember"] = false;
 	<link rel="stylesheet" href="css/login.css">
 
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<!-- AngularJS library -->
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!-- Latest jQuery Validation Plugin -->
-	<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
 
 	<script type="text/javascript" src="javascript/login.js"></script>
 
@@ -123,7 +123,7 @@ $_SESSION["remember"] = false;
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="email" name="email" id="email-register" html=true tabindex="2" class="form-control" placeholder="Email Address" value="" maxlength="128" required/>
+											<input type="email" name="email" id="email-register" html=true tabindex="2" class="form-control" placeholder="Email Address" maxlength="128" required/>
 										</div>
 										<div name="validation" id="email-validation" class="hidden-xs col-sm-1"></div>
 									</div>
@@ -131,12 +131,12 @@ $_SESSION["remember"] = false;
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password" value="" maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password"  maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 										<div name="validation" class="hidden-xs col-sm-1"> 
-											<a href="#" data-toggle="tooltip" data-placement="auto bottom" title="-Password must be at least 6 character long&#13;-Password must contain at least one digit&#13;-Password must contain at least one uppercase character&#13;-Password must contain at least one lowercase character&#13;">
+											<div class="content show-tooltip" data-toggle="tooltip" data-placement="auto bottom" data-html="true" title="-Password must be at least 6 character long<br/>-Password must contain at least one digit<br/>-Password must contain at least one uppercase character<br/>-Password must contain at least one lowercase character<br/>">
 												<span class="glyphicon glyphicon-info-sign"></span>
-											</a>
+											</div>
 										</div>
 									</div>
 								</div>
