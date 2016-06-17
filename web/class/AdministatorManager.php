@@ -39,23 +39,31 @@ class AdministatorManager // please use the PersonManager for now because the Ad
 
 	public function get($id)
 	{
-		$id = (int) $id;
+		try {
+			$id = (int) $id;
 
-		$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person per, Administrator admin  WHERE per.id = '.$id.' AND admin.id_person = '.$id);
-		$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person per, Administrator admin  WHERE per.id = '.$id.' AND admin.id_person = '.$id);
+			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
-    	return new Administrator($donnees);
+	    	return new Administrator($donnees);
+    	} catch(Exception $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
 	}
 
 	public function getList()
 	{
-		$admins = [];
-		$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person, Administrator WHERE per.id = '.$id.' AND pla.id_person = '.$id.' ORDER BY Person.id');
-		while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
-		{
-			$admins[] = new Administrator($donnees);
+		try{
+			$admins = [];
+			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person, Administrator WHERE per.id = '.$id.' AND pla.id_person = '.$id.' ORDER BY Person.id');
+			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			{
+				$admins[] = new Administrator($donnees);
+			}
+			return $admins;
+		} catch(Exception $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
-		return $admins;
 	}
 
 	public function update(Administrator $admin)
@@ -83,6 +91,7 @@ class AdministatorManager // please use the PersonManager for now because the Ad
 
 	public function setDb(PDO $db)
 	{
+		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		$this->_db = $db;
 	}
 

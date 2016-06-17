@@ -1,6 +1,6 @@
 <?php
 
-abstract class Person {
+class Person {
 	private $id;
 	private $username;
 	private $email;
@@ -78,7 +78,7 @@ class Player extends Person {
 		return $this->activationCode;
 	}
 
-	public function setscore($score) {
+	public function setScore($score) {
 		$this->score = $score;
 	}
 	public function setTutorialFinished($tutorialFinished) {

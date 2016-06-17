@@ -31,21 +31,29 @@ class SessionManager
 
 	public function get($id)
 	{
-		$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser  FROM Session  WHERE id = '.$id);
-		$donnees = $q->fetch(PDO::FETCH_ASSOC);
+		try{
+			$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser  FROM Session  WHERE id = '.$id);
+			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
-    	return new Session($donnees);
+	    	return new Session($donnees);
+	    } catch(Exception $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
 	}
 
 	public function getList()
 	{
-		$sessions = [];
-		$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser ORDER BY id_person');
-		while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
-		{
-			$sessions[] = new Session($donnees);
+		try{
+			$sessions = [];
+			$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser ORDER BY id_person');
+			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			{
+				$sessions[] = new Session($donnees);
+			}
+			return $sessions;
+		} catch(Exception $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
-		return $sessions;
 	}
 
 	public function update(Session $session)
@@ -65,6 +73,7 @@ class SessionManager
 
 	public function setDb(PDO $db)
 	{
+		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		$this->_db = $db;
 	}
 
