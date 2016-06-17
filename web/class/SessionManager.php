@@ -10,7 +10,7 @@ class SessionManager
 
 	public function add(Session $session)
 	{
-		$q = $this->_db->prepare('INSERT INTO Person(id, id_person, ipv4, date, os, device, browser) VALUES(:id, :id_person, :ipv4, :date, :os, :device, :browser)');
+		$q = $this->_db->prepare('INSERT INTO Session(id, id_person, ipv4, date, os, device, browser) VALUES(:id, :id_person, :ipv4, :date, :os, :device, :browser)');
 		
 		$q->bindValue(':id', $session->id());
 		$q->bindValue(':id_person', $session->id_person());
@@ -33,6 +33,7 @@ class SessionManager
 	{
 		try{
 			$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser  FROM Session  WHERE id = '.$id);
+			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 	    	return new Session($donnees);
@@ -46,6 +47,7 @@ class SessionManager
 		try{
 			$sessions = [];
 			$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser ORDER BY id_person');
+			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 			{
 				$sessions[] = new Session($donnees);
@@ -77,7 +79,7 @@ class SessionManager
 		$this->_db = $db;
 	}
 
-	/* To add a new peron in the DB see the example bellow
+	/* To add a new session in the DB see the example bellow
 
 		$session = new Session([
 		  	'id' => '...',

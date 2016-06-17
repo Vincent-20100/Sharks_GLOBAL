@@ -1,4 +1,6 @@
 <?php
+include 'Person.php';
+
 class PlayerManager
 {
 	private $_db; // instance of PDO
@@ -44,6 +46,7 @@ class PlayerManager
 			$id = (int) $id;
 
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person per, Player pla  WHERE per.id = '.$id.' AND pla.id_person = '.$id);
+			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 			return new Player($donnees);
@@ -57,6 +60,7 @@ class PlayerManager
 		try{
 			$players = [];
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person, Player WHERE Person.id = Player.id_person ORDER BY Person.id');
+			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 			{
 				$players[] = new Player($donnees);
@@ -96,7 +100,7 @@ class PlayerManager
 		$this->_db = $db;
 	}
 
-	/* To add a new peron in the DB see the example bellow
+	/* To add a new player in the DB see the example bellow
 
 		$player = new Player([
 		  	'id_sessionCurrent' => '...',

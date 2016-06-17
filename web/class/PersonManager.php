@@ -34,6 +34,7 @@ class PersonManager
 			$id = (int) $id;
 
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id = '.$id);
+			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 	    	return new Person($donnees);
@@ -46,7 +47,8 @@ class PersonManager
 	{
 		try {
 			$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id_sessionCurrent = '" . $session . "'");
-			$donnees = $q->fetch(PDO::FETCH_ASSOC)
+			if($q === false){ return null; }
+			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 			if ($donnees['username'] == 'admin' ) {
 				return new Administrator($donnees);
 			}
@@ -63,6 +65,7 @@ class PersonManager
 		try {
 			$persons = [];
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person ORDER BY id');
+			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 			{
 				$persons[] = new Person($donnees);
@@ -92,7 +95,7 @@ class PersonManager
 		$this->_db = $db;
 	}
 
-	/* To add a new peron in the DB see the example bellow
+	/* To add a new person in the DB see the example bellow
 
 		$person = new Personnage([
 		  	'id_sessionCurrent' => '...',
