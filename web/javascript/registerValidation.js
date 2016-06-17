@@ -99,7 +99,7 @@ function dispMsg(type, glyphicon, msg) {
 		txt = msg;
 	}
 	else {
-		txt = "<span class='glyphicon glyphicon-" + glyphicon + "'></span> " + msg;
+		txt = "<span class='glyphicon glyphicon-" + glyphicon + "form-control-feedback'></span> " + msg;
 	}
 	$("#disp-error-msg").html(txt);
 }
