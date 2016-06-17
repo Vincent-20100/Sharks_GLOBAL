@@ -40,7 +40,7 @@ class SessionManager
 	public function getList()
 	{
 		$sessions = [];
-		$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser ORDER BY id');
+		$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser ORDER BY id_person');
 		while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 		{
 			$sessions[] = new Session($donnees);
@@ -83,6 +83,6 @@ class SessionManager
 		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
 		$manager = new SessionManager($db);
 		$manager->add($session);
-
+		$db = null;
 	 */
 ?>
