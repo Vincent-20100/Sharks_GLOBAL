@@ -1,4 +1,6 @@
 <?php
+include 'Person.php';
+
 class PersonManager
 {
 	private $_db; // instance of PDO
@@ -35,6 +37,22 @@ class PersonManager
 		$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
     	return new Person($donnees);
+	}
+	
+	public function getBySession($session)
+	{
+		$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id_sessionCurrent = '" . $session . "'");
+		if($donnees = $q->fetch(PDO::FETCH_ASSOC)) {
+			if ($donnees['username'] == 'admin' ) {
+				return new Administrator($donnees);
+			}
+			else {
+				return new Player($donnees);
+			}
+		}
+		else {
+			return null;
+		}
 	}
 
 	public function getList()
@@ -81,4 +99,5 @@ class PersonManager
 		$manager->add($person);
 
 	 */
+}
 ?>
