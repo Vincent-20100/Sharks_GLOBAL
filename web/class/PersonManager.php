@@ -1,0 +1,84 @@
+<?php
+class PersonManager
+{
+	private $_db; // instance of PDO
+
+	public function __construct($db)
+	{
+	    $this->setDb($db);
+	}
+
+	public function add(Person $person)
+	{
+		$q = $this->_db->prepare('INSERT INTO Person(id_sessionCurrent, username, email, password, salt) VALUES(:id_sessionCurrent, :username, :email, :password, :salt)');
+		
+		$q->bindValue(':id_sessionCurrent', $person->id_sessionCurrent());
+		$q->bindValue(':username', $person->username());
+		$q->bindValue(':email', $person->email());
+		$q->bindValue(':password', $person->password());
+		$q->bindValue(':salt', $person->salt());
+
+		$q->execute();
+	}
+
+
+	public function delete(Person $person)
+	{
+		$this->_db->exec('DELETE FROM Person WHERE id = '.$person->id());
+	}
+
+	public function get($id)
+	{
+		$id = (int) $id;
+
+		$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id = '.$id);
+		$donnees = $q->fetch(PDO::FETCH_ASSOC);
+
+    	return new Person($donnees);
+	}
+
+	public function getList()
+	{
+		$persos = [];
+		$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person ORDER BY id');
+		while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+		{
+			$persons[] = new Person($donnees);
+		}
+		return $persos;
+	}
+
+	public function update(Person $person)
+	{
+		$q = $this->_db->prepare('UPDATE Person SET id_sessionCurrent = :id_sessionCurrent, username = :username, email = :email, password = :password, salt = :salt WHERE id = :id');
+		
+		$q->bindValue(':id_sessionCurrent', $person->id_sessionCurrent());
+		$q->bindValue(':username', $person->username());
+		$q->bindValue(':email', $person->email());
+		$q->bindValue(':password', $person->password());
+		$q->bindValue(':salt', $person->salt());
+
+		$q->execute();
+	}
+
+	public function setDb(PDO $db)
+	{
+		$this->_db = $db;
+	}
+
+	/* To add a new peron in the DB see the example bellow
+
+		$person = new Personnage([
+		  	'id_sessionCurrent' => '...',
+		  	'username' => ...,
+		  	'email' => ...,
+		  	'password' => ...,
+		  	'salt' => ...
+		]);
+  	 
+		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
+		$manager = new PersonManager($db);
+		$manager->add($person);
+
+	 */
+?>

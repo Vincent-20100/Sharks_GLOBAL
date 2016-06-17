@@ -7,38 +7,38 @@ class Tag {
 	private $height;
 
 	public function id() {
-		return this->id;
+		return $this->id;
 	}
 	public function posX() {
-		return this->posX;
+		return $this->posX;
 	}
 	public function posY() {
-		return this->posY;
+		return $this->posY;
 	}
 	public function width() {
-		return this->width;
+		return $this->width;
 	}
 	public function height() {
-		return this->height;
+		return $this->height;
 	}
 
 	public function setId($id) {
-		this->id = $id;
+		$this->id = $id;
 	}
 	public function setPosX($posX) {
-		this->posX = $posX;
+		$this->posX = $posX;
 	}
 	public function setPosY($posY) {
-		this->posY = $posY;
+		$this->posY = $posY;
 	}
 	public function setWidth($width) {
-		this->width = $width;
+		$this->width = $width;
 	}
 	public function setHeight($height) {
-		this->height = $height;
+		$this->height = $height;
 	}
 
-	/* This function take an array as parmeter.
+	/* $this function take an array as parmeter.
 	 * It affect values to variables.
 	 *
 	*/
