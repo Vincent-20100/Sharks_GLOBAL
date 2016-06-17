@@ -51,7 +51,7 @@ class PlayerManager
 	public function getList()
 	{
 		$players = [];
-		$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person, Player WHERE per.id = '.$id.' AND pla.id_person = '.$id.' ORDER BY Person.id');
+		$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person, Player WHERE Person.id = Player.id_person ORDER BY Person.id');
 		while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 		{
 			$players[] = new Player($donnees);
@@ -104,6 +104,6 @@ class PlayerManager
 		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
 		$manager = new PlayerManager($db);
 		$manager->add($player);
-
+		$db = null;
 	 */
 ?>
