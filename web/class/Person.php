@@ -1,6 +1,6 @@
 <?php
 
-abstract class Person {
+class Person {
 	private $id;
 	private $username;
 	private $email;

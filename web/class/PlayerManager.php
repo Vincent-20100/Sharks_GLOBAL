@@ -40,23 +40,31 @@ class PlayerManager
 
 	public function get($id)
 	{
-		$id = (int) $id;
+		try {
+			$id = (int) $id;
 
-		$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person per, Player pla  WHERE per.id = '.$id.' AND pla.id_person = '.$id);
-		$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person per, Player pla  WHERE per.id = '.$id.' AND pla.id_person = '.$id);
+			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
-    	return new Player($donnees);
+			return new Player($donnees);
+    	} catch(Exception $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
 	}
 
 	public function getList()
 	{
-		$players = [];
-		$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person, Player WHERE Person.id = Player.id_person ORDER BY Person.id');
-		while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
-		{
-			$players[] = new Player($donnees);
+		try{
+			$players = [];
+			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person, Player WHERE Person.id = Player.id_person ORDER BY Person.id');
+			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			{
+				$players[] = new Player($donnees);
+			}
+			return $players;
+		} catch(Exception $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
-		return $players;
 	}
 
 	public function update(Player $player)

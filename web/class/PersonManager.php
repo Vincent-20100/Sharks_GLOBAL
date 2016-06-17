@@ -23,47 +23,54 @@ class PersonManager
 		$q->execute();
 	}
 
-
 	public function delete(Person $person)
 	{
 		$this->_db->exec('DELETE FROM Person WHERE id = '.$person->id());
 	}
 
-	public function get($id)
+	public function getById($id)
 	{
-		$id = (int) $id;
+		try {
+			$id = (int) $id;
 
-		$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id = '.$id);
-		$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id = '.$id);
+			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
-    	return new Person($donnees);
+	    	return new Person($donnees);
+    	} catch(Exception $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
 	}
 	
 	public function getBySession($session)
 	{
-		$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id_sessionCurrent = '" . $session . "'");
-		if($donnees = $q->fetch(PDO::FETCH_ASSOC)) {
+		try {
+			$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id_sessionCurrent = '" . $session . "'");
+			$donnees = $q->fetch(PDO::FETCH_ASSOC)
 			if ($donnees['username'] == 'admin' ) {
 				return new Administrator($donnees);
 			}
 			else {
 				return new Player($donnees);
 			}
-		}
-		else {
-			return null;
+		} catch(Exception $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
 
 	public function getList()
 	{
-		$persos = [];
-		$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person ORDER BY id');
-		while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
-		{
-			$persons[] = new Person($donnees);
+		try {
+			$persons = [];
+			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person ORDER BY id');
+			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			{
+				$persons[] = new Person($donnees);
+			}
+			return $persons;
+		} catch(Exception $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
-		return $persos;
 	}
 
 	public function update(Person $person)
@@ -81,6 +88,7 @@ class PersonManager
 
 	public function setDb(PDO $db)
 	{
+		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		$this->_db = $db;
 	}
 
@@ -97,7 +105,7 @@ class PersonManager
 		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
 		$manager = new PersonManager($db);
 		$manager->add($person);
-
+		$db = null;
 	 */
 }
 ?>
