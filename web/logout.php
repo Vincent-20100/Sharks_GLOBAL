@@ -1,5 +1,6 @@
 <?php
-include 'php_header.php';
+// Start the session
+include 'php_script/startSession.php';
 
 print_r($_SESSION['id']);
 
