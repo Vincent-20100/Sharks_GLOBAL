@@ -1,5 +1,6 @@
 <?php
-include 'php_header.php';
+// Start the session
+include 'php_script/startSession.php';
 
 print_r($_SESSION['id']);
 
@@ -9,7 +10,7 @@ print_r($_SESSION['id']);
 require 'php_script/dbConnect.php';
 $query = "UPDATE Person
 			SET id_sessionCurrent = NULL
-			WHERE id = {$_SESSION['user']['id']}";
+			WHERE id_sessionCurrent = '{$_SESSION['session']}'";
 
 $result = $mysqli->query($query);
 
@@ -18,7 +19,6 @@ require 'php_script/dbDisconnect.php';
 if( ! $result) {
 	echo "An error occured while loging out.";
 }
-/*
 else {
 	// generate a new session id leads to fail connection with the previous session id
 	// it keeps the session vars and global vars
@@ -31,7 +31,6 @@ else {
 	header("Location: login.php");
 	exit();
 }
-*/
 
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 // Start the session
-include 'startSession.php';
+include 'php_script/startSession.php';
 ?>
 
 <!DOCTYPE html>

@@ -147,6 +147,7 @@ function setNewAccount($mysqli, $email, $username, $passwd_hash, $salt) {
 	
 	$query = "
 		START TRANSACTION;
+		
 		INSERT INTO Person(username, email, password, salt)
 		VALUES('$username', '$email', '$passwd_hash', '$salt');
 		
