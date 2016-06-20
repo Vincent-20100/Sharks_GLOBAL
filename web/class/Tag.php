@@ -1,45 +1,45 @@
 <?php
 class Tag {
 	private $id;
-	private $posX;
-	private $posY;
-	private $width;
-	private $height;
+	private $x1;
+	private $y1;
+	private $x2;
+	private $y2;
 
 	public function id() {
 		return $this->id;
 	}
-	public function posX() {
-		return $this->posX;
+	public function x1() {
+		return $this->x1;
 	}
-	public function posY() {
-		return $this->posY;
+	public function y1() {
+		return $this->y1;
 	}
-	public function width() {
-		return $this->width;
+	public function x2() {
+		return $this->x2;
 	}
-	public function height() {
-		return $this->height;
+	public function y2() {
+		return $this->y2;
 	}
 
 	public function setId($id) {
 		$this->id = $id;
 	}
-	public function setPosX($posX) {
-		$this->posX = $posX;
+	public function setX1($x1) {
+		$this->x1 = $x1;
 	}
-	public function setPosY($posY) {
-		$this->posY = $posY;
+	public function setY1($y1) {
+		$this->y1 = $y1;
 	}
-	public function setWidth($width) {
-		$this->width = $width;
+	public function setX2($x2) {
+		$this->x2 = $x2;
 	}
-	public function setHeight($height) {
-		$this->height = $height;
+	public function setY2($y2) {
+		$this->y2 = $y2;
 	}
 
-	/* $this function take an array as parmeter.
-	 * It affect values to variables.
+	/* This function takes an array as parmeter.
+	 * It affect values to variables using the setters.
 	 *
 	*/
 	public function hydrate(array $data){

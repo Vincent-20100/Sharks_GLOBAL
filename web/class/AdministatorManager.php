@@ -1,4 +1,6 @@
 <?php
+include 'Person.php';
+
 class AdministatorManager // please use the PersonManager for now because the Administrator need other atributes
 {
 	private $_db; // instance of PDO
@@ -43,6 +45,7 @@ class AdministatorManager // please use the PersonManager for now because the Ad
 			$id = (int) $id;
 
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person per, Administrator admin  WHERE per.id = '.$id.' AND admin.id_person = '.$id);
+			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 	    	return new Administrator($donnees);
@@ -56,6 +59,7 @@ class AdministatorManager // please use the PersonManager for now because the Ad
 		try{
 			$admins = [];
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person, Administrator WHERE per.id = '.$id.' AND pla.id_person = '.$id.' ORDER BY Person.id');
+			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 			{
 				$admins[] = new Administrator($donnees);
@@ -95,7 +99,7 @@ class AdministatorManager // please use the PersonManager for now because the Ad
 		$this->_db = $db;
 	}
 
-	/* To add a new peron in the DB see the example bellow
+	/* To add a new Administrator in the DB see the example bellow
 
 		$admin = new Administrator([
 		  	'id_sessionCurrent' => '...',

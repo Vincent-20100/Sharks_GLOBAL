@@ -73,8 +73,8 @@ class Species {
 		$this->uniqueIdentifyingFeature = $uniqueIdentifyingFeature;
 	}
 	
-	/* $this function take an array as parmeter.
-	 * It affect values to variables.
+	/* This function takes an array as parmeter.
+	 * It affect values to variables using the setters.
 	 *
 	*/
 	public function hydrate(array $data){
