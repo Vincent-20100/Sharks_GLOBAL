@@ -3,11 +3,11 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="css/tutorial.css">
 </head>
-<body>
+<body class="noSelect">
 	<?php
 	include 'game.php';
 	?>
-	<div class="noSelect">
+	<div id="tutoContainer" class="noSelect" onmousemove="passDiv()" onmouseup="endSelectZone()">
 	
 		<div id="instructions" class="tab-content">
 			<button id="next-tutorial" num="0">Next</button>
@@ -47,16 +47,25 @@
 	</div>
 	
 	<script>
-		 $("#next-tutorial").click( function() {
-		 	
-		 	var num = parseInt($("#next-tutorial").attr("num"));
-		 	
-		 	$($("#instructions div")[num]).removeClass("active");
-		 	
-		 	num = num + 1;
-		 	$("#next-tutorial").attr("num", num);
-		 	$($("#instructions div")[num]).addClass("active");
-		 });
+		$(function (){
+			//This is a Jquery function, it's called all the time
+			//We get the position of the mouse and we put it in posym
+				$("#tutoContainer").mousemove(function(e) {
+					posym.x = e.pageX;
+					posym.y = e.pageY;
+				});
+		});
+		
+		$("#next-tutorial").click( function() {
+			
+			var num = parseInt($("#next-tutorial").attr("num"));
+			
+			$($("#instructions div")[num]).removeClass("active");
+			
+			num = num + 1;
+			$("#next-tutorial").attr("num", num);
+			$($("#instructions div")[num]).addClass("active");
+		});
 	</script>
 </body>
 
