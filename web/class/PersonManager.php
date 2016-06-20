@@ -46,7 +46,7 @@ class PersonManager
 	{
 		try {
 			$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id_sessionCurrent = '" . $session . "'");
-			$donnees = $q->fetch(PDO::FETCH_ASSOC)
+			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 			if ($donnees['username'] == 'admin' ) {
 				return new Administrator($donnees);
 			}
@@ -54,7 +54,7 @@ class PersonManager
 				return new Player($donnees);
 			}
 		} catch(Exception $e) {
-			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+			exit ('<b>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
 

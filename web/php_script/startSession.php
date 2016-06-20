@@ -22,13 +22,26 @@
 	
 	
 	$redirect = false;
+	
+	// set the dest and put the next page in the url (GET method)
+	$dest = "login.php?n=" . $_SERVER['REQUEST_URI'];
+	// except some pages
+	if($_SERVER['PHP_SELF'] == '/SharksTag/logout.php' ||
+		$_SERVER['PHP_SELF'] == '/SharksTag/logout.php') {
+			$dest = 'login.php';
+	}
+	
+	// if no session in the history: auto redirect, except on the login page
 	if(!isset($_SESSION['session'])) {
 		if($_SERVER['PHP_SELF'] != '/SharksTag/login.php') {
 			$redirect = true;
 		}
 	}
 	else {
-	
+		// a session has been found
+		// check if it is active for a user
+		
+		
 		include '/home/socguest/Desktop/Sharks_GLOBAL/web/class/PersonManager.php';
 		// person manager linked to the database
 		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
@@ -44,6 +57,7 @@
 			
 			if($pers && $pers != NULL) {
 				$redirect = true;
+				$dest = "menu.php";
 			}
 		}
 		elseif($_SERVER['PHP_SELF'] == '/SharksTag/logout.php') {
@@ -65,14 +79,20 @@
 			if(	$pers && $pers != NULL) {
 				echo $pers->username() . " is connected";
 			}
-			else { $redirect = true; }
+			else {
+				$redirect = true;
+				$dest = "login.php?n=" . $_SERVER['REQUEST_URI'];
+			}
 		}
 	}
+	
+	
+	
 	
 	// redirect to the login page
 	if ($redirect) {
 		// move the user to the log in page
-		header("Location: /SharksTag/login.php?n=" . $_SERVER['REQUEST_URI']);
+		header("Location: /SharksTag/$dest");
 		exit();
 	}
 	
