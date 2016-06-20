@@ -4,7 +4,7 @@
 // Start the session
 include 'startSession.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$username = "";
 	$passwd_hash = "";
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		echo "Uncomplete request :(";
 	}
 	return false;
-}
+//}
 
 function loginAccount($username, $passwd_hash) {
 	
@@ -78,6 +78,9 @@ function loginAccount($username, $passwd_hash) {
 			echo "Please check your username or password. 222";
 		}
 		$result->close();
+	}
+	else {
+		echo "Wrong request";
 	}
 	
 	// close connection

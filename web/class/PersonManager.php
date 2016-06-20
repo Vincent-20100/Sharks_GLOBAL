@@ -51,10 +51,12 @@ class PersonManager
 
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			if( ! $donnees ){ return null; }
 
 			$q2 = $this->_db->query("SELECT * FROM Person P, Administrator A WHERE P.id = A.id_person AND P.id_sessionCurrent = '" . $session . "'");
 			if($q2 === false){ return null; }
 			$donnees2 = $q2->fetch(PDO::FETCH_ASSOC);
+			if( ! $donnees2 ){ return null; }
 
 			if($donnees2) {
 				return new Administrator($donnees);
