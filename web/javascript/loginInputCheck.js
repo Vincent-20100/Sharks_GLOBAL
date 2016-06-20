@@ -29,4 +29,14 @@ $( function() {
 	  	}
 	});
 	
+	$("#remember").click(function() {
+		var $this = $(this);
+
+		if($this.is(':checked')){
+			$_SESSION["remember"] = true;
+			$_SESSION["username"] = $("#username-login").val();
+		} else {
+			$_SESSION["remember"] = false;
+		}
+	});
 });

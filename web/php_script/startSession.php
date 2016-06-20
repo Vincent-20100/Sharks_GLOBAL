@@ -89,9 +89,6 @@
 			}
 		}
 	
-	
-	
-	
 		// redirect to the login page
 		if ($redirect) {
 			// move the user to the log in page

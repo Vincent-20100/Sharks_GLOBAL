@@ -53,9 +53,9 @@ function loginAccount($username, $passwd_hash) {
 			$row = $result->fetch_row();
 			
 			$_SESSION['user'] = array();
-				$_SESSION['user']['id']      = $row[0];
-				$_SESSION['user']['session'] = $_SESSION['id'];
-				$_SESSION['user']['ip']      = $_SERVER['REMOTE_ADDR'];
+			$_SESSION['user']['id']      = $row[0];
+			$_SESSION['user']['session'] = $_SESSION['id'];
+			$_SESSION['user']['ip']      = $_SERVER['REMOTE_ADDR'];
 			
 			// history the session statistics
 			if(setNewSession($mysqli)) {

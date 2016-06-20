@@ -50,7 +50,7 @@ class PlayerManager
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 			return new Player($donnees);
-    	} catch(Exception $e) {
+    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
@@ -66,7 +66,7 @@ class PlayerManager
 				$players[] = new Player($donnees);
 			}
 			return $players;
-		} catch(Exception $e) {
+		} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}

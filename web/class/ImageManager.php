@@ -37,7 +37,7 @@ class ImageManager
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 	    	return new Image($donnees);
-    	} catch(Exception $e) {
+    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
@@ -53,7 +53,7 @@ class ImageManager
 				$images[] = new Image($donnees);
 			}
 			return $images;
-		} catch(Exception $e) {
+		} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
