@@ -56,7 +56,6 @@ class PersonManager
 			$q2 = $this->_db->query("SELECT * FROM Person P, Administrator A WHERE P.id = A.id_person AND P.id_sessionCurrent = '" . $session . "'");
 			if($q2 === false){ return null; }
 			$donnees2 = $q2->fetch(PDO::FETCH_ASSOC);
-			if( ! $donnees2 ){ return null; }
 
 			if($donnees2) {
 				return new Administrator($donnees);
@@ -66,7 +65,7 @@ class PersonManager
 			}
 			else { return null; }
 		} catch(Exception $e) {
-			exit ('<b>!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
 
