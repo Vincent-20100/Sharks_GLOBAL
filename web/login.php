@@ -1,8 +1,24 @@
 <?php
 // Start the session
 include 'php_script/startSession.php';
-$_SESSION["loginOK"] = false;
 $_SESSION["remember"] = false;
+
+
+$nextPage = "/SharksTag/menu.php";
+if (isset($_GET['n'])) {
+	$nextPage = test_input($_GET['n']);
+}
+
+
+//modify any special character like <p> </p>
+function test_input($data) {
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data);
+	return $data;
+}
+
+
 ?>
 
 <!DOCTYPE HTML>
@@ -42,7 +58,10 @@ $_SESSION["remember"] = false;
 
 </head>
 <body background="images/back.jpg">
-<?php include 'noscript.php' ?>
+<?php
+	include 'noscript.php';
+	include 'php_script/cookieSession.php';
+?>
 <!--
 /****************************************************************************/
 /* HTML inpired from "Login and Register tabbed form"						*/
@@ -75,7 +94,7 @@ $_SESSION["remember"] = false;
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-xs-12">
-							<form id="login-form" next-page="menu.php" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
+							<form id="login-form" next-page="<?php echo $nextPage; ?>" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
@@ -111,7 +130,7 @@ $_SESSION["remember"] = false;
 									</div>
 								</div>
 							</form>
-							<form id="register-form" next-page="menu.php" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
+							<form id="register-form" next-page="<?php echo $nextPage; ?>" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
@@ -134,7 +153,7 @@ $_SESSION["remember"] = false;
 											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password"  maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 										<div name="validation" class="hidden-xs col-sm-1"> 
-											<div class="content show-tooltip" data-toggle="tooltip" data-placement="auto bottom" data-html="true" title="-Password must be at least 6 character long<br/>-Password must contain at least one digit<br/>-Password must contain at least one uppercase character<br/>-Password must contain at least one lowercase character<br/>">
+											<div class="content show-tooltip icon-info" data-toggle="tooltip" data-placement="auto bottom" data-html="true" title="-Password must be at least 6 character long<br/>-Password must contain at least one digit<br/>-Password must contain at least one uppercase character<br/>-Password must contain at least one lowercase character<br/>">
 												<span class="glyphicon glyphicon-info-sign"></span>
 											</div>
 										</div>

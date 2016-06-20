@@ -5,7 +5,7 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if( isset($_POST['email']) && isset($_POST['username']) &&
-		isset($_POST['password']) && isset($_POST['salt']) ) {
+		isset($_POST['password']) && isset($_POST['salt']) && isset($_POST['session'])) {
 		$username = $email = $password = $salt = "";
 	
 		if (empty($_POST["username"])) {
@@ -38,6 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	  	} else {
 	  		//success !
 		    $password = test_input($_POST["password"]);
+			$session = test_input($_POST['session']);
 		    
 		    /************************************************************************************/
 		    /*    For now the password is hashed at this point, so we can't check it with php   */
@@ -53,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		    	echo "Your Email or Username already exist in the database\n";
 		    }
 		    else {
-		    	createAccount($email, $username, $password, $salt);
+		    	createAccount($username, $session, $email, $password, $salt);
 		    	//uncomment later
 		    	//sendEMailNewAccount($email, $username);
 		    }
@@ -105,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 									echo "Your Email or Username already exist in the database\n";
 								}
 								else {
-									createAccount($username, $email, $passwd_hash, $salt);
+									createAccount($username, $session, $email, $passwd_hash, $salt);
 									sendEMailNewAccount($email);
 								}
 							}
@@ -120,12 +121,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	}
 }
 
-function createAccount($email, $username, $passwd_hash, $salt) {
+function createAccount($username, $session, $email, $passwd_hash, $salt) {
 
 	// open connection
 	require 'dbConnect.php';
 	
-	if (setNewAccount($mysqli, $email, $username, $passwd_hash, $salt)) {
+	if (setNewAccount($mysqli, $username, $session, $email, $passwd_hash, $salt)) {
 		echo "Success";
 	}
 	else {
@@ -136,7 +137,7 @@ function createAccount($email, $username, $passwd_hash, $salt) {
 	include 'dbDisconnect.php';
 }
 
-function setNewAccount($mysqli, $email, $username, $passwd_hash, $salt) {
+function setNewAccount($mysqli, $username, $session, $email, $passwd_hash, $salt) {
 	$activationCode = bin2hex(random_bytes(5));
 	
 	require 'Browser.php-master/lib/Browser.php';
@@ -148,11 +149,11 @@ function setNewAccount($mysqli, $email, $username, $passwd_hash, $salt) {
 	$query = "
 		START TRANSACTION;
 		
-		INSERT INTO Person(username, email, password, salt)
-		VALUES('$username', '$email', '$passwd_hash', '$salt');
+		INSERT INTO Person(username, id_sessionCurrent, email, password, salt)
+		VALUES('$username', '$session', '$email', '$passwd_hash', '$salt');
 		
 		INSERT INTO Session (id, id_person, ipv4, os, device, browser)
-		VALUES('{$_SESSION['id']}',
+		VALUES('$session',
 				( SELECT id FROM Person WHERE username = '$username'),
 				'" . ip2long($_SERVER['REMOTE_ADDR']) . "',
 				'$os',
@@ -160,25 +161,21 @@ function setNewAccount($mysqli, $email, $username, $passwd_hash, $salt) {
 				'$browserVersion'
 				);
 		
-		UPDATE Person
-		SET id_sessionCurrent = '{$_SESSION['id']}'
-		WHERE username = '$username';
-		
 		INSERT INTO Player(id_person, activationCode)
 		VALUES (
 				( SELECT id FROM Person WHERE username = '$username'),
 				'$activationCode'
 				);
 		
-		COMMIT;
-	";
+		COMMIT;";
 
 	echo $query;
 
-	return $mysqli->query($query);
+	return $mysqli->multi_query($query);
 }
 
 function sendEMailNewAccount($email, $username) {
+	
 	// open connection
 	require 'dbConnect.php';
 	

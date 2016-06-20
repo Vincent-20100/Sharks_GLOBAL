@@ -2,18 +2,12 @@
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 	
 	session_start();
-	
-	if(!isset($_SESSION['id'])){
-		$_SESSION['id'] = session_id();
+	if( !isset($_COOKIE['PHPSESSID'])) {
+		setcookie('PHPSESSID', session_id());
 	}
-	else {
-		// session already started previouly
-	}
-	
-	
 	
 	// ==TEST==
-	$_SESSION['session'] = 'h2k22c0k8qucnab9islmkvhbq4';
+//	$_SESSION['id'] = 'h2k22c0k8qucnab9islmkvhbq4';
 	
 //	print $_SESSION['id'] . "<br />";
 //	print $_SERVER['REQUEST_URI'] . "<br />";
@@ -29,13 +23,14 @@
 		// set the dest and put the next page in the url (GET method)
 		$dest = "login.php?n=" . $_SERVER['REQUEST_URI'];
 		// except some pages
-		if($_SERVER['PHP_SELF'] == '/SharksTag/logout.php' ||
+		if($_SERVER['PHP_SELF'] == '/SharksTag/login.php' ||
 			$_SERVER['PHP_SELF'] == '/SharksTag/logout.php') {
 				$dest = 'login.php';
+				
 		}
 	
 		// if no session in the history: auto redirect, except on the login page
-		if(!isset($_SESSION['session'])) {
+		if(!isset($_COOKIE['PHPSESSID'])) {
 			if($_SERVER['PHP_SELF'] != '/SharksTag/login.php') {
 				$redirect = true;
 			}
@@ -43,21 +38,22 @@
 		else {
 			// a session has been found
 			// check if it is active for a user
-		
+	
 		
 			include '/home/socguest/Desktop/Sharks_GLOBAL/web/class/PersonManager.php';
 			// person manager linked to the database
 			$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
 			$persM = new PersonManager($db);
-			$pers = $persM->getBySession($_SESSION['session']);
+			$pers = $persM->getBySession($_COOKIE['PHPSESSID']);
 			$db = null; // db disconnect
-		
-		
+			
+			
 			if($_SERVER['PHP_SELF'] == '/SharksTag/login.php') {
 				// on the login page :
 				// if the user is already connected, redirection to the menu page
 				// else continue
-			
+				
+				
 				if($pers && $pers != NULL) {
 					$redirect = true;
 					$dest = "menu.php";
@@ -77,8 +73,9 @@
 				// if nobody is connected, redirection to the login page with a link
 				// to the current page
 				// else continue
-			
 				// get the person in the database thanks to his session id
+				
+				
 				if(	$pers && $pers != NULL) {
 					echo $pers->username() . " is connected";
 				}

@@ -2,15 +2,12 @@
 // Start the session
 include 'php_script/startSession.php';
 
-print_r($_SESSION['id']);
-
-
 
 // disconnect the user in the database
 require 'php_script/dbConnect.php';
 $query = "UPDATE Person
 			SET id_sessionCurrent = NULL
-			WHERE id_sessionCurrent = '{$_SESSION['session']}'";
+			WHERE id_sessionCurrent = '{$_COOKIE['PHPSESSID']}'";
 
 $result = $mysqli->query($query);
 
@@ -26,10 +23,15 @@ else {
 	
 	// remove the session vars
 	$_SESSION = array();
-
+	
+	session_destroy();
+	unset($_SESSION);
+	unset($_COOKIE['PHPSESSID']);
+	
 	// redirection to the login page
 	header("Location: login.php");
 	exit();
+
 }
 
 

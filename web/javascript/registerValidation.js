@@ -28,8 +28,9 @@ $( function () {
 			type: 'POST',
 			// POST's arguments
 			data: {
-				email : $("#email-register").val(),
 				username : $("#username-register").val(),
+				session : $("#session_id").val(),
+				email : $("#email-register").val(),
 				password : passwordHashed,
 				salt : generatedSalt
 			},

@@ -64,7 +64,8 @@ function checkAccount(salt) {
 			// POST's arguments
 			data: {
 				username : $("#username-login").val(),
-				password : hashedPasswd
+				password : hashedPasswd,
+				userSession : $("#session_id").val() //read a cookie
 			},
 			context: this,
 			// get the result
