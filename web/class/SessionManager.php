@@ -37,7 +37,7 @@ class SessionManager
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 	    	return new Session($donnees);
-	    } catch(Exception $e) {
+	    } catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
@@ -53,19 +53,18 @@ class SessionManager
 				$sessions[] = new Session($donnees);
 			}
 			return $sessions;
-		} catch(Exception $e) {
+		} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
 
 	public function update(Session $session)
 	{
-		$q = $this->_db->prepare('UPDATE Session SET id = :id, id_person = :id_person, ipv4 = :ipv4, date = :date, os = :os, device = :device, browser = :browser WHERE id = :id');
+		$q = $this->_db->prepare('UPDATE Session SET id = :id, id_person = :id_person, ipv4 = :ipv4, os = :os, device = :device, browser = :browser WHERE id = :id');
 		
 		$q->bindValue(':id', $session->id());
 		$q->bindValue(':id_person', $session->id_person());
 		$q->bindValue(':ipv4', $session->ipv4());
-		$q->bindValue(':date', $session->date());
 		$q->bindValue(':os', $session->os());
 		$q->bindValue(':device', $session->device());
 		$q->bindValue(':browser', $session->browser());

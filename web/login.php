@@ -19,6 +19,7 @@ function test_input($data) {
 }
 
 
+$_SESSION["username"] = "";
 ?>
 
 <!DOCTYPE HTML>
@@ -98,7 +99,7 @@ function test_input($data) {
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username" value="" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+											<input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username" value=<?php if($_SESSION["remember"] == true) { $_SESSION["username"]; } ?> maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 									</div>
 								</div>
@@ -152,8 +153,12 @@ function test_input($data) {
 										<div class="col-sm-offset-1 col-sm-10">
 											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password"  maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
-										<div name="validation" class="hidden-xs col-sm-1"> 
-											<div class="content show-tooltip icon-info" data-toggle="tooltip" data-placement="auto bottom" data-html="true" title="-Password must be at least 6 character long<br/>-Password must contain at least one digit<br/>-Password must contain at least one uppercase character<br/>-Password must contain at least one lowercase character<br/>">
+										<div name="validation" class="hidden-xs col-sm-1">
+											<div class="content show-tooltip icon-info" data-toggle="tooltip" data-placement="auto bottom" style="white-space: pre-wrap;" data-html="true" 
+												title="-Password must be at least 6 character long&#13;
+													-Password must contain at least one digit&#13;
+													-Password must contain at least one uppercase character&#13;
+													-Password must contain at least one lowercase character&#13;">
 												<span class="glyphicon glyphicon-info-sign"></span>
 											</div>
 										</div>

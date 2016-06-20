@@ -35,7 +35,7 @@ class TaggedImageManager
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 	    	return new TaggedImage($donnees);
-    	} catch(Exception $e) {
+    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
@@ -51,7 +51,7 @@ class TaggedImageManager
 				$taggedImages[] = new TaggedImage($donnees);
 			}
 			return $taggedImages;
-		} catch(Exception $e) {
+		} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}

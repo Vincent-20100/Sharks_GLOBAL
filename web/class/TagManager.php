@@ -37,7 +37,7 @@ class TagManager
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 	    	return new Tag($donnees);
-    	} catch(Exception $e) {
+    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
@@ -53,7 +53,7 @@ class TagManager
 				$tags[] = new Tag($donnees);
 			}
 			return $tags;
-		} catch(Exception $e) {
+		} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}

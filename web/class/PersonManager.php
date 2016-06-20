@@ -38,7 +38,7 @@ class PersonManager
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 	    	return new Person($donnees);
-    	} catch(Exception $e) {
+    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
@@ -64,7 +64,7 @@ class PersonManager
 				return new Player($donnees);
 			}
 			else { return null; }
-		} catch(Exception $e) {
+		} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
@@ -80,7 +80,7 @@ class PersonManager
 				$persons[] = new Person($donnees);
 			}
 			return $persons;
-		} catch(Exception $e) {
+		} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
