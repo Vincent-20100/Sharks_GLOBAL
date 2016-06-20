@@ -1,6 +1,6 @@
 <?php
 // Start the session
-session_start();
+include 'php_script/startSession.php';
 $_SESSION["loginOK"] = false;
 $_SESSION["remember"] = false;
 ?>
@@ -15,15 +15,15 @@ $_SESSION["remember"] = false;
 	<link rel="stylesheet" href="css/login.css">
 
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<!-- jQuery library -->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<!-- AngularJS library -->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 	<!-- Latest compiled JavaScript -->
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<!-- Latest jQuery Validation Plugin -->
-	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+	<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
 
 	<script type="text/javascript" src="javascript/login.js"></script>
 
@@ -47,7 +47,7 @@ $_SESSION["remember"] = false;
 /****************************************************************************/
 /* HTML inpired from "Login and Register tabbed form"						*/
 /* Bootstrap 3.3.0 Snippet by pukey22 										*/
-/* http://bootsnipp.com/snippets/featured/login-and-register-tabbed-form 	*/
+/* https://bootsnipp.com/snippets/featured/login-and-register-tabbed-form 	*/
 /****************************************************************************/
  -->
 <div class="container">

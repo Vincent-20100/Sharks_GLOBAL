@@ -1,6 +1,6 @@
 <?php
 class Session {
-	private $id;
+	private $id; // not only numbers /^[a-zA-Z0-9]*$/
 	private $ipv4;
 	private $date;
 	private $os;
@@ -8,45 +8,45 @@ class Session {
 	private $browser;
 
 	public function id() {
-		return this->id;
+		return $this->id;
 	}
 	public function ipv4() {
-		return this->ipv4;
+		return $this->ipv4;
 	}
 	public function date() {
-		return this->date;
+		return $this->date;
 	}
 	public function os() {
-		return this->os;
+		return $this->os;
 	}
 	public function device() {
-		return this->device;
+		return $this->device;
 	}
 	public function browser() {
-		return this->browser;
+		return $this->browser;
 	}
 
 	public function setId($id) {
-		this->id = $id;
+		$this->id = $id;
 	}
 	public function setIpv4($ipv4) {
-		this->ipv4 = $ipv4;
+		$this->ipv4 = $ipv4;
 	}
 	public function setDate($date) {
-		this->date = $date;
+		$this->date = $date;
 	}
 	public function setOs($os) {
-		this->os = $os;
+		$this->os = $os;
 	}
 	public function setDevice($device) {
-		this->device = $device;
+		$this->device = $device;
 	}
 	public function setBrowser($browser) {
-		this->browser = $browser;
+		$this->browser = $browser;
 	}
 
-	/* This function take an array as parmeter.
-	 * It affect values to variables.
+	/* This function takes an array as parmeter.
+	 * It affect values to variables using the setters.
 	 *
 	*/
 	public function hydrate(array $data){

@@ -2,10 +2,9 @@
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 
 // Start the session
-session_start();
-$loginOK = false;
+include 'startSession.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$username = "";
 	$passwd_hash = "";
@@ -34,17 +33,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		echo "Uncomplete request :(";
 	}
 	return false;
-}
+//}
 
 function loginAccount($username, $passwd_hash) {
 	
-	$return = false;
-	
 	// open connection
 	require 'dbConnect.php';
+	
+	$return = false;
 
 	// connect to the account by checking the hashed passwd
-	$query  = "SELECT id FROM Player
+	$query  = "SELECT id FROM Person
 				WHERE username = '$username'
 				AND password = '$passwd_hash'";
 	
@@ -52,14 +51,16 @@ function loginAccount($username, $passwd_hash) {
 		if ($result->num_rows === 1) {
 			// username found
 			$row = $result->fetch_row();
-			$_SESSION['id_player']=$row[0];
-			$_SESSION['user']=$username;
-
-			// store the current player session
-			if(setPlayerSession($mysqli, $username)){
-				// history the session statistics
-				if(setNewSession($mysqli)) {
-					$loginOK = true;
+			
+			$_SESSION['user'] = array();
+				$_SESSION['user']['id']      = $row[0];
+				$_SESSION['user']['session'] = $_SESSION['id'];
+				$_SESSION['user']['ip']      = $_SERVER['REMOTE_ADDR'];
+			
+			// history the session statistics
+			if(setNewSession($mysqli)) {
+				// store the current player session
+				if(setPlayerSession($mysqli, $username)){
 					echo "Success";
 					$return = true;
 				}
@@ -69,14 +70,17 @@ function loginAccount($username, $passwd_hash) {
 			}
 			else {
 				// wrong password
-				echo "Please check your username or password.";
+				echo "Please check your username or password. 111";
 			}
 		}
 		else {
 			// username not found, can't return the hashed password
-			echo "Please check your username or password.";
+			echo "Please check your username or password. 222";
 		}
 		$result->close();
+	}
+	else {
+		echo "Wrong request";
 	}
 	
 	// close connection
@@ -87,16 +91,27 @@ function loginAccount($username, $passwd_hash) {
 	
 function setPlayerSession($mysqli, $username) {
 	// write the current session in the database
-	$query = "UPDATE Player
-			SET id_session = '{$_SESSION['id']}'
+	$query = "UPDATE Person
+			SET id_sessionCurrent = '{$_SESSION['id']}'
 			WHERE username = '$username'";
-	
 	return $mysqli->query($query);
 }
 
 function setNewSession($mysqli) {
-	$query = "INSERT INTO Session(`id`, `ip`,`id_player`)
-			VALUES('{$_SESSION['id']}', '{$_SERVER['REMOTE_ADDR']}', {$_SESSION['id_player']})";
+	require 'Browser.php-master/lib/Browser.php';
+	$browser = new Browser();
+	$device = $browser->getPlatform();
+	$os = $browser->getPlatform();
+	$browserVersion = $browser->getBrowser();
+	
+	$query = "INSERT INTO Session (id, id_person, ipv4, os, device, browser)
+				VALUES('{$_SESSION['user']['session']}',
+						{$_SESSION['user']['id']},
+						'" . ip2long($_SESSION['user']['ip']) . "',
+						'$os',
+						'$device',
+						'$browserVersion'
+						)";
 	
 	return $mysqli->query($query);
 }

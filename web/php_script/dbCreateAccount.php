@@ -138,9 +138,40 @@ function createAccount($email, $username, $passwd_hash, $salt) {
 
 function setNewAccount($mysqli, $email, $username, $passwd_hash, $salt) {
 	$activationCode = bin2hex(random_bytes(5));
-
-	$query = "INSERT INTO Player(`username`, `email`, `password`, `salt`, `id_session`, `activationCode`)
-				VALUES('$username', '$email', '$passwd_hash', '$salt', '{$_SESSION['id']}', '$activationCode')";
+	
+	require 'Browser.php-master/lib/Browser.php';
+	$browser = new Browser();
+	$device = $browser->getPlatform();
+	$os = $browser->getPlatform();
+	$browserVersion = $browser->getBrowser();
+	
+	$query = "
+		START TRANSACTION;
+		
+		INSERT INTO Person(username, email, password, salt)
+		VALUES('$username', '$email', '$passwd_hash', '$salt');
+		
+		INSERT INTO Session (id, id_person, ipv4, os, device, browser)
+		VALUES('{$_SESSION['id']}',
+				( SELECT id FROM Person WHERE username = '$username'),
+				'" . ip2long($_SERVER['REMOTE_ADDR']) . "',
+				'$os',
+				'$device',
+				'$browserVersion'
+				);
+		
+		UPDATE Person
+		SET id_sessionCurrent = '{$_SESSION['id']}'
+		WHERE username = '$username';
+		
+		INSERT INTO Player(id_person, activationCode)
+		VALUES (
+				( SELECT id FROM Person WHERE username = '$username'),
+				'$activationCode'
+				);
+		
+		COMMIT;
+	";
 
 	echo $query;
 
@@ -175,7 +206,7 @@ function sendEMailNewAccount($email, $username) {
 			<body>
 				<p>Hi $username!</p>
 				<p>Here is your activation code. Use the link below to activate your account.</p>
-				<p><a href='http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode</a>
+				<p><a href='http://136.206.48.174/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.174/SharksTag/activation.php?user=$username&code=$activationCode</a>
 				<p>Have a good play!</a>
 			</body>
 			</html>";
@@ -208,9 +239,10 @@ function sendEMailNewAccount($email, $username) {
 
 function getActivationCode($mysqli, $email) {
 	// get activation code
-	$query = "SELECT activationCode
-				FROM Player
-				WHERE email = '$email'";
+	$query = "SELECT Pl.activationCode
+				FROM Player Pl, Person Pe
+				WHERE Pl.id_person = Pe.id
+				AND Pe.email = '$email'";
 
 	return $mysqli->query($query);
 }

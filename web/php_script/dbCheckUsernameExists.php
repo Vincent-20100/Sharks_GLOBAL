@@ -12,7 +12,7 @@ if( isset($_POST['username']) ) {
 	$username = $_POST['username'];
 	
 	// find potential accounts already using this username
-	$query  = "SELECT id FROM Player
+	$query  = "SELECT id FROM Person
 				WHERE username = '$username'";
 	
 	if ($result = $mysqli->query($query)) {

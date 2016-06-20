@@ -11,7 +11,7 @@ if( isset($_POST['email']) ) {
 	$email = $_POST['email'];
 	
 	// find potential accounts already using this email
-	$query  = "SELECT id FROM Player
+	$query  = "SELECT id FROM Person
 				WHERE email = '$email'";
 	
 	if ($result = $mysqli->query($query)) {

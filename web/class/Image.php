@@ -7,39 +7,39 @@ class Image {
 	private $test;
 
 	public function id() {
-		return this->id;
+		return $this->id;
 	}
 	public function name() {
-		return this->name;
+		return $this->name;
 	}
 	public function hdDir() {
-		return this->hdDir;
+		return $this->hdDir;
 	}
 	public function ldDir() {
-		return this->ldDir;
+		return $this->ldDir;
 	}
 	public function test() {
-		return this->test;
+		return $this->test;
 	}
 
 	public function setId($id) {
-		this->id = $id;
+		$this->id = $id;
 	}
 	public function setName($name) {
-		this->name = $name;
+		$this->name = $name;
 	}
 	public function setHdDir($hdDir) {
-		this->hdDir = $hdDir;
+		$this->hdDir = $hdDir;
 	}
 	public function setLdDir($ldDir) {
-		this->ldDir = $ldDir;
+		$this->ldDir = $ldDir;
 	}
 	public function setTest($test) {
-		this->test = $test;
+		$this->test = $test;
 	}
 
-	/* This function take an array as parmeter.
-	 * It affect values to variables.
+	/* This function takes an array as parmeter.
+	 * It affect values to variables using the setters.
 	 *
 	*/
 	public function hydrate(array $data){

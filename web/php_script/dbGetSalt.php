@@ -10,7 +10,7 @@ if( isset($_POST['username']) ) {
 	$username = $_POST['username'];
 	
 	// get the user's password salt
-	$query  = "SELECT salt FROM Player WHERE username = '$username'";
+	$query  = "SELECT salt FROM Person WHERE username = '$username'";
 	
 	if ($result = $mysqli->query($query)) {
 		if ($result->num_rows === 1) {

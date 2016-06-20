@@ -20,7 +20,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.60/SharksTag/php_script/dbGetSalt.php',
+			url: 'http://136.206.48.174/SharksTag/php_script/dbGetSalt.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -44,6 +44,9 @@ function checkAccount(salt) {
 		dispMsg("alert-danger", "ok-sign", get_notConnected() );
 	}
 	else {
+		
+		console.log("salt = "+salt);
+		
 		// encrypt the password
 		var shaObj = new jsSHA("SHA-512", "TEXT");
 		shaObj.update( $("#password-login").val() + salt );
@@ -55,7 +58,7 @@ function checkAccount(salt) {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.60/SharksTag/php_script/dbLogin.php',
+			url: 'http://136.206.48.174/SharksTag/php_script/dbLogin.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments

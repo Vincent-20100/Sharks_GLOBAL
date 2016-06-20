@@ -2,7 +2,7 @@
 class Species {
 	private $id;
 	private $image;
-	private $lenght;
+	private $length;
 	private $distribution;
 	private $food;
 	private $commercialImportance;
@@ -12,69 +12,69 @@ class Species {
 	private $uniqueIdentifyingFeature;
 
 	public function id() {
-		return this->id;
+		return $this->id;
 	}
 	public function image() {
-		return this->image;
+		return $this->image;
 	}
-	public function lenght() {
-		return this->lenght;
+	public function length() {
+		return $this->length;
 	}
 	public function distribution() {
-		return this->distribution;
+		return $this->distribution;
 	}
 	public function food() {
-		return this->food;
+		return $this->food;
 	}
 	public function commercialImportance() {
-		return this->commercialImportance;
+		return $this->commercialImportance;
 	}
 	public function stateOfEndangerment() {
-		return this->stateOfEndangerment;
+		return $this->stateOfEndangerment;
 	}
 	public function attacksOnHumans() {
-		return this->attacksOnHumans;
+		return $this->attacksOnHumans;
 	}
 	public function swimmingDeep() {
-		return this->swimmingDeep;
+		return $this->swimmingDeep;
 	}
 	public function uniqueIdentifyingFeature() {
-		return this->uniqueIdentifyingFeature;
+		return $this->uniqueIdentifyingFeature;
 	}
 
 	public function setId($id) {
-		this->id = $id;
+		$this->id = $id;
 	}
 	public function setImage($image) {
-		this->image = $image;
+		$this->image = $image;
 	}
-	public function setLenght($lenght) {
-		this->lenght = $lenght;
+	public function setLength($length) {
+		$this->length = $length;
 	}
 	public function setDistribution($distribution) {
-		this->distribution = $distribution;
+		$this->distribution = $distribution;
 	}
 	public function setFood($food) {
-		this->food = $food;
+		$this->food = $food;
 	}
 	public function setCommercialImportance($commercialImportance) {
-		this->commercialImportance = $commercialImportance;
+		$this->commercialImportance = $commercialImportance;
 	}
 	public function setStateOfEndangerment($stateOfEndangerment) {
-		this->stateOfEndangerment = $stateOfEndangerment;
+		$this->stateOfEndangerment = $stateOfEndangerment;
 	}
 	public function setAttacksOnHumans($attacksOnHumans) {
-		this->attacksOnHumans = $attacksOnHumans;
+		$this->attacksOnHumans = $attacksOnHumans;
 	}
 	public function setSwimmingDeep($swimmingDeep) {
-		this->swimmingDeep = $swimmingDeep;
+		$this->swimmingDeep = $swimmingDeep;
 	}
 	public function setUniqueIdentifyingFeature($uniqueIdentifyingFeature) {
-		this->uniqueIdentifyingFeature = $uniqueIdentifyingFeature;
+		$this->uniqueIdentifyingFeature = $uniqueIdentifyingFeature;
 	}
 	
-	/* This function take an array as parmeter.
-	 * It affect values to variables.
+	/* This function takes an array as parmeter.
+	 * It affect values to variables using the setters.
 	 *
 	*/
 	public function hydrate(array $data){

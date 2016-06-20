@@ -1,52 +1,58 @@
 <?php
-"use strict";
 
 class Person {
 	private $id;
 	private $username;
+	private $id_sessionCurrent;
 	private $email;
 	private $password;
 	private $salt;
 
 	public function id() {
-		return this->id;
+		return $this->id;
 	}
 	public function username() {
-		return this->username;
+		return $this->username;
+	}
+	public function id_sessionCurrent() {
+		return $this->id_sessionCurrent;
 	}
 	public function email() {
-		return this->email;
+		return $this->email;
 	}
 	public function password() {
-		return this->password;
+		return $this->password;
 	}
 	public function salt() {
-		return this->salt;
+		return $this->salt;
 	}
 
 	public function setId($id) {
-		this->id = $id;
+		$this->id = $id;
+	}
+	public function setId_sessionCurrent($id_sessionCurrent) {
+		$this->id_sessionCurrent = $id_sessionCurrent;
 	}
 	public function setUsername($username) {
-		this->username = $username;
+		$this->username = $username;
 	}
 	public function setEmail($email) {
-		this->email = $email;
+		$this->email = $email;
 	}
 	public function setPassword($password) {
-		this->password = $password;
+		$this->password = $password;
 	}
 	public function setSalt($salt) {
-		this->salt = $salt;
+		$this->salt = $salt;
 	}
 
-	/* This function take an array as parmeter.
-	 * It affect values to variables.
+	/* This function takes an array as parmeter.
+	 * It affect values to variables using the setters.
 	 *
 	*/
 	public function hydrate(array $data){
   		foreach ($data as $key => $value){
-   			$method = 'set'.ucfirst($key);   
+   			$method = 'set'.ucfirst($key);
    			if (method_exists($this, $method)){
    	  	      	$this->$method($value);
    			}
@@ -64,58 +70,63 @@ class Player extends Person {
 	private $activationCode;
 
 	public function score() {
-		return this->score;
+		return $this->score;
 	}
 	public function tutorialFinished() {
-		return this->tutorialFinished;
+		return $this->tutorialFinished;
 	}
 	public function activationCode() {
-		return this->activationCode;
+		return $this->activationCode;
 	}
 
-	public function setscore($score) {
-		this->score = $score;
+	public function setScore($score) {
+		$this->score = $score;
 	}
 	public function setTutorialFinished($tutorialFinished) {
-		this->tutorialFinished = $tutorialFinished;
+		$this->tutorialFinished = $tutorialFinished;
 	}
 	public function setActivationCode($activationCode) {
-		this->activationCode = $activationCode;
+		$this->activationCode = $activationCode;
 	}
 
-	/* This function take an array as parmeter.
-	 * It affect values to variables.
+	/* This function takes an array as parmeter.
+	 * It affect values to variables using the setters.
 	 *
 	*/
 	public function hydrate(array $data){
   		foreach ($data as $key => $value){
-   			$method = 'set'.ucfirst($key);   
+   			$method = 'set'.ucfirst($key);
    			if (method_exists($this, $method)){
    	  	      	$this->$method($value);
    			}
    		}
    	}
 
-    function __construct(array $personData, array $playerData){
-   		super($data1);
-   		$this->hydrate($data2);
+    function __construct(array $data){
+    	$personData = array_slice($data, 0, 5);
+    	$playerData = array_slice($data, 5);
+   		parent::__construct($personData);
+   		$this->hydrate($playerData);
 	}
 }
 
-class Administrator extends Person { //faire heriter de Person
-	function __construct (array $data) {
-		super($data);
+class Administrator extends Person {
+	
+	/* This function takes an array as parmeter.
+	 * It affect values to variables using the setters.
+	 *
+	*/
+	public function hydrate(array $data){
+  		foreach ($data as $key => $value){
+   			$method = 'set'.ucfirst($key);
+   			if (method_exists($this, $method)){
+   	  	      	$this->$method($value);
+   			}
+   		}
+   	}
+
+	function __construct(array $data) {
+		parent::__construct($data);
 	}
 }
-
-// see the right way http://www.phpied.com/3-ways-to-define-a-javascript-class/
-// http://www.2ality.com/2012/01/js-inheritance-by-example.html
-function extend(target, source) {
-		Object.getOwnPropertyNames(source)
-		.forEach(function(propName) {
-			Object.defineProperty(target, propName,
-			Object.getOwnPropertyDescriptor(source, propName));
-		});
-		return target;
-	}
 ?>

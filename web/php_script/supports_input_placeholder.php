@@ -1,5 +1,5 @@
 <?php
-// ref: http://diveintohtml5.org/detect.html
+// ref: https://diveintohtml5.org/detect.html
 function supports_input_placeholder()
 {
 	var i = document.createElement('input');
