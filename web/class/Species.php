@@ -2,7 +2,7 @@
 class Species {
 	private $id;
 	private $image;
-	private $lenght;
+	private $length;
 	private $distribution;
 	private $food;
 	private $commercialImportance;
@@ -17,8 +17,8 @@ class Species {
 	public function image() {
 		return $this->image;
 	}
-	public function lenght() {
-		return $this->lenght;
+	public function length() {
+		return $this->length;
 	}
 	public function distribution() {
 		return $this->distribution;
@@ -48,8 +48,8 @@ class Species {
 	public function setImage($image) {
 		$this->image = $image;
 	}
-	public function setLenght($lenght) {
-		$this->lenght = $lenght;
+	public function setLength($length) {
+		$this->length = $length;
 	}
 	public function setDistribution($distribution) {
 		$this->distribution = $distribution;

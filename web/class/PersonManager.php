@@ -58,9 +58,10 @@ class PersonManager
 			if($donnees2) {
 				return new Administrator($donnees);
 			}
-			else {
+			else if ($donnees){
 				return new Player($donnees);
 			}
+			else { return null; }
 		} catch(Exception $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -103,7 +104,7 @@ class PersonManager
 
 	/* To add a new person in the DB see the example bellow
 
-		$person = new Personnage([
+		$person = new Person([
 		  	'id_sessionCurrent' => '...',
 		  	'username' => ...,
 		  	'email' => ...,

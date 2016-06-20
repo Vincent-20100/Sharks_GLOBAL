@@ -1,6 +1,6 @@
 <?php
 class Session {
-	private $id; // not only numbers
+	private $id; // not only numbers /^[a-zA-Z0-9]*$/
 	private $ipv4;
 	private $date;
 	private $os;
