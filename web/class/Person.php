@@ -3,6 +3,7 @@
 class Person {
 	private $id;
 	private $username;
+	private $id_sessionCurrent;
 	private $email;
 	private $password;
 	private $salt;
@@ -10,11 +11,11 @@ class Person {
 	public function id() {
 		return $this->id;
 	}
-	public function id_sessionCurrent() {
-		return $this->id_sessionCurrent;
-	}
 	public function username() {
 		return $this->username;
+	}
+	public function id_sessionCurrent() {
+		return $this->id_sessionCurrent;
 	}
 	public function email() {
 		return $this->email;
@@ -45,8 +46,8 @@ class Person {
 		$this->salt = $salt;
 	}
 
-	/* $this function take an array as parmeter.
-	 * It affect values to variables.
+	/* This function takes an array as parmeter.
+	 * It affect values to variables using the setters.
 	 *
 	*/
 	public function hydrate(array $data){
@@ -88,8 +89,8 @@ class Player extends Person {
 		$this->activationCode = $activationCode;
 	}
 
-	/* $this function take an array as parmeter.
-	 * It affect values to variables.
+	/* This function takes an array as parmeter.
+	 * It affect values to variables using the setters.
 	 *
 	*/
 	public function hydrate(array $data){
@@ -109,7 +110,21 @@ class Player extends Person {
 	}
 }
 
-class Administrator extends Person { //faire heriter de Person
+class Administrator extends Person {
+	
+	/* This function takes an array as parmeter.
+	 * It affect values to variables using the setters.
+	 *
+	*/
+	public function hydrate(array $data){
+  		foreach ($data as $key => $value){
+   			$method = 'set'.ucfirst($key);
+   			if (method_exists($this, $method)){
+   	  	      	$this->$method($value);
+   			}
+   		}
+   	}
+
 	function __construct(array $data) {
 		parent::__construct($data);
 	}

@@ -43,13 +43,19 @@ class PersonManager
 		}
 	}
 	
+	//return a player or an administrator
 	public function getBySession($session)
 	{
 		try {
 			$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id_sessionCurrent = '" . $session . "'");
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
-			if ($donnees['username'] == 'admin' ) {
+
+			$q2 = $this->_db->query("SELECT * FROM Person P, Administrator A WHERE P.id = A.id_person AND P.id_sessionCurrent = '" . $session . "'");
+			if($q2 === false){ return null; }
+			$donnees2 = $q2->fetch(PDO::FETCH_ASSOC);
+
+			if($donnees2) {
 				return new Administrator($donnees);
 			}
 			else {
