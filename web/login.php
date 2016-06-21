@@ -154,9 +154,9 @@ $_SESSION["username"] = "";
 											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password"  maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 										<div name="validation" class="hidden-xs col-sm-1"> 
-											<div class="content show-tooltip icon-info" data-toggle="tooltip" data-placement="auto bottom" style="white-space: pre-wrap;" data-html="true" 
+											<div class="content show-tooltip" data-toggle="tooltip" data-placement="auto bottom" style="white-space: pre-wrap;" data-html="true" 
 												title="-Password must be at least 6 character long&#13;-Password must contain at least one digit&#13;-Password must contain at least one uppercase character&#13;-Password must contain at least one lowercase character&#13;">
-												<span class="glyphicon glyphicon-info-sign"></span>
+												<span class="glyphicon glyphicon-info-sign icon-info"></span>
 											</div>
 										</div>
 									</div>
