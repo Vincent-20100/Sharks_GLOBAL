@@ -135,10 +135,7 @@ $_SESSION["username"] = "";
 										</div>
 										<div name="validation" class="hidden-xs col-sm-1"> 
 											<div class="content show-tooltip" data-toggle="tooltip" data-placement="auto bottom" style="white-space: pre-wrap;" data-html="true" 
-												title="-Password must be at least 6 character long&#13;
-													-Password must contain at least one digit&#13;
-													-Password must contain at least one uppercase character&#13;
-													-Password must contain at least one lowercase character&#13;">
+												title="-Password must be at least 6 character long&#13;-Password must contain at least one digit&#13;-Password must contain at least one uppercase character&#13;-Password must contain at least one lowercase character&#13;">
 												<span class="glyphicon glyphicon-info-sign"></span>
 											</div>
 										</div>

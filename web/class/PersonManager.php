@@ -69,6 +69,26 @@ class PersonManager
 		}
 	}
 
+	public function printSaltByUsername($username)
+	{
+		try {
+			$q = $this->_db->$query("SELECT salt FROM Person WHERE username = :username");
+			$q->bindValue(':username', $username);
+			if ($result = $mysqli->query($query)) {
+				if ($result->num_rows === 1) {
+					$row = $result->fetch_row();
+					print $row[0];
+				}
+				else {
+					echo "Failed";
+				}
+				$result->close();
+			}
+		} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+
 	public function getList()
 	{
 		try {
