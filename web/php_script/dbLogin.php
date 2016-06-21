@@ -1,15 +1,12 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 
-// Start the session
-include 'startSession.php';
-
 //if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$username = "";
 	$passwd_hash = "";
 
-	if( isset($_POST['username']) && isset($_POST['password']) ) {
+	if( isset($_POST['username']) && isset($_POST['password']) && isset($_POST['userSession'])) {
 		//check username
 	  	if (empty($_POST["username"])) {
 	    	echo "Enter a username.";
@@ -17,7 +14,9 @@ include 'startSession.php';
 			echo "Enter a password.";
 		} else {
 			$username = test_input($_POST['username']);
-		
+			$userSession = test_input($_POST['userSession']);
+			
+			
 		    // check if username only contains letters and whitespace
 		    if (!preg_match("/^[a-zA-Z0-9=!\-@._*$]*$/",$username)) {
 		      	echo "Special characters are not allowed.";
@@ -25,7 +24,7 @@ include 'startSession.php';
 		    else {
 		    	$passwd_hash = test_input($_POST['password']);
 		
-				return loginAccount($username, $passwd_hash);
+				return loginAccount($username, $passwd_hash, $userSession);
 			}
 		}
 	}
@@ -35,7 +34,7 @@ include 'startSession.php';
 	return false;
 //}
 
-function loginAccount($username, $passwd_hash) {
+function loginAccount($username, $passwd_hash, $userSession) {
 	
 	// open connection
 	require 'dbConnect.php';
@@ -52,15 +51,12 @@ function loginAccount($username, $passwd_hash) {
 			// username found
 			$row = $result->fetch_row();
 			
-			$_SESSION['user'] = array();
-			$_SESSION['user']['id']      = $row[0];
-			$_SESSION['user']['session'] = $_SESSION['id'];
-			$_SESSION['user']['ip']      = $_SERVER['REMOTE_ADDR'];
+			$userId = $row[0];
 			
 			// history the session statistics
-			if(setNewSession($mysqli)) {
+			if(setNewSession($mysqli, $userSession, $userId)) {
 				// store the current player session
-				if(setPlayerSession($mysqli, $username)){
+				if(setPlayerSession($mysqli, $username, $userSession, $userId)){
 					echo "Success";
 					$return = true;
 				}
@@ -69,12 +65,12 @@ function loginAccount($username, $passwd_hash) {
 				}
 			}
 			else {
-				// wrong password
+				// session issue
 				echo "Please check your username or password. 111";
 			}
 		}
 		else {
-			// username not found, can't return the hashed password
+			// wrong user name or password
 			echo "Please check your username or password. 222";
 		}
 		$result->close();
@@ -89,15 +85,15 @@ function loginAccount($username, $passwd_hash) {
 }
 	
 	
-function setPlayerSession($mysqli, $username) {
+function setPlayerSession($mysqli, $username, $userSession, $userId) {
 	// write the current session in the database
 	$query = "UPDATE Person
-			SET id_sessionCurrent = '{$_SESSION['id']}'
+			SET id_sessionCurrent = '$userSession'
 			WHERE username = '$username'";
 	return $mysqli->query($query);
 }
 
-function setNewSession($mysqli) {
+function setNewSession($mysqli, $userSession, $userId) {
 	require 'Browser.php-master/lib/Browser.php';
 	$browser = new Browser();
 	$device = $browser->getPlatform();
@@ -105,9 +101,9 @@ function setNewSession($mysqli) {
 	$browserVersion = $browser->getBrowser();
 	
 	$query = "INSERT INTO Session (id, id_person, ipv4, os, device, browser)
-				VALUES('{$_SESSION['user']['session']}',
-						{$_SESSION['user']['id']},
-						'" . ip2long($_SESSION['user']['ip']) . "',
+				VALUES('$userSession',
+						$userId,
+						'" . ip2long($_SERVER['REMOTE_ADDR']) . "',
 						'$os',
 						'$device',
 						'$browserVersion'

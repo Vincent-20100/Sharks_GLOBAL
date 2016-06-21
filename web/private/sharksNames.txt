@@ -1,5 +1,3 @@
-#Shark
-
 Grey Reef Shark
 Tiger Shark
 Lemon Shark
@@ -8,4 +6,4 @@ Great Hammerhead Shark
 White Shark
 Blue Shark
 Nurse Shark
-Ray fish
+Ray
