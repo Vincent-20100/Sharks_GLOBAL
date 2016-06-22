@@ -127,9 +127,22 @@ width: 160px;
 #navbar{
 line-height: 34px;
 }
+.affix {
+  top:0;
+  width: 100%;
+  z-index: 9999 !important;
+}
+.navbar {
+  margin-bottom: 0px;
+}
+
+.affix ~ .container-fluid {
+ position: relative;
+ top: 50px;
+}
 
 #navGame {
-	position: fixed;
+	/*position: fixed;*/
 	width: 100%;
 	background-color: #ddd;
 }
