@@ -7,7 +7,6 @@
 	<?php include('header.php'); ?>
 	<link rel="stylesheet" type="text/css" href="css/game.css">
 	<script type="text/javascript" src="javascript/game.js"></script>
-	
 
 </head>
 <body>

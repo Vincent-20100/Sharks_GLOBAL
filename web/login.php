@@ -46,8 +46,9 @@ $_SESSION["username"] = "";
 </head>
 <body background="images/back.jpg">
 
-<?php include('noscript.php'); 
+<?php 
 	  include('mainNavBar.php');
+	  include('noscript.php'); 
 	  include 'php_script/cookieSession.php';
 	  include 'php_script/dispError.php';
 ?>

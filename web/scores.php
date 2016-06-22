@@ -1,4 +1,6 @@
-<?php include 'php_script/startSession.php'; ?>
+<?php
+include 'php_script/startSession.php';
+?>
 
 <!DOCTYPE html>
 <html>

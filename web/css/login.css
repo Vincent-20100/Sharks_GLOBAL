@@ -4,7 +4,6 @@
 /* https://bootsnipp.com/snippets/featured/login-and-register-tabbed-form 	*/
 /****************************************************************************/
 body {
-    padding-top: 90px;
     background-size: 1920px 1080px;
 	background-repeat: no-repeat;
 	background-position: top;
@@ -66,16 +65,19 @@ body {
 	text-decoration: underline;
 	color: #666;
 }
-
+#disp-error-msg {
+	margin-top: 10px;
+}
+#disp-error-msg.hide {
+	display: block !important;
+	visibility: hidden;
+}
 #register-form [name="validation"] {
 	text-align: left;
 	line-height: 18px;
 	font-size: 18px;
 	display: inline-block;
 	padding: 10px 0;
-}
-#disp-error {
-	margin-top: -75px;
 }
 .icon-danger {
 	color: #a94442;
