@@ -220,7 +220,23 @@ function setZone() {
 	}
 }
 
+function passDiv(){
 
+ 	if(isDragging === true){
+	    dragZone();
+	}
+	else if(isResizing1 === true){
+	    resizePoint1();
+	}
+	else if(isResizing2 === true){
+	    resizePoint2();
+	}else if(isResizing3 === true){
+	    resizePoint3();
+	}
+	else if(isResizing4 === true){
+	    resizePoint4();
+	}
+}
 
 function initDrag(rank){
 //This function is called when you click on a SelectedZone
@@ -243,11 +259,14 @@ function initDrag(rank){
 }
 
 
-
+var index = 0;
 function dragZone() {
 //This function is called when you move the mouse on a SelectedZone
+	
     if(isDragging === true){
     
+    console.log("is dragging "+index);
+    index = index+1;
     //recovery of data, the curent element etc...
     var elem = $('#selectedZone'+curent)
     var point1 = $("#point1"+curent)

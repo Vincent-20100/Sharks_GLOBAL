@@ -49,7 +49,7 @@ class AdministatorManager // please use the PersonManager for now because the Ad
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 	    	return new Administrator($donnees);
-    	} catch(Exception $e) {
+    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
@@ -65,7 +65,7 @@ class AdministatorManager // please use the PersonManager for now because the Ad
 				$admins[] = new Administrator($donnees);
 			}
 			return $admins;
-		} catch(Exception $e) {
+		} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}

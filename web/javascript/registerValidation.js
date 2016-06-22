@@ -28,8 +28,9 @@ $( function () {
 			type: 'POST',
 			// POST's arguments
 			data: {
-				email : $("#email-register").val(),
 				username : $("#username-register").val(),
+				session : $("#session_id").val(),
+				email : $("#email-register").val(),
 				password : passwordHashed,
 				salt : generatedSalt
 			},
@@ -99,7 +100,7 @@ function dispMsg(type, glyphicon, msg) {
 		txt = msg;
 	}
 	else {
-		txt = "<span class='glyphicon glyphicon-" + glyphicon + "form-control-feedback'></span> " + msg;
+		txt = "<span class='glyphicon glyphicon-" + glyphicon + "'></span> " + msg;
 	}
 	$("#disp-error-msg").html(txt);
 }
@@ -110,7 +111,8 @@ function checkCreated(data) {
 	if(data.endsWith('Success')){
 		dispMsg("alert-success", "ok-sign", "Account regestered. You are now connected.");
 		
-		window.location.href = $("#register-form").attr("next-page");
+		window.location.href = ($("#register-form").attr("next-page") +
+			"?username=" + $("#username-register").val());
 	}
 	else{ // data == "Failed"
 		dispMsg("alert-danger", "remove-sign", data);

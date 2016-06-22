@@ -1,3 +1,5 @@
+<?php include 'php_script/startSession.php'; ?>
+
 <!DOCTYPE html>
 <html>
 <head>

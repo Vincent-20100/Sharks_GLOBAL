@@ -1,3 +1,8 @@
+<?php
+include 'php_script/startSession.php';
+?>
+
+
 <!DOCTYPE HTML>
 <html lang="en">
 <head>

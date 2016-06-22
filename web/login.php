@@ -6,6 +6,7 @@ $nextPage = "/SharksTag/menu.php";
 if (isset($_GET['n'])) {
 	$nextPage = test_input($_GET['n']);
 }
+
 //modify any special character like <p> </p>
 function test_input($data) {
 	$data = trim($data);
@@ -13,6 +14,7 @@ function test_input($data) {
 	$data = htmlspecialchars($data);
 	return $data;
 }
+
 $_SESSION["username"] = "";
 ?>
 
@@ -43,10 +45,11 @@ $_SESSION["username"] = "";
 
 </head>
 <body background="images/back.jpg">
+
 <?php include('noscript.php'); 
 	  include('mainNavBar.php');
-	include 'php_script/cookieSession.php';
-	include 'php_script/dispError.php';
+	  include 'php_script/cookieSession.php';
+	  include 'php_script/dispError.php';
 ?>
 <!--
 /****************************************************************************/

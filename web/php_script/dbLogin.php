@@ -1,15 +1,12 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 
-// Start the session
-include 'startSession.php';
-
 //if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$username = "";
 	$passwd_hash = "";
 
-	if( isset($_POST['username']) && isset($_POST['password']) ) {
+	if( isset($_POST['username']) && isset($_POST['password']) && isset($_POST['userSession'])) {
 		//check username
 	  	if (empty($_POST["username"])) {
 	    	echo "Enter a username.";
@@ -17,7 +14,9 @@ include 'startSession.php';
 			echo "Enter a password.";
 		} else {
 			$username = test_input($_POST['username']);
-		
+			$userSession = test_input($_POST['userSession']);
+			
+			
 		    // check if username only contains letters and whitespace
 		    if (!preg_match("/^[a-zA-Z0-9=!\-@._*$]*$/",$username)) {
 		      	echo "Special characters are not allowed.";
@@ -25,7 +24,7 @@ include 'startSession.php';
 		    else {
 		    	$passwd_hash = test_input($_POST['password']);
 		
-				return loginAccount($username, $passwd_hash);
+				return loginAccount($username, $passwd_hash, $userSession);
 			}
 		}
 	}
@@ -35,7 +34,7 @@ include 'startSession.php';
 	return false;
 //}
 
-function loginAccount($username, $passwd_hash) {
+function loginAccount($username, $passwd_hash, $userSession) {
 	
 	// open connection
 	require 'dbConnect.php';
@@ -43,39 +42,54 @@ function loginAccount($username, $passwd_hash) {
 	$return = false;
 
 	// connect to the account by checking the hashed passwd
-	$query  = "SELECT id FROM Person
+	// Even if the password is correct, success only if the activation code
+	// has been used
+	$query  = "	SELECT id FROM Person
 				WHERE username = '$username'
 				AND password = '$passwd_hash'";
 	
 	if ($result = $mysqli->query($query)) {
+		
 		if ($result->num_rows === 1) {
-			// username found
+			// username found and correct password
 			$row = $result->fetch_row();
+			$userId = $row[0];
 			
-			$_SESSION['user'] = array();
-				$_SESSION['user']['id']      = $row[0];
-				$_SESSION['user']['session'] = $_SESSION['id'];
-				$_SESSION['user']['ip']      = $_SERVER['REMOTE_ADDR'];
-			
-			// history the session statistics
-			if(setNewSession($mysqli)) {
-				// store the current player session
-				if(setPlayerSession($mysqli, $username)){
-					echo "Success";
-					$return = true;
+			$queryAccountActive = "	SELECT id FROM Person
+									WHERE id = '$userId'
+									AND activationCode IS NULL";
+			// check if the account has been activated
+			if ($resultAA = $mysqli->query($queryAccountActive)) {
+				if ($resultAA->num_rows === 1) {
+					// YES it is active
+					// history the session statistics
+					if(setNewSession($mysqli, $userSession, $userId)) {
+						// store the current player session
+						if(setPlayerSession($mysqli, $username, $userSession, $userId)){
+							echo "Success";
+							$return = true;
+						}
+						else {
+							echo "Session unreachable.";
+						}
+					}
+					else {
+						// session issue
+						echo "Session issue";
+					}
 				}
+				// NO this account is not active
 				else {
-					echo "Session unreachable.";
+					echo "This account has not been activated yet.<br />Check your e-mails to get your activation code.";
 				}
 			}
 			else {
-				// wrong password
-				echo "Please check your username or password. 111";
+				echo "Wrong request";
 			}
 		}
 		else {
-			// username not found, can't return the hashed password
-			echo "Please check your username or password. 222";
+			// wrong user name or password
+			echo "Please, check your username or password.";
 		}
 		$result->close();
 	}
@@ -89,15 +103,15 @@ function loginAccount($username, $passwd_hash) {
 }
 	
 	
-function setPlayerSession($mysqli, $username) {
+function setPlayerSession($mysqli, $username, $userSession, $userId) {
 	// write the current session in the database
 	$query = "UPDATE Person
-			SET id_sessionCurrent = '{$_SESSION['id']}'
+			SET id_sessionCurrent = '$userSession'
 			WHERE username = '$username'";
 	return $mysqli->query($query);
 }
 
-function setNewSession($mysqli) {
+function setNewSession($mysqli, $userSession, $userId) {
 	require 'Browser.php-master/lib/Browser.php';
 	$browser = new Browser();
 	$device = $browser->getPlatform();
@@ -105,9 +119,9 @@ function setNewSession($mysqli) {
 	$browserVersion = $browser->getBrowser();
 	
 	$query = "INSERT INTO Session (id, id_person, ipv4, os, device, browser)
-				VALUES('{$_SESSION['user']['session']}',
-						{$_SESSION['user']['id']},
-						'" . ip2long($_SESSION['user']['ip']) . "',
+				VALUES('$userSession',
+						$userId,
+						'" . ip2long($_SERVER['REMOTE_ADDR']) . "',
 						'$os',
 						'$device',
 						'$browserVersion'

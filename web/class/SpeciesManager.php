@@ -42,7 +42,7 @@ class SpeciesManager
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 	    	return new Species($donnees);
-    	} catch(Exception $e) {
+    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
@@ -58,7 +58,7 @@ class SpeciesManager
 				$species[] = new Species($donnees);
 			}
 			return $species;
-		} catch(Exception $e) {
+		} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
