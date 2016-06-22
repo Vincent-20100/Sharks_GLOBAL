@@ -45,7 +45,10 @@ function initStartSession() {
 			$persM = new PersonManager($db);
 			$pers = $persM->getBySession($_COOKIE['PHPSESSID']);
 			$db = null; // db disconnect
-			
+			// store the user in the session vars
+			if($pers && $pers != NULL) {
+				$_SESSION['user'] = $pers;
+			}
 			
 			if($_SERVER['PHP_SELF'] == '/SharksTag/login.php' ||
 				$_SERVER['PHP_SELF'] == '/SharksTag/forgotPassword.php' ||

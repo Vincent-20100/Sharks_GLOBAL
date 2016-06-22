@@ -11,7 +11,7 @@ include 'php_script/startSession.php';
 	<script type="text/javascript" src="javascript/game.js"></script>
 
 </head>
-<body>
+<body data-spy="scroll" data-target="#navGame" data-offset="50">
 <embed src="/SharksTag/music/wave.wav" autostart="true" loop="-1" hidden="true"></embed>
 <audio id='player_audio' src="/SharksTag/music/buble.wav"></audio>
 	<?php include('noscript.php'); 
@@ -20,7 +20,7 @@ include 'php_script/startSession.php';
 
 
     <!--Pour le Menu telephone-->
-	<nav id="navGame" class="navbar navbar-default">
+	<nav id="navGame" class="navbar navbar-default" data-spy="affix" data-offset-top="57.5">
 		<div class="container-fluid">
 		    <!--La Barre de jeu-->
 		    <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;" >
