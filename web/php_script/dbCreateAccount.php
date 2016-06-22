@@ -149,23 +149,11 @@ function setNewAccount($mysqli, $username, $session, $email, $passwd_hash, $salt
 	$query = "
 		START TRANSACTION;
 		
-		INSERT INTO Person(username, id_sessionCurrent, email, password, salt)
-		VALUES('$username', '$session', '$email', '$passwd_hash', '$salt');
+		INSERT INTO Person(username, id_sessionCurrent, email, password, salt, activationCode)
+		VALUES('$username', '$session', '$email', '$passwd_hash', '$salt', '$activationCode');
 		
-		INSERT INTO Session (id, id_person, ipv4, os, device, browser)
-		VALUES('$session',
-				( SELECT id FROM Person WHERE username = '$username'),
-				'" . ip2long($_SERVER['REMOTE_ADDR']) . "',
-				'$os',
-				'$device',
-				'$browserVersion'
-				);
-		
-		INSERT INTO Player(id_person, activationCode)
-		VALUES (
-				( SELECT id FROM Person WHERE username = '$username'),
-				'$activationCode'
-				);
+		INSERT INTO Player(id_person)
+		VALUES ( ( SELECT id FROM Person WHERE username = '$username') );
 		
 		COMMIT;";
 

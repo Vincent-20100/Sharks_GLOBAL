@@ -62,6 +62,7 @@ $_SESSION["username"] = "";
 <?php
 	include 'noscript.php';
 	include 'php_script/cookieSession.php';
+	include 'php_script/dispError.php';
 ?>
 <!--
 /****************************************************************************/
@@ -70,13 +71,6 @@ $_SESSION["username"] = "";
 /* https://bootsnipp.com/snippets/featured/login-and-register-tabbed-form 	*/
 /****************************************************************************/
  -->
-<div class="container">
-	<div class="row">
-		<div id="disp-error" class="col-sm-6 col-sm-offset-3">
-			<div id="disp-error-msg" class="col-xs-12 text-center alert alert-success hide" ></div>
-		</div>
-	</div>
-</div>
 <div class="container">
 	<div class="row">
 		<div class="col-sm-6 col-sm-offset-3">
@@ -131,7 +125,7 @@ $_SESSION["username"] = "";
 									</div>
 								</div>
 							</form>
-							<form id="register-form" next-page="<?php echo $nextPage; ?>" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
+							<form id="register-form" next-page="activateAccount.php" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
@@ -154,7 +148,7 @@ $_SESSION["username"] = "";
 											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password"  maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 										<div name="validation" class="hidden-xs col-sm-1">
-											<div class="content show-tooltip icon-info" data-toggle="tooltip" data-placement="auto bottom" style="white-space: pre-wrap;" data-html="true" 
+											<div class="content show-tooltip icon-info" data-toggle="tooltip" data-placement="auto bottom" data-html="true" 
 												title="-Password must be at least 6 character long&#13;
 													-Password must contain at least one digit&#13;
 													-Password must contain at least one uppercase character&#13;
