@@ -38,6 +38,25 @@ class Tag {
 		$this->y2 = $y2;
 	}
 
+	public size() {
+		return Math.abs(x1 - x2) * Math.abs(y1 - y2);
+	}
+
+
+	public function overlap(Tag $other, $threshold = 50) {
+		if(dst($this->x1, $this->y1, $other->x1, $other->y1) <= $threshold 
+			&& dst($this->x2, $this->y2, $other->x2, $other->y2) <= $threshold){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function dst($x1, $y1, $x2, $y2) {
+		return Math.sqrt( ($x1-$x2)*($x1-$x2) + ($y1-$y2)*($y1-$y2) );
+	}
+
 	/* This function takes an array as parmeter.
 	 * It affect values to variables using the setters.
 	 *
