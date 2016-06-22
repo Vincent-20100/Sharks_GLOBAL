@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 		    // uncomment it if you make the password transit in clear text throuth a https protocol
-		    /*
+		    /* it will check the password conformity in the server side 
 			//The password must be at least 8 character long
 	    	if(strlen($_POST["password"])<8) {
 	    		echo "Password must be at least 8 character long\n";
