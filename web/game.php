@@ -1,12 +1,14 @@
-<?php include 'php_script/startSession.php'; ?>
+<?php
+include 'php_script/startSession.php';
+?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Sharks Tag game</title>
+	<?php include('header.php'); ?>
 	<link rel="stylesheet" type="text/css" href="css/game.css">
 	<script type="text/javascript" src="javascript/game.js"></script>
-	<?php include('header.php'); ?>
 
 </head>
 <body>

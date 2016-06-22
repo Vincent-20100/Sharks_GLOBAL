@@ -1,20 +1,15 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
+	$debug = true;
+	
+	if (!$debug) {
+		initStartSession();
+	}
+	
+	
+function initStartSession() {
 	
 	session_start();
-	/*
-	if( !isset($_COOKIE['PHPSESSID'])) {
-		setcookie('PHPSESSID', session_id());
-	}
-	*/
-	
-	// ==TEST==
-//	$_SESSION['id'] = 'h2k22c0k8qucnab9islmkvhbq4';
-	
-//	print $_SESSION['id'] . "<br />";
-//	print $_SERVER['REQUEST_URI'] . "<br />";
-//	print $_SERVER['PHP_SELF'] . "<br />";
-	// ==TEST==
 	
 	
 	$redirect = false;
@@ -98,43 +93,18 @@
 		}
 	
 	}
-	
-	/***************************************************************************
-	****************************************************************************
-	
-	
-	include 'DataBase.php';
-	$db = new DataBase();
-	
-	$query = "SELECT id
-				FROM Pers
-				WHERE id_sessionCurrent = '{$_SESSION['user']['session']}'";
-	
-	$isConnected = false;
-	if(	$result = $db->db()->query($query) ){
-		if( $result->num_rows == 1){
-			$isConnected = true;
-		}
-	}
-	
-	if (!isConnected){
-		// move the user to the log in page
-		header("/SharksTag/login.php?n=" . $_SERVER['REQUEST_URI']);
-	}*/
-	
-	
-	
-	
-	
-	
-	function startsWith($haystack, $needle) {
-		// search backwards starting from haystack length characters from the end
-		return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
-	}
-	
-	function endsWith($haystack, $needle) {
-		// search forward starting from end minus needle length characters
-		return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
-	}
+}
+
+
+
+function startsWith($haystack, $needle) {
+	// search backwards starting from haystack length characters from the end
+	return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+}
+
+function endsWith($haystack, $needle) {
+	// search forward starting from end minus needle length characters
+	return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
+}
 	
 ?>
