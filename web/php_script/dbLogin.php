@@ -42,36 +42,54 @@ function loginAccount($username, $passwd_hash, $userSession) {
 	$return = false;
 
 	// connect to the account by checking the hashed passwd
-	$query  = "SELECT id FROM Person
+	// Even if the password is correct, success only if the activation code
+	// has been used
+	$query  = "	SELECT id FROM Person
 				WHERE username = '$username'
 				AND password = '$passwd_hash'";
 	
 	if ($result = $mysqli->query($query)) {
+		
 		if ($result->num_rows === 1) {
-			// username found
+			// username found and correct password
 			$row = $result->fetch_row();
-			
 			$userId = $row[0];
 			
-			// history the session statistics
-			if(setNewSession($mysqli, $userSession, $userId)) {
-				// store the current player session
-				if(setPlayerSession($mysqli, $username, $userSession, $userId)){
-					echo "Success";
-					$return = true;
+			$queryAccountActive = "	SELECT id FROM Person
+									WHERE id = '$userId'
+									AND activationCode IS NULL";
+			// check if the account has been activated
+			if ($resultAA = $mysqli->query($queryAccountActive)) {
+				if ($resultAA->num_rows === 1) {
+					// YES it is active
+					// history the session statistics
+					if(setNewSession($mysqli, $userSession, $userId)) {
+						// store the current player session
+						if(setPlayerSession($mysqli, $username, $userSession, $userId)){
+							echo "Success";
+							$return = true;
+						}
+						else {
+							echo "Session unreachable.";
+						}
+					}
+					else {
+						// session issue
+						echo "Session issue";
+					}
 				}
+				// NO this account is not active
 				else {
-					echo "Session unreachable.";
+					echo "This account has not been activated yet.<br />Check your e-mails to get your activation code.";
 				}
 			}
 			else {
-				// session issue
-				echo "Please check your username or password. 111";
+				echo "Wrong request";
 			}
 		}
 		else {
 			// wrong user name or password
-			echo "Please check your username or password. 222";
+			echo "Please, check your username or password.";
 		}
 		$result->close();
 	}

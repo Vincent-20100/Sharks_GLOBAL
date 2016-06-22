@@ -6,10 +6,8 @@ include 'php_script/startSession.php';
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-	<title>Shark Tagging Game</title>
+	<title>Shark Tagging Game - activate your account</title>
 	<meta charset="UTF-8">
-
-	<link rel="stylesheet" href="css/recover.css">
 
 	 <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -30,25 +28,42 @@ include 'php_script/startSession.php';
 <body background="images/back.jpg">
 
 <?php 
-	$usernameOrEmailErr = "";
-	$usernameOrEmail = "";
+	$activationCode = "";
 
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	if (isset($_POST["activationCode"])) {
 
-	  	if (empty($_POST["usernameOrEmail"])) {
-
-	    	$usernameOrEmailErr = "Enter a username or an email";
+	  	if (empty($_POST["activationCode"])) {
+	    	echo "Please, enter an activation code.";
 		} else {
 			//success !
-		    $usernameOrEmail = test_input($_POST["usernameOrEmail"]);
+		    $activationCode = test_input($_POST["activationCode"]);
 
-		    // check if username/e-mail address is well-formed
-		    if (!preg_match("/^[a-zA-Z ]*$/",$usernameOrEmail) && !filter_var($usernameOrEmail, FILTER_VALIDATE_EMAIL)) {
-		      	$usernameOrEmailErr = "This username/email adress is invalid";
-		    } 
-		    else {
-		    	//success !
+		    $querySelect = "SELECT id
+		    				FROM Person
+		    				WHERE activationCode = '$activationCode'";
+		    
+		    $queryUpdate = "UPDATE Person
+		    				SET activationCode = NULL
+		    				WHERE activationCode = '$activationCode'";
+		    
+		    include 'php_script/dbConnect.php';
+		    
+		    if ($result = $mysqli->query($querySelect)) {
+		    	if($result->num_rows == 1) {
+		    		if ($result = $mysqli->query($queryUpdate)) {
+		    			echo 'Success';
+		    		}
+		    		else echo 'Failed while using your valid code';
+		    	}
+		    	else {
+		    		echo 'Invalid code.';
+		    	}
 		    }
+		    else {
+		    	echo "Can't execute the request.";
+		    }
+		    
+		    include 'php_script/dbDisconnect.php';
 		}
 	}
 
@@ -70,11 +85,11 @@ include 'php_script/startSession.php';
 <div class="container">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
-			<div class="panel panel-recover">
+			<div class="panel panel-activateAccount">
 				<div class="panel-heading">
 					<div class="row">
 						<div class="col-xs-12">
-							<a href="#" class="active" id="recover-form-link">Recover Account</a>
+							<a href="#" class="activate" id="activateAccount-form-link">Activate Account</a>
 						</div>
 					</div>
 					<hr>
@@ -82,14 +97,14 @@ include 'php_script/startSession.php';
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-lg-12">
-							<form id="recover-form" action="" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
+							<form id="activateAccount-form" action="" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
 								<div class="form-group">
-									<input type="text" name="usernameOrEmailErr" id="usernameOrEmailErr" tabindex="1" class="form-control" placeholder="Email Address" value="<?php echo $usernameOrEmail?>">
+									<input type="text" name="activationCode" id="activationCode" tabindex="1" class="form-control" placeholder="Enter your activation code here" value="<?php if(isset($_GET['code'])) { echo $_GET['code'] ; } ?>">
 								</div>
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-3 col-sm-6">
-											<input type="submit" name="recover-submit" id="recover-submit" tabindex="2" class="btn btn-success btn-lg btn-block" value="Recover Account">
+											<input type="submit" name="activateAccount-submit" id="activateAccount-submit" tabindex="2" class="btn btn-success btn-lg btn-block" value="Activate Account">
 										</div>
 										<div class="col-sm-3">
 											<a href="login.php" role="button" name="cancel" id="cancel" tabindex="3" class="btn btn-danger btn-lg btn-block">Cancel</a>
@@ -107,9 +122,9 @@ include 'php_script/startSession.php';
 
 <script type="text/javascript">
 	$(function() {
-	    $('#recover-form-link').click(function(e) {
-			$("#recover-form").delay(100).fadeIn(100);
-			$(this).addClass('active');
+	    $('#activateAccount-form-link').click(function(e) {
+			$("#activateAccount-form").delay(100).fadeIn(100);
+			$(this).addClass('activate');
 			e.preventDefault();
 		});
 	});
