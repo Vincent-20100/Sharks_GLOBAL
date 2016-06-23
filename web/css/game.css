@@ -14,11 +14,11 @@ line-height: 34px;
 }
 .navbar {
   margin-bottom: 0px;
+  border-radius: 0;
 }
 
 .affix ~ .container-fluid {
- position: absolute;
- top: 34px;
+ top: 35px;
 }
 
 #navGame {
