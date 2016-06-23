@@ -128,17 +128,19 @@ width: 160px;
 line-height: 34px;
 }
 .affix {
-  top:0;
-  width: 100%;
-  z-index: 9999 !important;
+	top:0;
+	width: 100%;
+	z-index: 9999 !important;
 }
 .navbar {
-  margin-bottom: 0px;
+	margin-bottom: 0px;
 }
-
 .affix ~ .container-fluid {
- position: relative;
- top: 50px;
+	position: relative;
+	top: 50px;
+}
+.btn-group-justified {
+	width: 50%;
 }
 
 #navGame {
