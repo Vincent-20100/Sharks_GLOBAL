@@ -1,18 +1,15 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
+	$debug = true;
 	
-	session_start();
-	if( !isset($_COOKIE['PHPSESSID'])) {
-		setcookie('PHPSESSID', session_id());
+	if (!$debug) {
+		initStartSession();
 	}
 	
-	// ==TEST==
-//	$_SESSION['id'] = 'h2k22c0k8qucnab9islmkvhbq4';
 	
-//	print $_SESSION['id'] . "<br />";
-//	print $_SERVER['REQUEST_URI'] . "<br />";
-//	print $_SERVER['PHP_SELF'] . "<br />";
-	// ==TEST==
+function initStartSession() {
+	
+	session_start();
 	
 	
 	$redirect = false;
@@ -21,7 +18,7 @@
 	
 	
 		// set the dest and put the next page in the url (GET method)
-		$dest = "login.php?n=" . $_SERVER['REQUEST_URI'];
+		$dest = "login.php?n=" . $_SERVER['REQUEST_URI'] . "&e=LIOR";
 		// except some pages
 		if($_SERVER['PHP_SELF'] == '/SharksTag/login.php' ||
 			$_SERVER['PHP_SELF'] == '/SharksTag/logout.php') {
@@ -31,8 +28,10 @@
 	
 		// if no session in the history: auto redirect, except on the login page
 		if(!isset($_COOKIE['PHPSESSID'])) {
-			if($_SERVER['PHP_SELF'] != '/SharksTag/login.php') {
-				$redirect = true;
+			if($_SERVER['PHP_SELF'] != '/SharksTag/login.php' &&
+				$_SERVER['PHP_SELF'] != '/SharksTag/forgotPassword.php' &&
+				$_SERVER['PHP_SELF'] != '/SharksTag/activateAccount.php') {
+					$redirect = true;
 			}
 		}
 		else {
@@ -46,17 +45,21 @@
 			$persM = new PersonManager($db);
 			$pers = $persM->getBySession($_COOKIE['PHPSESSID']);
 			$db = null; // db disconnect
+			// store the user in the session vars
+			if($pers && $pers != NULL) {
+				$_SESSION['user'] = $pers;
+			}
 			
-			
-			if($_SERVER['PHP_SELF'] == '/SharksTag/login.php') {
-				// on the login page :
+			if($_SERVER['PHP_SELF'] == '/SharksTag/login.php' ||
+				$_SERVER['PHP_SELF'] == '/SharksTag/forgotPassword.php' ||
+				$_SERVER['PHP_SELF'] == '/SharksTag/activateAccount.php') {
+				// on the login page / forgotPassword page / activateAccount page :
 				// if the user is already connected, redirection to the menu page
 				// else continue
 				
-				
 				if($pers && $pers != NULL) {
 					$redirect = true;
-					$dest = "menu.php";
+					$dest = "menu.php?e=ALI";
 				}
 			}
 			elseif($_SERVER['PHP_SELF'] == '/SharksTag/logout.php') {
@@ -81,7 +84,6 @@
 				}
 				else {
 					$redirect = true;
-					$dest = "login.php?n=" . $_SERVER['REQUEST_URI'];
 				}
 			}
 		}
@@ -94,43 +96,18 @@
 		}
 	
 	}
-	
-	/***************************************************************************
-	****************************************************************************
-	
-	
-	include 'DataBase.php';
-	$db = new DataBase();
-	
-	$query = "SELECT id
-				FROM Pers
-				WHERE id_sessionCurrent = '{$_SESSION['user']['session']}'";
-	
-	$isConnected = false;
-	if(	$result = $db->db()->query($query) ){
-		if( $result->num_rows == 1){
-			$isConnected = true;
-		}
-	}
-	
-	if (!isConnected){
-		// move the user to the log in page
-		header("/SharksTag/login.php?n=" . $_SERVER['REQUEST_URI']);
-	}*/
-	
-	
-	
-	
-	
-	
-	function startsWith($haystack, $needle) {
-		// search backwards starting from haystack length characters from the end
-		return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
-	}
-	
-	function endsWith($haystack, $needle) {
-		// search forward starting from end minus needle length characters
-		return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
-	}
+}
+
+
+
+function startsWith($haystack, $needle) {
+	// search backwards starting from haystack length characters from the end
+	return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+}
+
+function endsWith($haystack, $needle) {
+	// search forward starting from end minus needle length characters
+	return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
+}
 	
 ?>

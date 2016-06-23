@@ -28,6 +28,8 @@ include 'php_script/startSession.php';
 
 	</head>
 	<body background="images/back.jpg">
+		<?php include 'php_script/dispError.php'; ?>
+		
 		<div class="raw">
 			<h1> <font color = red>
 				Shark Tagging Game

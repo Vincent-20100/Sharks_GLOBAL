@@ -1,8 +1,8 @@
 body {
 	margin: 0;
 	font-family: Arial;
-	    
 }
+/*
 #containerHead {
 	background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, #bbb), color-stop(0.5, #bbb), color-stop(1, #fff));
     background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
@@ -38,6 +38,7 @@ body {
 #appButtons a:hover {
 	opacity: 1;
 }
+
 #tipsButton {
 background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, #333), color-stop(0.5, #333), color-stop(1, #fff));
 background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
@@ -114,14 +115,40 @@ text-align: center;
 text-shadow: 0px -1px 1px rgba(0, 0, 0, .8);
 width: 160px;
 }
+
 #appMenu p {
 	display: inline;
 }
 #appMenu {
 	padding: 12px 15px;
 }
+*/
+
+#navbar{
+line-height: 34px;
+}
+.affix {
+  top:0;
+  width: 100%;
+  z-index: 9999 !important;
+}
+.navbar {
+  margin-bottom: 0px;
+}
+
+.affix ~ .container-fluid {
+ position: relative;
+ top: 50px;
+}
+
+#navGame {
+	/*position: fixed;*/
+	width: 100%;
+	background-color: #ddd;
+}
+
 #tipsMenu {
-	padding: 0 15px;
+	width: 100%;
 	background-color: #ddd;
 	color: #000;
 	transition: 0.5s;
@@ -133,31 +160,30 @@ width: 160px;
 	max-height: 0;
 	overflow: hidden;
 }
-#container {
-	background-color: #fdfdfd; /* cream white */
-	cursor: cell;
 
+#container {
+	background-color: black;
+	cursor: cell;
 }
 #imageContainer {
 	height: 100%;
 	width: 90%;
-	margin: 57px auto 0;
-
+	margin: 0 auto;
 }
-
-
 #imageContainer img {
 	height: 100%;
 	width: 100%;
     pointer-events: none;
 }
 
+
+/*
 #containerBelow{
     background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, #bbb), color-stop(0.5, #bbb), color-stop(1, #fff));
     background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
     border: 1px solid #bbb;
     border-radius: 5px;
-    background-color: #bbb; /* grey */
+    background-color: #bbb; // grey 
 	font-size: 25px;
 	position: fixed;
 	bottom: 0;
@@ -165,30 +191,34 @@ width: 160px;
 	z-index:2;
 
 }
+
+*/
+
+/*
 #setZone{
     list-style-type: none;
 	padding: 12px 20px;
 	overflow: hidden;
 	float: right;
 	max-width: 50%;
- 	color: #fff; /* white */
+ 	color: #fff; // white 
 	text-decoration: none;
-background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, rgb(255,0,255)), color-stop(0.5, rgb(255,0,255)), color-stop(1, #fff));
-background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
-border: 1px solid #bbb;
-border-radius: 5px;
--moz-border-radius: 5px;
--webkit-border-radius: 5px;
-font-family: "helvetica neue", helvetica, arial, sans-serif;
-font-size: 20px;
-font-weight: bold;
-letter-spacing: 1px;
-line-height: 1;
-text-align: center;
-text-shadow: 0px -1px 1px rgba(0, 0, 0, .8);
-width: 50px;
+	background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, rgb(255,0,255)), color-stop(0.5, rgb(255,0,255)), color-stop(1, #fff));
+	background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
+	border: 1px solid #bbb;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	font-family: "helvetica neue", helvetica, arial, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	line-height: 1;
+	text-align: center;
+	text-shadow: 0px -1px 1px rgba(0, 0, 0, .8);
+	width: 50px;
 }
-
+*/
 
 	
 div[name="selectedZoneSet"]{

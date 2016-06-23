@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 		    // uncomment it if you make the password transit in clear text throuth a https protocol
-		    /*
+		    /* it will check the password conformity in the server side 
 			//The password must be at least 8 character long
 	    	if(strlen($_POST["password"])<8) {
 	    		echo "Password must be at least 8 character long\n";
@@ -149,23 +149,11 @@ function setNewAccount($mysqli, $username, $session, $email, $passwd_hash, $salt
 	$query = "
 		START TRANSACTION;
 		
-		INSERT INTO Person(username, id_sessionCurrent, email, password, salt)
-		VALUES('$username', '$session', '$email', '$passwd_hash', '$salt');
+		INSERT INTO Person(username, id_sessionCurrent, email, password, salt, activationCode)
+		VALUES('$username', '$session', '$email', '$passwd_hash', '$salt', '$activationCode');
 		
-		INSERT INTO Session (id, id_person, ipv4, os, device, browser)
-		VALUES('$session',
-				( SELECT id FROM Person WHERE username = '$username'),
-				'" . ip2long($_SERVER['REMOTE_ADDR']) . "',
-				'$os',
-				'$device',
-				'$browserVersion'
-				);
-		
-		INSERT INTO Player(id_person, activationCode)
-		VALUES (
-				( SELECT id FROM Person WHERE username = '$username'),
-				'$activationCode'
-				);
+		INSERT INTO Player(id_person)
+		VALUES ( ( SELECT id FROM Person WHERE username = '$username') );
 		
 		COMMIT;";
 
