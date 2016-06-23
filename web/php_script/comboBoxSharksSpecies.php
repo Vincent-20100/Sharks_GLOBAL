@@ -1,13 +1,13 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 	/* allow external pages */
-	header('Access-Control-Allow-Origin: *');
+	//header('Access-Control-Allow-Origin: *');
 	
-	
-	
-	$filedir = '/home/socguest/Desktop/Sharks_GLOBAL/web/private/sharksNames.txt';
 	
 	// get the shark species
+	$filedir = '/home/socguest/Desktop/Sharks_GLOBAL/web/private/sharksNames.txt';
+	//$filedir = '/srv/www/htdocs/Sharks_GLOBAL/web/private/sharksNames.txt';
+	
 	
 	// open file
 	$file = fopen($filedir, 'r');

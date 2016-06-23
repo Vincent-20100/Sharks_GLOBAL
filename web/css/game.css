@@ -2,130 +2,10 @@ body {
 	margin: 0;
 	font-family: Arial;
 }
-/*
-#containerHead {
-	background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, #bbb), color-stop(0.5, #bbb), color-stop(1, #fff));
-    background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
-    border: 1px solid #bbb;
-    border-radius: 5px;
-	border-bottom: solid #bbb 10px;
-	font-size: 20px;
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	z-index:2;
-}
-#appButtons {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	float: right;
-	max-width: 50%;
-}
-#appButtons a li {
-	padding: 12px 20px;
-}
-#appButtons a{
-	display: inline-block;
-	float: right;
-	opacity: 0.7;
-	text-decoration: none;
-	transition: 0.3s;
-}
 
-#appButtons a:hover {
-	opacity: 1;
-}
-
-#tipsButton {
-background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, #333), color-stop(0.5, #333), color-stop(1, #fff));
-background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
-border: 1px solid #bbb;
-border-radius: 5px;
--moz-border-radius: 5px;
--webkit-border-radius: 5px;
-
-color: #fff;
-font-family: "helvetica neue", helvetica, arial, sans-serif;
-font-size: 20px;
-font-weight: bold;
-letter-spacing: 1px;
-line-height: 1;
-text-align: center;
-text-shadow: 0px -1px 1px rgba(0, 0, 0, .8);
-width: 60px;
-}
-
-
-
-#delete {
-background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, #00f), color-stop(0.5, #00f), color-stop(1, #fff));
-background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
-border: 1px solid #bbb;
-border-radius: 5px;
--moz-border-radius: 5px;
--webkit-border-radius: 5px;
-
-color: #fff;
-font-family: "helvetica neue", helvetica, arial, sans-serif;
-font-size: 20px;
-font-weight: bold;
-letter-spacing: 1px;
-line-height: 1;
-text-align: center;
-text-shadow: 0px -1px 1px rgba(0, 0, 0, .8);
-width: 150px;
-}
-
-#resetAll{
-background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, rgb(0,255,0)), color-stop(0.5, rgb(0,255,0)), color-stop(1, #fff));
-background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
-border: 1px solid #bbb;
-border-radius: 5px;
--moz-border-radius: 5px;
--webkit-border-radius: 5px;
-color: #fff;
-font-family: "helvetica neue", helvetica, arial, sans-serif;
-font-size: 20px;
-font-weight: bold;
-letter-spacing: 1px;
-line-height: 1;
-text-align: center;
-text-shadow: 0px -1px 1px rgba(0, 0, 0, .8);
-width: 150px;
-
-}
-
-#newImage {
-background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, #f00), color-stop(0.5, #f00), color-stop(1, #fff));
-background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
-border: 1px solid #bbb;
-border-radius: 5px;
--moz-border-radius: 5px;
--webkit-border-radius: 5px;
-color: #fff;
-font-family: "helvetica neue", helvetica, arial, sans-serif;
-font-size: 20px;
-font-weight: bold;
-letter-spacing: 1px;
-line-height: 1;
-text-align: center;
-text-shadow: 0px -1px 1px rgba(0, 0, 0, .8);
-width: 160px;
-}
-
-#appMenu p {
-	display: inline;
-}
-#appMenu {
-	padding: 12px 15px;
-}
-*/
 
 #navbar{
-line-height: 34px;
+	line-height: 34px;
 }
 .affix {
 	top:0;
@@ -136,8 +16,7 @@ line-height: 34px;
 	margin-bottom: 0px;
 }
 .affix ~ .container-fluid {
-	position: relative;
-	top: 50px;
+	padding-top: 36px;
 }
 .btn-group-justified {
 	width: 50%;
@@ -153,7 +32,7 @@ line-height: 34px;
 	width: 100%;
 	background-color: #ddd;
 	color: #000;
-	transition: 0.5s;
+	transition: max-height 0.5s;
 	max-height: 200px;
 	overflow: hidden;
 }
@@ -164,63 +43,22 @@ line-height: 34px;
 }
 
 #container {
+	position : relative;
 	background-color: black;
 	cursor: cell;
 }
 #imageContainer {
+	position: relative;
 	height: 100%;
 	width: 90%;
 	margin: 0 auto;
 }
 #imageContainer img {
+	position : relative;
 	height: 100%;
 	width: 100%;
     pointer-events: none;
 }
-
-
-/*
-#containerBelow{
-    background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, #bbb), color-stop(0.5, #bbb), color-stop(1, #fff));
-    background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
-    border: 1px solid #bbb;
-    border-radius: 5px;
-    background-color: #bbb; // grey 
-	font-size: 25px;
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-	z-index:2;
-
-}
-
-*/
-
-/*
-#setZone{
-    list-style-type: none;
-	padding: 12px 20px;
-	overflow: hidden;
-	float: right;
-	max-width: 50%;
- 	color: #fff; // white 
-	text-decoration: none;
-	background: -webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #fff), color-stop(0.5, rgb(255,0,255)), color-stop(0.5, rgb(255,0,255)), color-stop(1, #fff));
-	background: -moz-linear-gradient(0% 100% 90deg, #891100 0%, #B51700 50%, #c63929 50%, #EE432E 100%);
-	border: 1px solid #bbb;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	font-family: "helvetica neue", helvetica, arial, sans-serif;
-	font-size: 20px;
-	font-weight: bold;
-	letter-spacing: 1px;
-	line-height: 1;
-	text-align: center;
-	text-shadow: 0px -1px 1px rgba(0, 0, 0, .8);
-	width: 50px;
-}
-*/
 
 	
 div[name="selectedZoneSet"]{
@@ -228,27 +66,13 @@ div[name="selectedZoneSet"]{
      /* constant style */
 	border: dashed 2px #fff; /* white */
 	position: absolute;
-	
-	/* changing style with js */
-	left: 0;
-	top: 0;
-	height: 0;
-	width: 0;
 }
 
 
 .selectedZone{
-
     border: dashed 2px #fff; /* white */
 	position: absolute;
 	overflow: hidden;
-	
-	/* changing style with js */
-	left: 0;
-	top: 0;
-	height: 0;
-	width: 0;
-
 }
 
 div[name="touch"]{
@@ -264,9 +88,8 @@ div[name="grab"]{
 }
 
 .species {
-    background-color: #fff;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: normal;
     padding: 1px 5px 1px 7px;
     position: absolute;
     bottom: 0px;
@@ -283,9 +106,6 @@ div[name="grab"]{
     border-radius:50%;
     width:20px;
     height:20px;
-    left: 0;
-	top: 0;
-
 }
 
 .noSelect {

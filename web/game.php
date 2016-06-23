@@ -1,6 +1,4 @@
-<?php
-include 'php_script/startSession.php';
-?>
+<?php include 'php_script/startSession.php'; ?>
 
 <!DOCTYPE html>
 <html>
@@ -11,73 +9,90 @@ include 'php_script/startSession.php';
 	<script type="text/javascript" src="javascript/game.js"></script>
 
 </head>
-<body data-spy="scroll" data-target="#navGame" data-offset="50">
+<body data-spy="scroll" data-target="#navGame" >
 <embed src="/SharksTag/music/wave.wav" autostart="true" loop="-1" hidden="true"></embed>
 <audio id='player_audio' src="/SharksTag/music/buble.wav"></audio>
 	<?php include('noscript.php'); 
 		  include('mainNavBar.php');
 	?>
+	<script>
+    	function getPos(){
+    		var pos = $("#mainNav").height();
+			$("#navGame").attr("data-offset-top", pos);
+    	}
+
+    	$(function(){
+		    	var img = $('#imageContainer');
+		   		var pow = img.width(); 
+		   		var poh = img.height();
+		    	console.log("Depart : "+pow);
+		    	console.log("         "+poh);
+	    		getPos();
+			$(window).resize(function(){
+				console.log("Suivant :"+img.width());
+				console.log("         "+img.height());
+				getPos();
+				var pourcentw = 100 - img.width() * 100 / pow;
+				var pourcenth = 100 - img.height() * 100 / poh;
+				console.log(pourcentw + "  " + pourcenth);
+				var i = 0;
+				for(i=0; i<rank; i++){
+					console.log("On resize l'element : "+i);
+					var elem = $("#selectedZone"+i);
+					var point1 = $("#point1"+i);
+				    var point2 = $("#point2"+i);
+				    var point3 = $("#point3"+i);
+				    var point4 = $("#point4"+i);
+
+					elem.width(elem.width() - elem.width()*pourcentw/100);
+					elem.height(elem.height() - elem.height()*pourcenth/100);
+					point1.offset({left : elem.offset().left - point1.width()/2, top : elem.offset().top - point1.height()/2});   
+			        point2.offset({left : elem.offset().left + elem.width() - point2.width()/2, top: elem.offset().top - point2.height()/2});
+			        point3.offset({left : elem.offset().left + elem.width() - point3.width()/2, top: elem.offset().top + elem.height() - point3.height()/2});
+				    point4.offset({left : elem.offset().left - point4.width()/2, top : elem.offset().top + elem.height() - point4.height()/2});
+				}
+			});
 
 
+    	});
+
+    </script>
     
-	<div id="navGame" class="navbar navbar-default" data-spy="affix" data-offset-top="57.5">
-	    <!--La Barre de jeu-->
-		<!--<ul class="nav navbar-nav navbar-left">
-			<li id="appMenu">Select an area on the image below and tag the species aside </li>
-		</ul>-->	
+	<div id="navGame" class="navbar navbar-default" data-spy="affix">
+	    <div class="container-fluid">
+		    <!--La Barre de jeu-->
+			<!--<ul class="nav navbar-nav navbar-left">
+				<li id="appMenu">Select an area on the image below and tag the species aside </li>
+			</ul>-->	
 		
-		<!-- Split button -->
-		<div class="col-xs-6">
-			<?php include('php_script/comboBoxSharksSpecies.php'); ?>
-		</div>
-			<!--
-			<li class="btn-group">
-				<button id="newImage" type="button" class="btn btn-success" onclick="newImage()"><span class="glyphicon glyphicon-check"></span> New image</button>
-				<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span class="glyphicon glyphicon-th-list"></span>
-					<span class="sr-only">Toggle Dropdown</span>
-				</button>
-				<ul class="dropdown-menu">
-					<li><a id="delete" href="javascript:void(0);" class="" onclick="deleteZone()"><span class="glyphicon glyphicon-erase"></span> Delete</a></li>
-					<li><a id="resetAll" href="javascript:void(0);" class="" onclick ="resetAllZone()"><span class="glyphicon glyphicon-trash"></span> ResetAll</a></li>
-					<li role="separator" class="divider"></li>
-					<li><a id="tipsButton" href="javascript:void(0);" class="" onclick="showHideTips()"><span class="glyphicon glyphicon-option-vertical"></span> Tips</a></li>
-				</ul>
-			</li>
-			-->
-		<div class="btn-group btn-group-justified col-xs-6">
-			<div class="btn-group">
-				<button id="newImage" type="button" class="btn btn-success" onclick="newImage()">
-				<span class="glyphicon glyphicon-check"></span>
-				<span class="hidden-xs"> New image</span></button>
+			<!-- Split button -->
+			<div class="col-xs-6">
+				<?php include('php_script/comboBoxSharksSpecies.php'); ?>
 			</div>
-			<div class="btn-group">
-			<button id="delete" class="btn btn-warning" onclick="deleteZone()">
-				<span class="glyphicon glyphicon-erase"></span>
-				<span class="hidden-xs"> Delete</span></button>
-			</div>
-			<div class="btn-group">
-			<button id="resetAll" class="btn btn-danger" onclick ="resetAllZone()">
-				<span class="glyphicon glyphicon-trash"></span>
-				<span class="hidden-xs"> ResetAll</span></button>
-			</div>
-			<div class="btn-group">
-			<button id="tipsButton" class="btn btn-info" onclick="showHideTips()">
-				<span class="glyphicon glyphicon-option-vertical"></span>
-				<span class="hidden-xs"> Tips</span></button>
+			<div class="col-xs-6 btn-group btn-group-justified">
+				<div class="btn-group">
+					<button id="newImage" type="button" class="btn btn-success" onclick="newImage()">
+					<span class="glyphicon glyphicon-check"></span>
+					<span class="hidden-xs"> Send</span></button>
+				</div>
+				<div class="btn-group">
+				<button id="delete" class="btn btn-warning" onclick="deleteZone()">
+					<span class="glyphicon glyphicon-erase"></span>
+					<span class="hidden-xs"> Delete</span></button>
+				</div>
+				<div class="btn-group">
+				<button id="resetAll" class="btn btn-danger" onclick ="resetAllZone()">
+					<span class="glyphicon glyphicon-trash"></span>
+					<span class="hidden-xs"> Reset</span></button>
+				</div>
+				<div class="btn-group">
+				<button id="tipsButton" class="btn btn-info" onclick="showHideTips()">
+					<span class="glyphicon glyphicon-option-vertical"></span>
+					<span class="hidden-xs"> Tips</span></button>
+				</div>
 			</div>
 		</div>
 	</div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<!--Tips-->
 	<div id="tipsMenu" class="container-fluid dontShow">
 		<p>Tips :</p>

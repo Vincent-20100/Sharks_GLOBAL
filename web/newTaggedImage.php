@@ -9,7 +9,7 @@
 
 		//create a tag for each selection made
 		foreach($tags as $i){
-			$number = $mysqli->exec("INSERT INTO Tag(labelSpecies, posX, posY, width, height) VALUES('{$i['species']}', {$i['posX']}, {$i['posY']}, {$i['width']}, {$i['height']})");	
+			$number = $mysqli->exec("INSERT INTO Tag(id_species, x1, y1, x2, y2) VALUES('{$i['id_species']}', {$i['x1']}, {$i['y1']}, {$i['x2']}, {$i['x2']})");	
 		}		
 
 		//get the player
