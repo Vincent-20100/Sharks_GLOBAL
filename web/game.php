@@ -1,4 +1,4 @@
-<?php// include 'php_script/startSession.php'; ?>
+<?php include 'php_script/startSession.php'; ?>
 
 <!DOCTYPE html>
 <html>
@@ -15,10 +15,7 @@
 	<?php include('noscript.php'); 
 		  include('mainNavBar.php');
 	?>
-
-
-    <!--Pour le Menu telephone-->
-    <script>
+	<script>
     	function getPos(){
     		var pos = $("#mainNav").height();
 			$("#navGame").attr("data-offset-top", pos);
@@ -61,36 +58,56 @@
     	});
 
     </script>
-	<nav id="navGame" class="navbar navbar-default" data-spy="affix">
-		<div class="container-fluid">
+    
+	<div id="navGame" class="navbar navbar-default" data-spy="affix">
+	    <div class="container-fluid">
 		    <!--La Barre de jeu-->
-		    <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;" >
-				<ul class="nav navbar-nav navbar-left">
-					<li id="appMenu">Select an area on the image below and tag the species aside <?php include('php_script/comboBoxSharksSpecies.php'); ?></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><button id="newImage" href="javascript:void(0);" class="btn btn-success" onclick="newImage()">New image</button></li>	
-					<li><button id="delete" href="javascript:void(0);" class="btn btn-warning" onclick="deleteZone()">Delete</button></li>
-					<li><button id="resetAll" href="javascript:void(0);" class="btn btn-danger" onclick ="resetAllZone()">ResetAll</button></li>
-					<li><button id="tipsButton" href="javascript:void(0);" class="btn btn-info" onclick="showHideTips()">T</button></li>
-				</ul>
+			<!--<ul class="nav navbar-nav navbar-left">
+				<li id="appMenu">Select an area on the image below and tag the species aside </li>
+			</ul>-->	
+		
+			<!-- Split button -->
+			<div class="col-xs-6">
+				<?php include('php_script/comboBoxSharksSpecies.php'); ?>
+			</div>
+			<div class="col-xs-6 btn-group btn-group-justified">
+				<div class="btn-group">
+					<button id="newImage" type="button" class="btn btn-success" onclick="newImage()">
+					<span class="glyphicon glyphicon-check"></span>
+					<span class="hidden-xs"> Send</span></button>
+				</div>
+				<div class="btn-group">
+				<button id="delete" class="btn btn-warning" onclick="deleteZone()">
+					<span class="glyphicon glyphicon-erase"></span>
+					<span class="hidden-xs"> Delete</span></button>
+				</div>
+				<div class="btn-group">
+				<button id="resetAll" class="btn btn-danger" onclick ="resetAllZone()">
+					<span class="glyphicon glyphicon-trash"></span>
+					<span class="hidden-xs"> Reset</span></button>
+				</div>
+				<div class="btn-group">
+				<button id="tipsButton" class="btn btn-info" onclick="showHideTips()">
+					<span class="glyphicon glyphicon-option-vertical"></span>
+					<span class="hidden-xs"> Tips</span></button>
+				</div>
 			</div>
 		</div>
-		<!--Tips-->
-		<div id="tipsMenu" class="dontShow">
-			<p>Tips :</p>
-			<ul>
-				<li>Show/hide tips by pressing T (shortcut = 'T')</li>
-				<li>Delete the selected zone by pressing DELETE (shortcut = 'Delete')</li>
-				<li>Remove all your shapes by pressing ResetAll (shortcut = 'Esc')</li>
-				<li>NEW IMAGE : Press 'Alt' + 'N' on the keyboard or click on the 'New image' button</li>
-				<li>Move the selected zone by dragging them with the mouse  (shortcut = arrows)</li>
-				<li>Change the selected shape's width and height by grabbing points (shortcut = '+' '-')</li>
-			</ul>
-		</div>
-	</nav>
+	</div>
+	<!--Tips-->
+	<div id="tipsMenu" class="container-fluid dontShow">
+		<p>Tips :</p>
+		<ul>
+			<li>Show/hide tips by pressing T (shortcut = 'T')</li>
+			<li>Delete the selected zone by pressing DELETE (shortcut = 'Delete')</li>
+			<li>Remove all your shapes by pressing ResetAll (shortcut = 'Esc')</li>
+			<li>NEW IMAGE : Press 'Alt' + 'N' on the keyboard or click on the 'New image' button</li>
+			<li>Move the selected zone by dragging them with the mouse  (shortcut = arrows)</li>
+			<li>Change the selected shape's width and height by grabbing points (shortcut = '+' '-')</li>
+		</ul>
+	</div>
 	<!--Image Container-->
-	<div id="container" class="container-fluid noSelect" onmousedown="initZone()" onmousemove="setZone()" onmouseup="endSelectZone()" >
+	<div id="container" class="container noSelect" onmousedown="initZone()" onmousemove="setZone()" onmouseup="endSelectZone()" >
 		<div id="imageContainer" class="noSelect">
 			<img class="img-responsive" src="images/tutorial.jpg">
 		</div>

@@ -5,20 +5,22 @@ body {
 
 
 #navbar{
-line-height: 34px;
+	line-height: 34px;
 }
 .affix {
-  top:0;
-  width: 100%;
-  z-index: 9999 !important;
+	top:0;
+	width: 100%;
+	z-index: 9999 !important;
 }
 .navbar {
   margin-bottom: 0px;
   border-radius: 0;
 }
-
 .affix ~ .container-fluid {
- top: 35px;
+	padding-top: 36px;
+}
+.btn-group-justified {
+	width: 50%;
 }
 
 #navGame {
@@ -31,7 +33,7 @@ line-height: 34px;
 	width: 100%;
 	background-color: #ddd;
 	color: #000;
-	transition: 0.5s;
+	transition: max-height 0.5s;
 	max-height: 200px;
 	overflow: hidden;
 }
@@ -87,9 +89,8 @@ div[name="grab"]{
 }
 
 .species {
-    background-color: #fff;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: normal;
     padding: 1px 5px 1px 7px;
     position: absolute;
     bottom: 0px;
