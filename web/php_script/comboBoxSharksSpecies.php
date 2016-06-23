@@ -5,8 +5,8 @@
 	
 	
 	
-	$filedir = '/home/socguest/Desktop/Sharks_GLOBAL/web/private/sharksNames.txt';
-	
+	//$filedir = '/home/socguest/Desktop/Sharks_GLOBAL/web/private/sharksNames.txt';
+	$filedir = '/srv/www/htdocs/Sharks_GLOBAL/web/private/sharksNames.txt';
 	// get the shark species
 	
 	// open file
