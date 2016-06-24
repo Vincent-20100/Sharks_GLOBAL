@@ -49,7 +49,7 @@ $(function (){
 		else {
 		    //We add this to a span on the actual div in order to print the
 		    //Shark spicies on the screen
-			elem.html("<span class='species'>" + speciesSelected + "</span>");
+			elem.html("<span class='species label label-primary'>" + speciesSelected + "</span>");
 		}
 		
 	});
