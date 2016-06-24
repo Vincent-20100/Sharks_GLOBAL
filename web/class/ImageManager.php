@@ -32,7 +32,7 @@ class ImageManager
 		try {
 			$id = (int) $id;
 
-			$q = $this->_db->query('SELECT id, name, hdDir, ldDir, test FROM Image WHERE id = '.$id);
+			$q = $this->_db->query('SELECT id, name, hdDir, ldDir, test, nbSharks FROM Image WHERE id = '.$id);
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -46,7 +46,7 @@ class ImageManager
 	{
 		try {
 			$images = [];
-			$q = $this->_db->query('SELECT id, name, hdDir, ldDir, test FROM Image ORDER BY id');
+			$q = $this->_db->query('SELECT id, name, hdDir, ldDir, test, nbSharks FROM Image ORDER BY id');
 			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 			{
