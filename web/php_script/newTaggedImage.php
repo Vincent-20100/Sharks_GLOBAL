@@ -20,8 +20,8 @@
 
 		//create the tagged image
 		while ($i < $tagId->num_rows){
-		$mysqli->exec("INSERT INTO TaggedImage(image, player, tag) VALUES($imageId, $playerId, {$tagRows[$i]})");
-		$i++;	
+			$mysqli->exec("INSERT INTO TaggedImage(image, player, tag) VALUES($imageId, $playerId, {$tagRows[$i]})");
+			$i++;	
 		}
 
 		$mysqli->exec ("COMMIT TRANSACTON T1");

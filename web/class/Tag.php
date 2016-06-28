@@ -5,6 +5,7 @@ class Tag {
 	private $y1;
 	private $x2;
 	private $y2;
+	private $isReference;
 
 	public function id() {
 		return $this->id;
@@ -20,6 +21,9 @@ class Tag {
 	}
 	public function y2() {
 		return $this->y2;
+	}
+	public function isReference() {
+		return $this->isReference;
 	}
 
 	public function setId($id) {
@@ -37,11 +41,17 @@ class Tag {
 	public function setY2($y2) {
 		$this->y2 = $y2;
 	}
-
-	public size() {
-		return Math.abs(x1 - x2) * Math.abs(y1 - y2);
+	public function setIsReference($isReference) {
+		$this->isReference = $isReference;
 	}
 
+	public function size() {
+		return abs(x1 - x2) * abs(y1 - y2);
+	}
+
+	function dst($x1, $y1, $x2, $y2) {
+		return sqrt( ($x1-$x2)*($x1-$x2) + ($y1-$y2)*($y1-$y2) );
+	}
 
 	public function overlap(Tag $other, $threshold = 50) {
 		if(dst($this->x1, $this->y1, $other->x1, $other->y1) <= $threshold 
@@ -51,10 +61,6 @@ class Tag {
 		else{
 			return false;
 		}
-	}
-
-	public function dst($x1, $y1, $x2, $y2) {
-		return Math.sqrt( ($x1-$x2)*($x1-$x2) + ($y1-$y2)*($y1-$y2) );
 	}
 
 	/* This function takes an array as parmeter.
@@ -74,4 +80,9 @@ class Tag {
    		$this->hydrate($data);
 	}
 }
+
+function dst($x1, $y1, $x2, $y2) {
+	return sqrt( ($x1-$x2)*($x1-$x2) + ($y1-$y2)*($y1-$y2) );
+}
+
 ?>

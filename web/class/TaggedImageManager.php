@@ -20,6 +20,15 @@ class TaggedImageManager
 		$q->execute();
 	}
 
+	public function addRef(TaggedImage $taggedImage)
+	{
+		$q = $this->_db->prepare('INSERT INTO TaggedImage(id_image) VALUES(:id_image)');
+		
+		$q->bindValue(':id_image', $taggedImage->id_image());
+
+		$q->execute();
+	}
+
 	public function delete(TaggedImage $taggedImage)
 	{
 		$this->_db->exec('DELETE FROM TaggedImage WHERE id = '.$taggedImage->id());
@@ -30,7 +39,23 @@ class TaggedImageManager
 		try {
 			$id = (int) $id;
 
-			$q = $this->_db->query('SELECT id, id_image, id_session FROM TaggedImage WHERE id = '.$id);
+			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id = '.$id);
+			if($q === false){ return null; }
+			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+
+	    	return new TaggedImage($donnees);
+    	} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+
+	public function getRefByImageId($id_image)
+	{
+		try {
+			$id = (int) $id;
+
+			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id_image = :id_image and id_session = null');
+			$q->bindValue(':id_image', $id_image);
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -44,7 +69,7 @@ class TaggedImageManager
 	{
 		try {
 			$taggedImages = [];
-			$q = $this->_db->query('SELECT id, id_image, id_session FROM TaggedImage ORDER BY id');
+			$q = $this->_db->query('SELECT * FROM TaggedImage ORDER BY id');
 			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 			{
@@ -55,6 +80,26 @@ class TaggedImageManager
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
+
+	public function getListByIdImage($idImage)
+	{
+		try {
+			$taggedImages = [];
+			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id_image = :idImage');
+			$q->bindValue(':idImage', $idImage);
+
+			if($q === false){ return null; }
+			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			{
+				$taggedImages[] = new TaggedImage($donnees);
+			}
+			return $taggedImages;
+		} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+
+
 
 	public function update(TaggedImage $taggedImage)
 	{
@@ -75,7 +120,7 @@ class TaggedImageManager
 
 	/* To add a new tag in the DB see the example bellow
 
-		$taggedImage = new TaggedImageManager([
+		$taggedImage = new TaggedImage([
 		  	'id_image' => '...',
 		  	'id_session' => ...
 		]);
