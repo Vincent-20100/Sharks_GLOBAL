@@ -1,4 +1,4 @@
-.navbar-nav > li > a{
+.navbar-nav > li > a, .navbar-toggle{
     padding-top:4px !important; 
     padding-bottom:0 !important;
     height: 28px;

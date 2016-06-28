@@ -2,7 +2,7 @@
 // Vincent Bessouet, DCU School of Computing, 2016
 ?>
 
-<nav id="mainNav" class="navbar navbar-inverse">
+<nav id="mainNav" class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavBar" aria-expanded="false" aria-controls="navbar">
