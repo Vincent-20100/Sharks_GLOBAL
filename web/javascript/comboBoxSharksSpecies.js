@@ -1,0 +1,10 @@
+
+console.log("coucou");
+var app = angular.module('myApp', []);
+app.controller('sharksCtrl', function($scope, $http) {
+	$http.get("php_script/comboBoxSharksSpecies.php")
+	.then(function (response) {
+		console.log("coucou2");
+		$scope.sharks = response.data.records;
+	});
+});

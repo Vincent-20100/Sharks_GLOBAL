@@ -1,4 +1,7 @@
- <!--Main Bar-->
+<?php
+// Vincent Bessouet, DCU School of Computing, 2016
+?>
+
 <nav id="mainNav" class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -22,20 +25,24 @@
 				// TODO //
 				//////////
 				
-				// ** TEST **
-				$logged = true;
-				
-				if($logged) {
+				if($_DEBUG || $_SESSION['user'] == null) {
 					echo "
-					<li><a id='scoreButton' href='scores.php' type='button'><i class='ionicons ion-trophy'></i> Score</a></li>
-					<li><a id='userButton' href='#' type='button'><i class='ionicons ion-person'></i> User</a></li>
-					<li><a id='logoutButton' href='logout.php' type='button'><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>
+					<li><a id='registerButton' href='login.php' type='button'><i class='ionicons ion-person-add'></i> Register</a></li>
+					<li><a id='activateButton' href='activateAccount.php' type='button'><i class='ionicons ion-unlocked'></i> Activate account</a></li>
+					<li><a id='loginButton' href='login.php' type='button'><span class='glyphicon glyphicon-log-in'></span> Login</a></li>
 					";
 				}
 				else {
+					if( ! $_SESSION['user']->isAdmin() ){
+						echo "
+						<li><a id='scoreButton' href='scores.php' type='button'>
+							<i class='ionicons ion-trophy'></i> " . $_SESSION['user']->score() . " pt" . ($_SESSION['user']->score() > 1 ? 's' : '') . "
+						</a></li>
+						";
+					}
 					echo "
-					<li><a id='registerButton' href='login.php' type='button'><i class='ionicons ion-person-add'></i> Register</a></li>
-					<li><a id='loginButton' href='login.php' type='button'><span class='glyphicon glyphicon-log-in'></span> Login</a></li>
+					<li><a id='userButton' href='#' type='button'><i class='ionicons ion-person'></i> " . $_SESSION['user']->username() . "</a></li>
+					<li><a id='logoutButton' href='logout.php' type='button'><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>
 					";
 				}
 				?>

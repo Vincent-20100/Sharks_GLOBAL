@@ -1,8 +1,8 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
-	$debug = true;
+	$_DEBUG = false;
 	
-	if (!$debug) {
+	if (!$_DEBUG) {
 		initStartSession();
 	}
 	
@@ -39,15 +39,24 @@ function initStartSession() {
 			// check if it is active for a user
 	
 		
-			include '/home/socguest/Desktop/Sharks_GLOBAL/web/class/PersonManager.php';
+			include '/home/socguest/Desktop/Sharks_GLOBAL/web/class/AdministratorManager.php';
+			include '/home/socguest/Desktop/Sharks_GLOBAL/web/class/PlayerManager.php';
 			// person manager linked to the database
 			$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
-			$persM = new PersonManager($db);
-			$pers = $persM->getBySession($_COOKIE['PHPSESSID']);
+			$adminM = new AdministratorManager($db);
+			$playerM = new PlayerManager($db);
+			
+			if(($pers = $adminM->getBySession($_COOKIE['PHPSESSID'])) == null) {
+				$pers = $playerM->getBySession($_COOKIE['PHPSESSID']);
+			}
+			
 			$db = null; // db disconnect
 			// store the user in the session vars
 			if($pers && $pers != NULL) {
 				$_SESSION['user'] = $pers;
+			}
+			else {
+				$_SESSION['user'] = null;
 			}
 			
 			if($_SERVER['PHP_SELF'] == '/SharksTag/login.php' ||
@@ -80,7 +89,7 @@ function initStartSession() {
 				
 				
 				if(	$pers && $pers != NULL) {
-					echo $pers->username() . " is connected";
+					//echo $pers->username() . " is connected";
 				}
 				else {
 					$redirect = true;

@@ -9,23 +9,18 @@ include 'php_script/startSession.php';
 	<title>Shark Tagging Game - activate your account</title>
 	<meta charset="UTF-8">
 
-	 <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<!-- Latest jQuery Library -->
-	<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
-	<!-- Latest jQuery Validation Plugin -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-
+	<?php include('php_shared/header.php'); ?>
+	
 	<style type="text/css">
 	.error {color: #FF0000;}
 	</style>
 
 </head>
 <body background="images/back.jpg">
+<?php 
+	  include 'php_shared/head.php';
+?>
+
 
 <?php 
 	$activationCode = "";

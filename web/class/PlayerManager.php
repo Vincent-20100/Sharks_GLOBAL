@@ -1,5 +1,7 @@
 <?php
-include 'Person.php';
+if(!isset($_PERSON_PHP)){
+	include 'Person.php';
+}
 
 class PlayerManager
 {
@@ -12,25 +14,30 @@ class PlayerManager
 
 	public function add(Player $player)
 	{
-		$q = $this->_db->prepare('INSERT INTO Person(id_sessionCurrent, username, email, password, salt) VALUES(:id_sessionCurrent, :username, :email, :password, :salt)');
+		$q = $this->_db->prepare('INSERT INTO Person(id_sessionCurrent, username, email, password, salt, activationCode) VALUES(:id_sessionCurrent, :username, :email, :password, :salt, :activationCode)');
 		
 		$q->bindValue(':id_sessionCurrent', $player->id_sessionCurrent());
 		$q->bindValue(':username', $player->username());
 		$q->bindValue(':email', $player->email());
 		$q->bindValue(':password', $player->password());
 		$q->bindValue(':salt', $player->salt());
+		$q->bindValue(':activationCode', $player->activationCode());
 
 		$q->execute();
 
 
 
-		$q2 = $this->_db->prepare('INSERT INTO Player(score, tutorialFinished, activationCode) VALUES(:score, :tutorialFinished, :activationCode)');
+		$q2 = $this->_db->prepare('INSERT INTO Player(id_person, score, tutorialFinished) VALUES(:id_pers, :score, :tutorialFinished)');
 
+		$q2->bindValue(':id_person', $player->id());
 		$q2->bindValue(':score', $player->score());
 		$q2->bindValue(':tutorialFinished', $player->tutorialFinished());
-		$q2->bindValue(':activationCode', $player->activationCode());
 
 		$q2->execute();
+		
+		$q2 = $this->_db->query("SELECT id FROM Person WHERE username = '" . $person->username() . "'");
+		$data = $q2->fetch(PDO::FETCH_ASSOC);
+		$person->setId($data['id']);
 	}
 
 
@@ -45,11 +52,25 @@ class PlayerManager
 		try {
 			$id = (int) $id;
 
-			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person per, Player pla  WHERE per.id = '.$id.' AND pla.id_person = '.$id);
+			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, activationCode, score, tutorialFinished FROM Person per, Player pla  WHERE per.id = $id AND pla.id_person = $id');
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
 			return new Player($donnees);
+    	} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+	
+	public function getBySession($session)
+	{
+		try {
+			$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt, activationCode, score, tutorialFinished FROM Person per, Player pla WHERE per.id = pla.id_person AND per.id_sessionCurrent = '$session'");
+			if($q === false){ return null; }
+			$data = $q->fetch(PDO::FETCH_ASSOC);
+
+			if($data) { return new Player($data); }
+			else { return null; }
     	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -118,4 +139,5 @@ class PlayerManager
 		$manager->add($player);
 		$db = null;
 	 */
+}
 ?>

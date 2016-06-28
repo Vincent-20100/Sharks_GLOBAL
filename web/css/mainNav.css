@@ -3,3 +3,9 @@
 	border: none;
 	border-radius: 0;
 }
+
+#scoreButton .ion-trophy {
+	color: #ffd700;
+}
+
+.glyphicons-user-lock:before{content:"\E522"}

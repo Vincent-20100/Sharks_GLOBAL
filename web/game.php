@@ -4,17 +4,22 @@
 <html>
 <head>
 	<title>Sharks Tag game</title>
-	<?php include('header.php'); ?>
+	
+	<?php include('php_shared/header.php'); ?>
+	
+	
 	<link rel="stylesheet" type="text/css" href="css/game.css">
+	<link rel="stylesheet" type="text/css" href="css/dropdown-submenu.css">
 	<script type="text/javascript" src="javascript/game.js"></script>
-
+	<script type="text/javascript" src="javascript/comboBoxSharksSpecies.js"></script>
+	
 </head>
 <body data-spy="scroll" data-target="#navGame" >
-<embed src="/SharksTag/music/wave.wav" autostart="true" loop="-1" hidden="true"></embed>
-<audio id='player_audio' src="/SharksTag/music/buble.wav"></audio>
-	<?php include('noscript.php'); 
-		  include('mainNavBar.php');
-	?>
+	<embed src="/SharksTag/music/wave.wav" autostart="true" loop="-1" hidden="true"></embed>
+	<audio id='player_audio' src="/SharksTag/music/buble.wav"></audio>
+	
+	<?php include 'php_shared/head.php'; ?>
+	
 	<script>
     	function getPos(){
     		var pos = $("#mainNav").height();
@@ -56,9 +61,7 @@
 				prech = img.height();
 			});
     	});
-
     </script>
-    
 	<div id="navGame" class="navbar navbar-default" data-spy="affix">
 	    <div class="container-fluid">
 		    <!--La Barre de jeu-->
@@ -68,7 +71,9 @@
 		
 			<!-- Split button -->
 			<div class="col-xs-6">
-				<?php include('php_script/comboBoxSharksSpecies.php'); ?>
+				<?php include 'table.php';
+					includeComboBox();
+				?>
 			</div>
 			<div class="col-xs-6 btn-group btn-group-justified">
 				<div class="btn-group">
