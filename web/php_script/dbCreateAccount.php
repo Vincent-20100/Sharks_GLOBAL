@@ -1,8 +1,6 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 	
-	header('Access-Control-Allow-Origin: *');
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if( isset($_POST['email']) && isset($_POST['username']) &&
 		isset($_POST['password']) && isset($_POST['salt']) && isset($_POST['session'])) {

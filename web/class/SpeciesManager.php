@@ -47,6 +47,21 @@ class SpeciesManager
 		}
 	}
 
+	public function getIdByName($sharkName)
+	{
+		try {
+
+			$q = $this->_db->query('SELECT id FROM Species WHERE name = :name');
+			$q->bindValue(':name', $sharkName);
+			if($q === false){ return null; }
+			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+
+	    	return $donnees['id'];
+    	} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+
 	public function getList()
 	{
 		try {

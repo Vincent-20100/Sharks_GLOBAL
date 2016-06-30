@@ -9,7 +9,7 @@
 
 		//create a tag for each selection made
 		foreach($tags as $i){
-			$number = $mysqli->exec("INSERT INTO Tag(id_species, x1, y1, x2, y2) VALUES('{$i['id_species']}', {$i['x1']}, {$i['y1']}, {$i['x2']}, {$i['x2']})");	
+			$number = $mysqli->exec("INSERT INTO Tag(id_species, x1, y1, x2, y2) VALUES('{$i['id_species']}', {$i['x1']}, {$i['y1']}, {$i['x2']}, {$i['y2']})");	
 		}		
 
 		//get the player
@@ -20,8 +20,8 @@
 
 		//create the tagged image
 		while ($i < $tagId->num_rows){
-		$mysqli->exec("INSERT INTO TaggedImage(image, player, tag) VALUES($imageId, $playerId, {$tagRows[$i]})");
-		$i++;	
+			$mysqli->exec("INSERT INTO TaggedImage(image, player, tag) VALUES($imageId, $playerId, {$tagRows[$i]})");
+			$i++;	
 		}
 
 		$mysqli->exec ("COMMIT TRANSACTON T1");

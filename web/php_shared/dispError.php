@@ -3,7 +3,7 @@
 		<div id="disp-error" class="col-sm-6 col-sm-offset-3">
 			<div id='disp-error-msg' <?php
 			if ( ! isset($_GET['e'])) {
-				echo "class='col-xs-12 text-center alert alert-success hide'";
+				echo "class='col-xs-12 text-center alert alert-success hide'>";
 			}
 			else {
 				// in case of the user arrived on this page after a redirection

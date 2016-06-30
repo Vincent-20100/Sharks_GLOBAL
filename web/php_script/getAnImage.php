@@ -1,7 +1,5 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
-	/* allow external pages */
-	header('Access-Control-Allow-Origin: *');
 	
 	
 	$dir = array();
@@ -29,7 +27,7 @@
 		// choose randomly one file
 		$i = array_rand($filesArray);
 		// print the hmtl <img> tag
-		print("<img src='{$dir['html']}/{$filesArray[$i]}' alt='a databank image'>");
+		print("<img class='img-responsive' src='{$dir['html']}/{$filesArray[$i]}' alt='a databank image'>");
 	}
 	else {
 		//print an error

@@ -1,5 +1,7 @@
 <?php
 
+$_PERSON_PHP = true;
+
 class Person {
 	private $id;
 	private $username;
@@ -7,6 +9,7 @@ class Person {
 	private $email;
 	private $password;
 	private $salt;
+	private $activationCode;
 
 	public function id() {
 		return $this->id;
@@ -25,6 +28,9 @@ class Person {
 	}
 	public function salt() {
 		return $this->salt;
+	}
+	public function activationCode() {
+		return $this->activationCode;
 	}
 
 	public function setId($id) {
@@ -45,7 +51,14 @@ class Person {
 	public function setSalt($salt) {
 		$this->salt = $salt;
 	}
-
+	public function setActivationCode($activationCode) {
+		$this->activationCode = $activationCode;
+	}
+	
+	public function isAdmin() {
+		return false;
+	}
+	
 	/* This function takes an array as parmeter.
 	 * It affect values to variables using the setters.
 	 *
@@ -67,16 +80,12 @@ class Person {
 class Player extends Person {
 	private $score;
 	private $tutorialFinished;
-	private $activationCode;
 
 	public function score() {
 		return $this->score;
 	}
 	public function tutorialFinished() {
 		return $this->tutorialFinished;
-	}
-	public function activationCode() {
-		return $this->activationCode;
 	}
 
 	public function setScore($score) {
@@ -85,8 +94,9 @@ class Player extends Person {
 	public function setTutorialFinished($tutorialFinished) {
 		$this->tutorialFinished = $tutorialFinished;
 	}
-	public function setActivationCode($activationCode) {
-		$this->activationCode = $activationCode;
+	
+	public function isAdmin() {
+		return false;
 	}
 
 	/* This function takes an array as parmeter.
@@ -103,14 +113,18 @@ class Player extends Person {
    	}
 
     function __construct(array $data){
-    	$personData = array_slice($data, 0, 5);
-    	$playerData = array_slice($data, 5);
+    	$personData = array_slice($data, 0, 6);
+    	$playerData = array_slice($data, 6);
    		parent::__construct($personData);
    		$this->hydrate($playerData);
 	}
 }
 
 class Administrator extends Person {
+	
+	public function isAdmin() {
+		return true;
+	}
 	
 	/* This function takes an array as parmeter.
 	 * It affect values to variables using the setters.

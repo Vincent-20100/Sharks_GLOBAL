@@ -1,5 +1,7 @@
 <?php
-include 'Person.php';
+if(!isset($_PERSON_PHP)){
+	include 'Person.php';
+}
 
 class PersonManager
 {
@@ -12,15 +14,23 @@ class PersonManager
 
 	public function add(Person $person)
 	{
-		$q = $this->_db->prepare('INSERT INTO Person(id_sessionCurrent, username, email, password, salt) VALUES(:id_sessionCurrent, :username, :email, :password, :salt)');
+		$q = $this->_db->prepare('INSERT INTO Person(id_sessionCurrent, username, email, password, salt, activationCode) VALUES(:id_sessionCurrent, :username, :email, :password, :salt, :activationCode)');
 		
 		$q->bindValue(':id_sessionCurrent', $person->id_sessionCurrent());
 		$q->bindValue(':username', $person->username());
 		$q->bindValue(':email', $person->email());
 		$q->bindValue(':password', $person->password());
 		$q->bindValue(':salt', $person->salt());
-
+		$q->bindValue(':activationCode', $person->activationCode());
+		
 		$q->execute();
+		
+		// get the id of the inserted line
+		
+		$q2 = $this->_db->query("SELECT id FROM Person WHERE username = '" . $person->username() . "'");
+		$data = $q2->fetch(PDO::FETCH_ASSOC);
+		$person->setId($data['id']);
+		
 	}
 
 	public function delete(Person $person)
@@ -33,7 +43,7 @@ class PersonManager
 		try {
 			$id = (int) $id;
 
-			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id = '.$id);
+			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, activationCode FROM Person WHERE id = '.$id);
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -47,7 +57,7 @@ class PersonManager
 	public function getBySession($session)
 	{
 		try {
-			$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt FROM Person WHERE id_sessionCurrent = '" . $session . "'");
+			$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt, activationCode FROM Person WHERE id_sessionCurrent = '" . $session . "'");
 
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
@@ -93,7 +103,7 @@ class PersonManager
 	{
 		try {
 			$persons = [];
-			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt FROM Person ORDER BY id');
+			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, activationCode FROM Person ORDER BY id');
 			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 			{
@@ -107,13 +117,14 @@ class PersonManager
 
 	public function update(Person $person)
 	{
-		$q = $this->_db->prepare('UPDATE Person SET id_sessionCurrent = :id_sessionCurrent, username = :username, email = :email, password = :password, salt = :salt WHERE id = :id');
+		$q = $this->_db->prepare('UPDATE Person SET id_sessionCurrent = :id_sessionCurrent, username = :username, email = :email, password = :password, salt = :salt, activationCode = :activationCode WHERE id = :id');
 		
 		$q->bindValue(':id_sessionCurrent', $person->id_sessionCurrent());
 		$q->bindValue(':username', $person->username());
 		$q->bindValue(':email', $person->email());
 		$q->bindValue(':password', $person->password());
 		$q->bindValue(':salt', $person->salt());
+		$q->bindValue(':activationCode', $person->activationCode());
 
 		$q->execute();
 	}
@@ -131,7 +142,8 @@ class PersonManager
 		  	'username' => ...,
 		  	'email' => ...,
 		  	'password' => ...,
-		  	'salt' => ...
+		  	'salt' => ...,
+		  	'activationCode' => ...
 		]);
   	 
 		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
