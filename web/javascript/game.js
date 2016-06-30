@@ -922,12 +922,72 @@ function leftd(){
 
 
 function newImage() {
-	$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php');
-		/* end by del the selected zone */
-		resetAllZone();
+	
+	sendTags();
+	
+		
 }
 
 
+
+function sendTags() {
+
+	var listTags = [];
+	for(i=0; i<rank; i++){
+		var elem = $("selectedZone"+i);
+		if(elem.length != 0){
+			var sharkName = $("#selectedZone" + i).attr("species");
+			var x1 = elem.offset().left;
+			var y1 = elem.offset().top;
+			var y1 = elem.offset().left + elem.width();
+			var x1 = elem.offset().top + elem.height();
+			listTags[i]['sharkName'] = sharkName;
+			listTags[i]['x1'] = x1;
+			listTags[i]['y1'] = y1;
+			listTags[i]['x2'] = x2;
+			listTags[i]['y2'] = y2;
+		}
+	}
+
+	if(listTags.length == 0){
+		checkTagSent('Success');
+	}
+	else {
+		// send the tags to the data base
+		$.ajax({
+			async: true,
+			// destination page
+			url: 'http://136.206.48.174/SharksTag/php_script/tagSent.php',
+			// use POST method
+			type: 'POST',
+			// POST's arguments
+			data: {
+				imageURL = $("#image-container img").attr("src"),
+				id_session = $("#session_id").val(),
+				tabTagsPos = listTags;
+			},
+			context: this,
+			// get the result
+			success: checkTagSent
+		});
+	}
+
+	
+
+}
+
+function checkTagSent (data) {
+	console.log(data);
+
+	if(data == 'Success'){
+		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php');
+		/* end by del the selected zone */
+		resetAllZone();
+	} else {
+		// TODO we will see later
+		
+	}
+}
 
 function showHideTips() {
 	$("#tipsMenu").toggleClass("dontShow");
