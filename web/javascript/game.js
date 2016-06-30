@@ -27,6 +27,12 @@ var initPos = [0, 0];
 var mousePos = [0,0,0,0];
 var mouseAction = setZone;
 
+function getPos(){
+	var pos = $("#mainNav").height();
+	$("#navGame").attr("data-offset-top", pos);
+}
+
+
 
 $(function (){
 //This is a Jquery function, it's called all the time
@@ -53,8 +59,37 @@ $(function (){
 		}
 		
 	});
-	
-	
+
+
+	var bod = $('body');
+	var img = $("#imageContainer img")
+	var bodwidth = bod.width();
+	var bodheight = bod.height();
+	getPos();
+	$(window).resize(function(){
+		getPos();
+		var pourcentbodwidth = bod.width() / bodwidth;
+		var pourcentbodheight = bod.height() / bodheight;
+		var i = 0;
+		for(i=0; i<rank; i++){
+			var elem = $("#selectedZone"+i);
+		    if (elem.length != 0){
+				var point1 = $("#point1"+i);
+			    var point2 = $("#point2"+i);
+			    var point3 = $("#point3"+i);
+			    var point4 = $("#point4"+i);
+				elem.width(elem.width()*pourcentbodwidth);
+				elem.height(elem.height()*pourcentbodheight);
+				elem.offset({left: (elem.offset().left)*pourcentbodwidth,  top: (elem.offset().top)*pourcentbodheight});
+				point1.offset({left : elem.offset().left - point1.width()/2, top : elem.offset().top - point1.height()/2});
+		        point2.offset({left : elem.offset().left + elem.width() - point2.width()/2, top: elem.offset().top - point2.height()/2});
+		        point3.offset({left : elem.offset().left + elem.width() - point3.width()/2, top: elem.offset().top + elem.height() - point3.height()/2});
+			    point4.offset({left : elem.offset().left - point4.width()/2, top : elem.offset().top + elem.height() - point4.height()/2});
+		    }
+		}
+		bodwidth = bod.width();
+		bodheight = bod.height();
+	});
 });
 
 
@@ -108,9 +143,7 @@ function initZone() {
 	initPos[0] = posym.x; // x
 	initPos[1] = posym.y; // y
 	
-	isMousePressed = true;
-	
-	    
+	isMousePressed = true;   
 	}
 	
 }
@@ -122,6 +155,7 @@ function setZone() {
 //Function called when we move on the div id='container'
 //If we have clicked on the div id='container', isMousePressed === true
    if (isMousePressed){
+
         if(setOK===true){
         //Creation of a new SelectedZone as well as 4 points
 		    $("#container").append("<div id='selectedZone"+rank+"' value= '"+rank+"' species='empty' class = 'selectedZone' name='touch' onmousedown = 'initDrag("+rank+")'  onmousemove='dragZone()'></div>");
@@ -173,10 +207,16 @@ function setZone() {
 	
 	    /* set the coordonates of the selectedZone, its width, its height */
 	    elem.offset({left: pointRef.x, top: pointRef.y});
+
+
+	   /* elem.css("left",pointRef.x);
+	    elem.css("top",pointRef.y - img.offset().top);
+	    elem.css("width", initPos[0]- posym.x);
+	    elem.css("height", initPos[1]- posym.y);*/
 	    elem.width(Math.abs(initPos[0]- posym.x));
-	    elem.height(Math.abs(initPos[1]- posym.y));
+	   elem.height(Math.abs(initPos[1]- posym.y));
 	
-	    // set the coortonates of the 4 points situated in each corner of the zone
+	    //set the coortonates of the 4 points situated in each corner of the zone
 	    point1.offset({left: pointRef.x - point1.width()/2, 
 					    top: pointRef.y - point1.height()/2});
 	    point2.offset({left: pointRef.x + elem.width() - point2.width()/2, 
@@ -198,9 +238,8 @@ function setZone() {
         }
         else{
             outside2 = false;
-        }			    
+        }		    
     }
-    
     //Even if we are moving the mouse in the container,
     //If we were dragging or resising, it will continute
     //And will not create another new selectedZone  
@@ -218,6 +257,8 @@ function setZone() {
 	else if(isResizing4 === true){
 	    resizePoint4();
 	}
+  	
+
 }
 
 function passDiv(){
@@ -259,14 +300,11 @@ function initDrag(rank){
 }
 
 
-var index = 0;
 function dragZone() {
 //This function is called when you move the mouse on a SelectedZone
 	
     if(isDragging === true){
-    
-    console.log("is dragging "+index);
-    index = index+1;
+   
     //recovery of data, the curent element etc...
     var elem = $('#selectedZone'+curent)
     var point1 = $("#point1"+curent)
@@ -316,7 +354,7 @@ function dragZone() {
 	    resizePoint3();
 	}else if(isResizing4 === true){
 	    resizePoint4();
-	}	   
+	}
 }
 
 
@@ -634,23 +672,15 @@ function endSelectZone() {
     console.log("End Click");
 	//In this case:
 	//stop to click
-	isMousePressed = false;
-	//stop to drag
-	isDragging = false;
-    //stop to resize	
-    isResizing1 = false;
-    isResizing2 = false;
-    isResizing3 = false;
-    isResizing4 = false;
-    
+
+ 
     //recovery of data, the curent element etc...
 	var elem = $("#selectedZone"+curent);
 	var point1 = $("#point1"+curent);
 	var point2 = $("#point2"+curent);
 	var point3 = $("#point3"+curent);
 	var point4 = $("#point4"+curent);
-	var img = $('#imageContainer');
-	
+	var img = $('#imageContainer img');	
 	// display the points and the label which indicates the shark species
 	point1.removeClass("dontShow");
 	point2.removeClass("dontShow");
@@ -679,7 +709,6 @@ function endSelectZone() {
 	if (isSetting === true){
 	    //we made a new selected zone so we are incrementing the variable
 	    rank = rank+1;
-	    isSetting = false;
 	    setOK = true;
 	}	
 	
@@ -731,6 +760,18 @@ function endSelectZone() {
 		point4.offset({left : elem.offset().left - point4.width()/2 , top: elem.offset().top + elem.height() - point4.height()/2});
 		bot = false;
 	}
+
+	//stop to click
+	isMousePressed = false;
+	//stop to set
+	isSetting = false;
+	//stop to drag
+	isDragging = false;
+    //stop to resize	
+    isResizing1 = false;
+    isResizing2 = false;
+    isResizing3 = false;
+    isResizing4 = false;
 }
 
 

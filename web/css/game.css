@@ -47,18 +47,13 @@ body {
 	position : relative;
 	background-color: black;
 	cursor: cell;
+	width: 100% !important;
 }
 #imageContainer {
 	position: relative;
 	height: 100%;
 	width: 90%;
 	margin: 0 auto;
-}
-#imageContainer img {
-	position : relative;
-	height: 100%;
-	width: 100%;
-    pointer-events: none;
 }
 
 	
