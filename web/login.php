@@ -22,8 +22,7 @@ $_SESSION["username"] = "";
 <html lang="en">
 <head>
 	<title>Shark Tagging Game</title>
-	<meta charset="UTF-8">
-
+	
 	<?php include('php_shared/header.php'); ?>
 	
 	<!-- Custom CSS for login.php -->

@@ -154,7 +154,7 @@
 	
 	
 function getSharksList($mysqli) {
-	$query = "	SELECT name, otherNames, image, length, uniqueIdentifyingFeature AS 'uif'
+	$query = "	SELECT id, name, otherNames, image, length, uniqueIdentifyingFeature AS 'uif'
 				FROM Species";
 	
 	return $mysqli->query($query);
