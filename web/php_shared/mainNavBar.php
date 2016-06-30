@@ -14,11 +14,11 @@
 			
 			<a id='homeButton' class="navbar-brand hidden-sm hidden-md hidden-lg" href="menu.php" type='button'><i class="ionicons ion-android-home"></i> Home</a>
 			
-			<ul class="nav navbar-nav navbar-left">
+			<ul class="nav navbar-nav">
 				<li><a id='homeButton' class="hidden-xs" href="menu.php" type='button'><i class="ionicons ion-android-home"></i> Home</a></li>
 			</ul>
 		</div>
-		<div id="mainNavBar" class="navbar-collapse collapse col-xs-6" aria-expanded="false" style="height: 1px;" >
+		<div id="mainNavBar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;" >
 			<ul class="nav navbar-nav navbar-right">
 				<?php
 				//////////
