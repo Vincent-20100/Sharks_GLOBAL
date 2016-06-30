@@ -2,9 +2,9 @@
 // Vincent Bessouet, DCU School of Computing, 2016
 ?>
 
-<nav id="mainNav" class="navbar navbar-inverse">
+<nav id="mainNav" class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
-		<div class="navbar-header">
+		<div class="navbar-header col-xs-6">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavBar" aria-expanded="false" aria-controls="navbar">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
@@ -14,11 +14,11 @@
 			
 			<a id='homeButton' class="navbar-brand hidden-sm hidden-md hidden-lg" href="menu.php" type='button'><i class="ionicons ion-android-home"></i> Home</a>
 			
-			<ul class="nav navbar-nav">
+			<ul class="nav navbar-nav navbar-left">
 				<li><a id='homeButton' class="hidden-xs" href="menu.php" type='button'><i class="ionicons ion-android-home"></i> Home</a></li>
 			</ul>
 		</div>
-		<div id="mainNavBar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;" >
+		<div id="mainNavBar" class="navbar-collapse collapse col-xs-6" aria-expanded="false" style="height: 1px;" >
 			<ul class="nav navbar-nav navbar-right">
 				<?php
 				//////////
