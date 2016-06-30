@@ -1,6 +1,8 @@
 <?php
 class Tag {
 	private $id;
+	private $id_taggedImage;
+	private $id_species;	
 	private $x1;
 	private $y1;
 	private $x2;
@@ -9,6 +11,12 @@ class Tag {
 
 	public function id() {
 		return $this->id;
+	}
+	public function id_taggedImage() {
+		return $this->id_taggedImage;
+	}
+	public function id_species() {
+		return $this->id_species;
 	}
 	public function x1() {
 		return $this->x1;
@@ -28,6 +36,12 @@ class Tag {
 
 	public function setId($id) {
 		$this->id = $id;
+	}
+	public function setId_taggedImage($id_taggedImage) {
+		$this->id_taggedImage = $id_taggedImage;
+	}
+	public function setId_species($id_species) {
+		$this->id_species = $id_species;
 	}
 	public function setX1($x1) {
 		$this->x1 = $x1;

@@ -13,7 +13,7 @@ class TagManager
 	public function add(Tag $tag)
 	{
 		$q = $this->_db->prepare('INSERT INTO Tag(x1, y1, x2, y2) VALUES(:x1, :y1, :x2, :y2, :isReference)');
-		
+		$q->bindValue(':id_species', $tag->id_species());
 		$q->bindValue(':x1', $tag->x1());
 		$q->bindValue(':y1', $tag->y1());
 		$q->bindValue(':x2', $tag->x2());
@@ -24,7 +24,7 @@ class TagManager
 
 	public function addRef(Tag $tag, $id_taggedImage, $id_species)
 	{
-		$q = $this->_db->prepare('INSERT INTO Tag(id_taggedImage, x1, y1, x2, y2, isReference) VALUES(:id_taggedImage, :x1, :y1, :x2, :y2, :isReference)');
+		$q = $this->_db->prepare('INSERT INTO Tag(id_taggedImage, id_species, x1, y1, x2, y2, isReference) VALUES(:id_taggedImage, :id_species, :x1, :y1, :x2, :y2, :isReference)');
 		
 		$q->bindValue(':id_taggedImage', $id_taggedImage);
 		$q->bindValue(':id_species', $id_species);
@@ -47,7 +47,7 @@ class TagManager
 		try {
 			$id = (int) $id;
 
-			$q = $this->_db->query('SELECT id, x1, y1, x2, y2, isReference FROM Tag WHERE id = '.$id);
+			$q = $this->_db->query('SELECT id, id_taggedImage, id_species, x1, y1, x2, y2, isReference FROM Tag WHERE id = '.$id);
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -61,7 +61,7 @@ class TagManager
 	{
 		try {
 			$tags = [];
-			$q = $this->_db->query('SELECT id, x1, y1, x2, y2, isReference FROM Tag ORDER BY id');
+			$q = $this->_db->query('SELECT id, id_taggedImage, id_species, x1, y1, x2, y2, isReference FROM Tag ORDER BY id');
 			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 			{
@@ -77,7 +77,7 @@ class TagManager
 	{
 		try {
 			$tags = [];
-			$q = $this->_db->query('SELECT id, x1, y1, x2, y2, isReference FROM Tag WHERE id_taggedImage = :idTaggedImage AND isReference = 0');
+			$q = $this->_db->query('SELECT id, id_taggedImage, id_species, x1, y1, x2, y2, isReference FROM Tag WHERE id_taggedImage = :idTaggedImage AND isReference = 0');
 			$q->bindValue(':idTaggedImage', $idTaggedImage);
 			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))

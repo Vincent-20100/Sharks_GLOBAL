@@ -43,8 +43,23 @@ class TaggedImageManager
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
-	    	return new TaggedImage($donnees);
-    	} catch(PDOException $e) {
+		    	return new TaggedImage($donnees);
+	    	} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+
+	public function getBySessionAndImage($id_session, $id_image)
+	{
+		try {
+			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id_image = :id_image and id_session = :id_session');
+			$q->bindValue(':id_image', $id_image);
+			$q->bindValue(':id_session', $id_session);
+			if($q === false){ return null; }
+			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+
+		    	return new TaggedImage($donnees);
+	    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
@@ -59,8 +74,8 @@ class TaggedImageManager
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
-	    	return new TaggedImage($donnees);
-    	} catch(PDOException $e) {
+		    	return new TaggedImage($donnees);
+	    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
