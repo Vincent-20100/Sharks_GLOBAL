@@ -1,6 +1,6 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
-	$_DEBUG = false;
+	$_DEBUG = true;
 	
 	if (!$_DEBUG) {
 		initStartSession();
