@@ -962,9 +962,9 @@ function sendTags() {
 			type: 'POST',
 			// POST's arguments
 			data: {
-				imageURL = $("#image-container img").attr("src"),
-				id_session = $("#session_id").val(),
-				tabTagsPos = listTags;
+				imageURL : $("#image-container img").attr("src"),
+				id_session : $("#session_id").val(),
+				tabTagsPos : listTags
 			},
 			context: this,
 			// get the result
