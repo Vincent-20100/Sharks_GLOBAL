@@ -1,5 +1,9 @@
 <?php
-include 'TaggedImage.php';
+$_TAGGED_IMAGE_MANAGER_PHP = true;
+
+if(!isset($_TAGGED_IMAGE_PHP)){
+	include 'TaggedImage.php';
+}
 
 class TaggedImageManager
 {
@@ -52,9 +56,7 @@ class TaggedImageManager
 	public function getBySessionAndImage($id_session, $id_image)
 	{
 		try {
-			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id_image = :id_image and id_session = :id_session');
-			$q->bindValue(':id_image', $id_image);
-			$q->bindValue(':id_session', $id_session);
+			$q = $this->_db->query("SELECT * FROM TaggedImage WHERE id_image = '$id_image' AND id_session = '$id_session'");
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -69,8 +71,7 @@ class TaggedImageManager
 		try {
 			$id = (int) $id;
 
-			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id_image = :id_image and id_session = null');
-			$q->bindValue(':id_image', $id_image);
+			$q = $this->_db->query("SELECT * FROM TaggedImage WHERE id_image = $id_image AND id_session IS NULL");
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -100,8 +101,7 @@ class TaggedImageManager
 	{
 		try {
 			$taggedImages = [];
-			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id_image = :idImage');
-			$q->bindValue(':idImage', $idImage);
+			$q = $this->_db->query("SELECT * FROM TaggedImage WHERE id_image = '$idImage'");
 
 			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))

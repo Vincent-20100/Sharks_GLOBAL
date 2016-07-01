@@ -1,4 +1,6 @@
 <?php
+$_SESSION_PHP = true;
+
 class Session {
 	private $id; // not only numbers /^[a-zA-Z0-9]*$/
 	private $ipv4;

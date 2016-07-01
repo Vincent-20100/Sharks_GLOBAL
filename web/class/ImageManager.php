@@ -1,5 +1,7 @@
 <?php
-include 'Image.php';
+if(!isset($_IMAGE_PHP)){
+	include 'Image.php';
+}
 
 class ImageManager
 {
@@ -12,7 +14,7 @@ class ImageManager
 
 	public function add(Image $image)
 	{
-		$q = $this->_db->prepare('INSERT INTO Image(name, hdDir, ldDir) VALUES(:name, :hdDir, :ldDir)');
+		$q = $this->_db->prepare("INSERT INTO Image(name, hdDir, ldDir) VALUES(:name, :hdDir, :ldDir)");
 		
 		$q->bindValue(':name', $image->name());
 		$q->bindValue(':hdDir', $image->hdDir());
@@ -44,22 +46,20 @@ class ImageManager
 	public function getByName($name)
 	{
 		try {
-
-			$q = $this->_db->query('SELECT * FROM Image WHERE name = :name');
-			$q->bindValue(':name', $name);
-			if($q === false){ 
-
+			$q = $this->_db->query("SELECT * FROM Image WHERE name = '$name'");
+			
+			if($q === false){ return null; }
+			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			if(! $donnees){
 				$image = new Image([
 				  	'name' => $name,
 				  	'hdDir' => "",
 				  	'ldDir' => ""
 				]);
 				
-				$this->$_db->add($image);		
-				return $this->$_db->getByName($name);
+				$this->add($image);
+				return $this->getByName($name);
 			}
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
-
 	    		return new Image($donnees);
 	    	} catch(PDOException $e) {
 				exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
@@ -98,7 +98,7 @@ class ImageManager
 	public function setDb(PDO $db)
 	{
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-		$this->$_db = $db;
+		$this->_db = $db;
 	}
 
 	/* To add a new image in the DB see the example bellow

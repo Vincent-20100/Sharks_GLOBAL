@@ -27,6 +27,7 @@ var initPos = [0, 0];
 var mousePos = [0,0,0,0];
 var mouseAction = setZone;
 
+var UNDEFINED_SPECIES = 'undefined';
 
 $(function (){
 //This is a Jquery function, it's called all the time
@@ -43,7 +44,7 @@ $(function (){
 		//In which SelectedZone
 		var elem = $("#selectedZone"+curent);
 		elem.attr("species", speciesSelected);
-		if (speciesSelected === 'empty') {
+		if (speciesSelected === UNDEFINED_SPECIES) {
 			elem.html("");
 		}
 		else {
@@ -124,7 +125,7 @@ function setZone() {
    if (isMousePressed){
         if(setOK===true){
         //Creation of a new SelectedZone as well as 4 points
-		    $("#container").append("<div id='selectedZone"+rank+"' value= '"+rank+"' species='empty' class = 'selectedZone' name='touch' onmousedown = 'initDrag("+rank+")'  onmousemove='dragZone()'></div>");
+		    $("#container").append("<div id='selectedZone"+rank+"' value= '"+rank+"' species='" + UNDEFINED_SPECIES + "' class = 'selectedZone' name='touch' onmousedown = 'initDrag("+rank+")'  onmousemove='dragZone()'></div>");
 		    $("#container").append("<div id='point1"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd' onmousedown = 'initResize1("+rank+")' onmousemove ='resizePoint1()'></div>");
 		    $("#container").append("<div id='point2"+rank+"' value= '"+rank+"' species='' class='point' name='pointeven' onmousedown = 'initResize2("+rank+")' onmousemove ='resizePoint2()'></div>");
 		    $("#container").append("<div id='point3"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd'onmousedown = 'initResize3("+rank+")' onmousemove ='resizePoint3()'></div>");
@@ -150,8 +151,8 @@ function setZone() {
 	    var point4 = $("#point4"+curent);
 	    var img = $('#imageContainer');
 	   
-		// set the selected option in the combobox to empty value
-		$("#sharkSpecies").val('empty');
+		// set the selected option in the combobox to undefined value
+		$("#sharkSpecies").val(UNDEFINED_SPECIES);
 		
 	    var pointRef ={
 		    x:0,		
@@ -254,8 +255,8 @@ function initDrag(rank){
     elem.addClass("selected");
     elem.attr("name","grab");
     
-    // set the selected option in the combobox to empty value
-	$("#sharkSpecies").val(elem.attr('species'));
+    // set the selected option in the combobox to UNDEFINED_SPECIES value
+	$("#sharkSpecies").val(elem.attr(UNDEFINED_SPECIES));
 }
 
 
@@ -744,8 +745,8 @@ function deleteZone(){
 	var point3 = $("#point3"+curent);
 	var point4 = $("#point4"+curent);
 	
-	// set the selected option in the combobox to empty value
-	$("#sharkSpecies").val('empty');	
+	// set the selected option in the combobox to UNDEFINED_SPECIES value
+	$("#sharkSpecies").val(UNDEFINED_SPECIES);	
 	elem.remove();
 	point1.remove();
 	point2.remove();
@@ -788,8 +789,8 @@ function resetAllZone(){
 	point3.remove();
 	point4.remove();
 	
-	// set the selected option in the combobox to empty value
-	$("#sharkSpecies").val('empty');
+	// set the selected option in the combobox to UNDEFINED_SPECIES value
+	$("#sharkSpecies").val(UNDEFINED_SPECIES);
 	setOK=true;
 }
 
@@ -933,27 +934,37 @@ function newImage() {
 function sendTags() {
 
 	var listTags = [];
+
+
+	
 	for(i=0; i<rank; i++){
-		var elem = $("selectedZone"+i);
+		var elem = $("#selectedZone"+i);
+		
 		if(elem.length != 0){
-			var sharkName = $("#selectedZone" + i).attr("species");
+			listTags[i] = {};
 			var x1 = elem.offset().left;
 			var y1 = elem.offset().top;
-			var y1 = elem.offset().left + elem.width();
-			var x1 = elem.offset().top + elem.height();
-			listTags[i]['sharkName'] = sharkName;
+			var x2 = elem.offset().left + elem.width();
+			var y2 = elem.offset().top + elem.height();
+			listTags[i]['sharkName'] = $("#selectedZone" + i).attr("species");
 			listTags[i]['x1'] = x1;
 			listTags[i]['y1'] = y1;
 			listTags[i]['x2'] = x2;
 			listTags[i]['y2'] = y2;
 		}
 	}
-
+	
+	var jsonListTags = JSON.stringify(listTags);
+		
+	// the person didn't tagged the image
 	if(listTags.length == 0){
 		checkTagSent('Success');
 	}
 	else {
+		// TODO look if the image have been analysed before
+		
 		// send the tags to the data base
+		
 		$.ajax({
 			async: true,
 			// destination page
@@ -962,9 +973,9 @@ function sendTags() {
 			type: 'POST',
 			// POST's arguments
 			data: {
-				imageURL : $("#image-container img").attr("src"),
+				imageURL : $("#imageContainer img").attr("src"),
 				id_session : $("#session_id").val(),
-				tabTagsPos : listTags
+				tabTagsPos : jsonListTags
 			},
 			context: this,
 			// get the result
@@ -980,6 +991,7 @@ function checkTagSent (data) {
 	console.log(data);
 
 	if(data == 'Success'){
+		dispMsg("alert-success", "success", data);
 		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php');
 		/* end by del the selected zone */
 		resetAllZone();

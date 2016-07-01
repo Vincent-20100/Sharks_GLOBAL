@@ -1,5 +1,7 @@
 <?php
-include 'Tag.php';
+if(!isset($_TAG_PHP)){
+	include 'Tag.php';
+}
 
 class TagManager
 {
@@ -12,7 +14,8 @@ class TagManager
 
 	public function add(Tag $tag)
 	{
-		$q = $this->_db->prepare('INSERT INTO Tag(x1, y1, x2, y2) VALUES(:x1, :y1, :x2, :y2, :isReference)');
+		$q = $this->_db->prepare('INSERT INTO Tag(id_taggedImage, id_species, x1, y1, x2, y2) VALUES(:id_taggedImage, :id_species, :x1, :y1, :x2, :y2)');
+		$q->bindValue(':id_taggedImage', $tag->id_taggedImage());
 		$q->bindValue(':id_species', $tag->id_species());
 		$q->bindValue(':x1', $tag->x1());
 		$q->bindValue(':y1', $tag->y1());
@@ -77,8 +80,7 @@ class TagManager
 	{
 		try {
 			$tags = [];
-			$q = $this->_db->query('SELECT id, id_taggedImage, id_species, x1, y1, x2, y2, isReference FROM Tag WHERE id_taggedImage = :idTaggedImage AND isReference = 0');
-			$q->bindValue(':idTaggedImage', $idTaggedImage);
+			$q = $this->_db->query("SELECT * FROM Tag WHERE id_taggedImage = $idTaggedImage AND isReference = 0");
 			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 			{

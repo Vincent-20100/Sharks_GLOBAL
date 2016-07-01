@@ -1,4 +1,5 @@
 <?php
+$_BARYCENTER_PHP = true;
 
 class Barycenter {
     private $vecteurArray = null; // Array of vectors

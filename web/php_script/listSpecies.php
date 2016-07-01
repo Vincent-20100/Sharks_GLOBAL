@@ -50,7 +50,7 @@
 	
 	<!-- comboBox -->
 	<select id='sharkSpecies' class='form-control'>
-		<option value='empty'>-- Select a species --</option>
+		<option value='undefined'>-- Select a species --</option>
 		<option ng-repeat='x in sharks' value='{{x.name}}'>{{x.name}}</option>
 	</select>
     

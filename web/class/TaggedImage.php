@@ -1,4 +1,6 @@
 <?php
+$_TAGGED_IMAGE_PHP = true;
+
 class TaggedImage {
 	private $id;
 	private $id_image;

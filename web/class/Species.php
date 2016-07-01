@@ -1,4 +1,6 @@
 <?php
+$_SPECIES_PHP = true;
+
 class Species {
 	private $id;
 	private $image;

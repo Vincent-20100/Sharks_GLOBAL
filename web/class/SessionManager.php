@@ -1,4 +1,6 @@
 <?php
+$_SESSION_MANAGER_PHP = true;
+
 class SessionManager
 {
 	private $_db; // instance of PDO

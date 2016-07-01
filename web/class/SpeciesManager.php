@@ -1,5 +1,7 @@
 <?php
-include 'Species.php';
+if(!isset($_SPECIES_PHP)){
+	include 'Species.php';
+}
 
 class SpeciesManager
 {
@@ -51,8 +53,7 @@ class SpeciesManager
 	{
 		try {
 
-			$q = $this->_db->query('SELECT id FROM Species WHERE name = :name');
-			$q->bindValue(':name', $sharkName);
+			$q = $this->_db->query("SELECT id FROM Species WHERE name = '$sharkName'");
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 

@@ -1,24 +1,23 @@
 <?php
-	include('../class/TaggedImageManager.php');
-	include('../class/TagManager.php');
-	include('../class/Barycentre.php');	
+	
+	include_once('../class/TaggedImageManager.php');
+	include_once('../class/TagManager.php');
+	include_once('../class/Barycenter.php');	
 
 	//at least 5 person have tagged the image
 	function analyseTagsOnImage($imageId){
 		
-		//connexion
-		require 'dbConnect.php';
-		$mysqli->exec ("BEGIN TRANSACTION T1");
-		
 		//search for all taggedimage linked to this image
 		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
+		$db->beginTransaction();
+		
 		$taggedImageManager = new TaggedImageManager($db);
-		$ListTaggedImages = $taggedImageManager->getListByIdImage($imageId) 
+		$ListTaggedImages = $taggedImageManager->getListByIdImage($imageId);
 		
 		$tagManager = new TagManager($db);
 		$ListTags = []; //contain all tags for the image
-		foreach($ListTaggedImages as $idTaggedImage){
-			$ListTags = array_merge($ListTags, $tagManager->getListByIdTaggedImage($idTaggedImage));
+		foreach($ListTaggedImages as $taggedImage){
+			$ListTags = array_merge($ListTags, $tagManager->getListByIdTaggedImage($taggedImage->id()));
 		}
 	
 		//for each tag, we gathered the neighbour tags
@@ -64,6 +63,7 @@
 				$found = false;
 			}
 		}
+		
 
 		//delete the tab that we merged previously
 		foreach ($toUnset as $value) {
@@ -72,6 +72,9 @@
 
 		//reorganize the tabs
 		$tabTags = array_values($tabTags);
+		for ($i = 0; $i<count($tabTags); $i++) {
+			$tabTags[$i] = array_values($tabTags[$i]);
+		}
 		
 
 		$thereIsAFive = false;
@@ -86,15 +89,24 @@
 			}
 		}
 		if(!($thereIsAFive && $thereIsNoThreeOrFour)) {
-			return "The conditions to stop presenting the image does'nt match";
+			/**
+			The conditions to stop presenting the image doesn't match
+			so we exit the function and don't touch the presenting image parameter
+			**/
+			return 'Success';
 		}
+		
 	
 
 		//we keep the barycenter of the tags in the list for each sharks as image reference		
-		$weights = [];
-		$tabRef = [];
-		$speciesIdTag = [];
-		$tabSpec = [];
+		$weights = []; //contain the weight of each tag
+		$tabRef = []; //contain the barycenter of the RefTag
+		$speciesIdTag = []; //contain the tagRef of the Grouped Tag
+		$tabTagSpecies = []; //contain the species of each tag
+
+
+		//echo " - taille tabTags : ";
+		//print_r(count($tabTags));
 
 		for($i = 0; $i<count($tabTags); $i++) {
 			for ($j = 0; $j<count($tabTags[$i]); $j++) {
@@ -111,8 +123,13 @@
 				//$arrayCountValues[$i][id_species] = %
 				//max($arrayCountValues[$i]) = % max
 
-				if (max($arrayCountValues[$i])/count($tabTags[$i]) < 0,75 ){
-					return "A shark have not been tagged enough to have an agreement";
+				if (max($arrayCountValues[$i])/count($tabTags[$i]) < 0.75 ){
+					/** 
+					GOT ref : a shark has no name ;)
+					A shark have not been tagged enough to have an agreement
+					so we exit the function and don't touch the presenting image parameter 
+					**/
+					return 'Success';
 				} else {
 					$speciesIdTag[$i] = array_search(max($arrayCountValues[$i]), $arrayCountValues[$i]);
 				}
@@ -121,35 +138,46 @@
 				$speciesIdTag[$i] = "undefined";
 			}
 
+			
+
 			//if a species is choosen, the image cannot be tagged any longer			
-			$q3 = $this->_db->prepare('UPDATE Image SET analysed = 1 WHERE :id_image = id');
+			$q3 = $db->prepare('UPDATE Image SET analysed = 1 WHERE id = :id_image');
 			$q3->bindValue(':id_image', $imageId);
 			$q3->execute();
 
 
-			for($i = 0; $i<count($tabTags); $i++) {
-				for($j = 0; $j<count($tabTags[$i]); $j++) {
-					//points if the species is correct
-					if($tabTags[$i][$j]->id_species() == $speciesIdTag[$i]){
-						$points = 2;
-					} else { //points for having just made a right selection
-						$points = 1;
-					}
+			//echo "speciesIdTag : ";
+			//print_r($speciesIdTag);
+			
+			//echo " -- taille tabTags[$i] : ";
+			//print_r(count($tabTags[$i]));
 
-					$q1 = $this->_db->prepare("SELECT person.id FROM Person person, Sesssion session, TaggedImage taggedImage, Tag tag WHERE tag.id_taggedImage = taggedImage.id AND session.id = taggedImage.id_session AND session.id_person = person.id AND tag.id = :id_tag");
-					$q1->bindValue(':id_tag', $tabTags[$i][$j]->id());
-					$donnees = $q1->fetch(PDO::FETCH_ASSOC);
 
-					$q2 = $this->_db->prepare('UPDATE Player SET score = score + :points WHERE :id_person = id');
-					$q2->bindValue(':id_person', $donnees['id']);
-					$q2->bindValue(':points', $points);
-					$q2->execute();
+			for($j = 0; $j<count($tabTags[$i]); $j++) {
+				
+				//points if the species is correct
+				if(/*$tabTagSpecies[$i][$j]*/$tabTags[$i][$j]->id_species() == $speciesIdTag[$i]){
+					$points = 2;
+				} else { //points for having just made a right selection
+					$points = 1;
 				}
+
+				//we llok for the player id
+				$tagId = $tabTags[$i][$j]->id();
+				$q1 = $db->query("SELECT person.id FROM Person person, Session session, TaggedImage taggedImage, Tag tag WHERE tag.id_taggedImage = taggedImage.id AND session.id = taggedImage.id_session AND session.id_person = person.id AND tag.id = ".$tagId);
+				if($q1 === false){ return null; }
+				$donnees = $q1->fetch(PDO::FETCH_ASSOC);
+
+				//update the player score
+				$q2 = $db->prepare('UPDATE Player SET score = score + :points WHERE :id_person = id_person');
+				$q2->bindValue(':id_person', $donnees['id']);
+				$q2->bindValue(':points', $points);
+				$q2->execute();
 			}
 			
 			//create the reference tags
 			$taggedImage = new TaggedImage([
-			  	'id_image' => '$imageId',
+			  	'id_image' => $imageId,
 			]);
 			$taggedImageManager = new TaggedImageManager($db);
 			$taggedImageManager->addRef($taggedImage);
@@ -169,9 +197,9 @@
 			$tagManager->addRef($tagRef, $taggedImage->id() , $speciesIdTag[$i]);
 		}
 		
-	
-		$mysqli->exec ("COMMIT TRANSACTON T1");
-		require 'dbDisconnect.php';
+		$db->commit();
+		
+		return 'Success'; //Full success
 	}
 
 	function mergeTab(array $tab1, array $tab2)

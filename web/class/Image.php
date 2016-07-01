@@ -1,4 +1,6 @@
 <?php
+$_IMAGE_PHP = true;
+
 class Image {
 	private $id;
 	private $name;
