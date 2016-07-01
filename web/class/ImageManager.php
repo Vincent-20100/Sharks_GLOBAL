@@ -33,7 +33,7 @@ class ImageManager
 		try {
 			$id = (int) $id;
 
-			$q = $this->_db->query('SELECT id, name, hdDir, ldDir FROM Image WHERE id = '.$id);
+			$q = $this->_db->query('SELECT * FROM Image WHERE id = '.$id);
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -70,7 +70,7 @@ class ImageManager
 	{
 		try {
 			$images = [];
-			$q = $this->_db->query('SELECT id, name, hdDir, ldDir, test FROM Image ORDER BY id');
+			$q = $this->_db->query('SELECT * FROM Image ORDER BY id');
 			if($q === false){ return null; }
 			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
 			{
@@ -84,13 +84,14 @@ class ImageManager
 
 	public function update(Image $image)
 	{
-		$q = $this->_db->prepare('UPDATE Image SET name = :name, hdDir = :hdDir, ldDir = :ldDir, test = :test WHERE id = :id');
+		$q = $this->_db->prepare('UPDATE Image SET name = :name, hdDir = :hdDir, ldDir = :ldDir, test = :test, analysed = :analysed WHERE id = :id');
 		
 		$q->bindValue(':id', $image->id());
 		$q->bindValue(':name', $image->name());
 		$q->bindValue(':hdDir', $image->hdDir());
 		$q->bindValue(':ldDir', $image->ldDir());
 		$q->bindValue(':test', $image->test());
+		$q->bindValue(':analysed', $image->analysed());
 
 		$q->execute();
 	}

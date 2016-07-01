@@ -7,7 +7,7 @@ class Image {
 	private $hdDir;
 	private $ldDir;
 	private $test;
-	private $nbSharks;
+	private $analysed;
 
 	public function id() {
 		return $this->id;
@@ -24,8 +24,8 @@ class Image {
 	public function test() {
 		return $this->test;
 	}
-	public function nbSharks() {
-		return $this->nbSharks;
+	public function analysed() {
+		return $this->analysed;
 	}
 
 	public function setId($id) {
@@ -43,8 +43,8 @@ class Image {
 	public function setTest($test) {
 		$this->test = $test;
 	}
-	public function setNbSharks($nbSharks) {
-		$this->nbSharks = $nbSharks;
+	public function setAnalysed($analysed) {
+		$this->analysed = $analysed;
 	}
 
 	/* This function takes an array as parmeter.
