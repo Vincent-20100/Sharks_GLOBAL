@@ -1032,7 +1032,6 @@ function checkTagSent (data) {
 	console.log(data);
 
 	if(data == 'Success'){
-		dispMsg("alert-success", "success", data);
 		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php');
 		/* end by del the selected zone */
 		resetAllZone();
