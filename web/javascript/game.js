@@ -995,6 +995,7 @@ function sendTags() {
 		}
 	}
 	
+	// we need to use a JSON to send a tab to the server
 	var jsonListTags = JSON.stringify(listTags);
 		
 	// the person didn't tagged the image
@@ -1002,7 +1003,6 @@ function sendTags() {
 		checkTagSent('Success');
 	}
 	else {
-		// TODO look if the image have been analysed before
 		
 		// send the tags to the data base
 		

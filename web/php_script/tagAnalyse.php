@@ -109,19 +109,20 @@
 		//print_r(count($tabTags));
 
 		for($i = 0; $i<count($tabTags); $i++) {
-			for ($j = 0; $j<count($tabTags[$i]); $j++) {
-				$weights[$j] = 1;
-				$tabTagSpecies[$i][$j] = $tabTags[$i][$j]->id_species();
-			}
+			
+			$weights = array_fill(0, count($tabTags[$i]), 1)
 			$barycenter[$i] = new Barycenter($tabTags[$i], $weights);
 			$tabRef[$i] = $barycenter[$i]->getBarycenter();
 			//print_r($tabRef[$i]->getBarycentre());
 
 			//among all the species from the selected ones, we choose the species selected the most, if there is one
 			if(count($tabTags[$i])>=5){
+				for ($j = 0; $j<count($tabTags[$i]); $j++) {
+					$tabTagSpecies[$i][$j] = $tabTags[$i][$j]->id_species();
+				}
 				$arrayCountValues[$i] = array_count_values($tabTagSpecies[$i]);
-				//$arrayCountValues[$i][id_species] = %
-				//max($arrayCountValues[$i]) = % max
+				//$arrayCountValues[$i][id_species] = % --> see the php doc
+				//max($arrayCountValues[$i]) give the maximum value among the species
 
 				if (max($arrayCountValues[$i])/count($tabTags[$i]) < 0.75 ){
 					/** 
@@ -156,23 +157,30 @@
 			for($j = 0; $j<count($tabTags[$i]); $j++) {
 				
 				//points if the species is correct
-				if(/*$tabTagSpecies[$i][$j]*/$tabTags[$i][$j]->id_species() == $speciesIdTag[$i]){
+				if($tabTags[$i][$j]->id_species() == $speciesIdTag[$i]){
 					$points = 2;
 				} else { //points for having just made a right selection
 					$points = 1;
 				}
 
-				//we llok for the player id
+				//we look for the player id who made the tag
 				$tagId = $tabTags[$i][$j]->id();
 				$q1 = $db->query("SELECT person.id FROM Person person, Session session, TaggedImage taggedImage, Tag tag WHERE tag.id_taggedImage = taggedImage.id AND session.id = taggedImage.id_session AND session.id_person = person.id AND tag.id = ".$tagId);
 				if($q1 === false){ return null; }
 				$donnees = $q1->fetch(PDO::FETCH_ASSOC);
+				echo " --- Id du joueur qui gagne des points ".$donnees['id'];
 
 				//update the player score
 				$q2 = $db->prepare('UPDATE Player SET score = score + :points WHERE :id_person = id_person');
 				$q2->bindValue(':id_person', $donnees['id']);
 				$q2->bindValue(':points', $points);
 				$q2->execute();
+
+				$q4 = $db->query('SELECT score FROM Player WHERE id = :id_person');
+				if($q4 === false){ return null; }
+				$donnees = $q4->fetch(PDO::FETCH_ASSOC);
+				echo " --- Score du joueur qui gagne des points".$donnees['score'];
+
 			}
 			
 			//create the reference tags

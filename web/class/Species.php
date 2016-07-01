@@ -3,9 +3,12 @@ $_SPECIES_PHP = true;
 
 class Species {
 	private $id;
+	private $name;
+	private $otherNames;
 	private $image;
 	private $length;
-	private $distribution;
+	private $distributation;
+	private $distributationImage;
 	private $food;
 	private $commercialImportance;
 	private $stateOfEndangerment;
@@ -16,14 +19,26 @@ class Species {
 	public function id() {
 		return $this->id;
 	}
+	public function name() {
+		return $this->name;
+	}
+	public function otherName() {
+		return $this->otherName;
+	}
+	public function id() {
+		return $this->id;
+	}
 	public function image() {
 		return $this->image;
 	}
 	public function length() {
 		return $this->length;
 	}
-	public function distribution() {
-		return $this->distribution;
+	public function distributation() {
+		return $this->distributation;
+	}
+	public function distributationImage() {
+		return $this->distributationImage;
 	}
 	public function food() {
 		return $this->food;
@@ -47,14 +62,26 @@ class Species {
 	public function setId($id) {
 		$this->id = $id;
 	}
+	public function setName($name) {
+		$this->name = $name;
+	}
+	public function setOtherNames($otherNames) {
+		$this->otherNames = $otherNames;
+	}
+	public function setId($id) {
+		$this->id = $id;
+	}
 	public function setImage($image) {
 		$this->image = $image;
 	}
 	public function setLength($length) {
 		$this->length = $length;
 	}
-	public function setDistribution($distribution) {
-		$this->distribution = $distribution;
+	public function setDistributation($distributation) {
+		$this->distributation = $distributation;
+	}
+	public function setDistributationImage($distributationImage) {
+		$this->distributationImage = $distributationImage;
 	}
 	public function setFood($food) {
 		$this->food = $food;
