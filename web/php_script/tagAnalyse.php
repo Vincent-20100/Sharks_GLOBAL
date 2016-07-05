@@ -186,11 +186,11 @@
 				$tagId = $tabTags[$i][$j]->id();
 				$q1 = $db->query("SELECT person.id FROM Person person, Session session, TaggedImage taggedImage, Tag tag WHERE tag.id_taggedImage = taggedImage.id AND session.id = taggedImage.id_session AND session.id_person = person.id AND tag.id = ".$tagId);
 				if($q1 === false){ return null; }
-				$donnees = $q1->fetch(PDO::FETCH_ASSOC);
+				$data = $q1->fetch(PDO::FETCH_ASSOC);
 
 				//update the player score
 				$q2 = $db->prepare('UPDATE Player SET score = score + :points WHERE :id_person = id_person');
-				$q2->bindValue(':id_person', $donnees['id']);
+				$q2->bindValue(':id_person', $data['id']);
 				$q2->bindValue(':points', $points);
 				$q2->execute();
 			}

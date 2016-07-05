@@ -47,9 +47,9 @@ class AdministratorManager // please use the PersonManager for now because the A
 		try {
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, activationCode FROM Person per, Administrator admin  WHERE per.id = $id AND admin.id_person = $id');
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-	    	return new Administrator($donnees);
+	    	return new Administrator($data);
     	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -75,9 +75,9 @@ class AdministratorManager // please use the PersonManager for now because the A
 			$admins = [];
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, activationCode FROM Person P, Administrator A WHERE P.id = '.$id.' AND A.id_person = '.$id.' ORDER BY P.id');
 			if($q === false){ return null; }
-			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
-				$admins[] = new Administrator($donnees);
+				$admins[] = new Administrator($data);
 			}
 			return $admins;
 		} catch(PDOException $e) {

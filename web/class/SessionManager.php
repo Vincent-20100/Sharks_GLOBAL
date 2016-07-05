@@ -36,9 +36,9 @@ class SessionManager
 		try{
 			$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser  FROM Session  WHERE id = '.$id);
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-	    	return new Session($donnees);
+	    	return new Session($data);
 	    } catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -50,9 +50,9 @@ class SessionManager
 			$sessions = [];
 			$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser ORDER BY id_person');
 			if($q === false){ return null; }
-			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
-				$sessions[] = new Session($donnees);
+				$sessions[] = new Session($data);
 			}
 			return $sessions;
 		} catch(PDOException $e) {

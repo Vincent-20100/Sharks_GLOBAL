@@ -45,9 +45,9 @@ class TaggedImageManager
 
 			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id = '.$id);
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-		    	return new TaggedImage($donnees);
+		    	return new TaggedImage($data);
 	    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -58,9 +58,9 @@ class TaggedImageManager
 		try {
 			$q = $this->_db->query("SELECT * FROM TaggedImage WHERE id_image = '$id_image' AND id_session = '$id_session'");
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-		    	return new TaggedImage($donnees);
+		    	return new TaggedImage($data);
 	    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -73,9 +73,9 @@ class TaggedImageManager
 
 			$q = $this->_db->query("SELECT * FROM TaggedImage WHERE id_image = $id AND id_session IS NULL");
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-		    	return new TaggedImage($donnees);
+		    	return new TaggedImage($data);
 	    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -87,9 +87,9 @@ class TaggedImageManager
 			$taggedImages = [];
 			$q = $this->_db->query('SELECT * FROM TaggedImage ORDER BY id');
 			if($q === false){ return null; }
-			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
-				$taggedImages[] = new TaggedImage($donnees);
+				$taggedImages[] = new TaggedImage($data);
 			}
 			return $taggedImages;
 		} catch(PDOException $e) {
@@ -104,9 +104,9 @@ class TaggedImageManager
 			$q = $this->_db->query("SELECT * FROM TaggedImage WHERE id_image = '$idImage'");
 
 			if($q === false){ return null; }
-			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
-				$taggedImages[] = new TaggedImage($donnees);
+				$taggedImages[] = new TaggedImage($data);
 			}
 			return $taggedImages;
 		} catch(PDOException $e) {

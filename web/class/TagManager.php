@@ -52,9 +52,9 @@ class TagManager
 
 			$q = $this->_db->query('SELECT id, id_taggedImage, id_species, x1, y1, x2, y2, isReference FROM Tag WHERE id = '.$id);
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-	    	return new Tag($donnees);
+	    	return new Tag($data);
     	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -66,9 +66,9 @@ class TagManager
 			$tags = [];
 			$q = $this->_db->query('SELECT id, id_taggedImage, id_species, x1, y1, x2, y2, isReference FROM Tag ORDER BY id');
 			if($q === false){ return null; }
-			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
-				$tags[] = new Tag($donnees);
+				$tags[] = new Tag($data);
 			}
 			return $tags;
 		} catch(PDOException $e) {
@@ -82,9 +82,9 @@ class TagManager
 			$tags = [];
 			$q = $this->_db->query("SELECT * FROM Tag WHERE id_taggedImage = $idTaggedImage AND isReference = 0");
 			if($q === false){ return null; }
-			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
-				$tags[] = new Tag($donnees);
+				$tags[] = new Tag($data);
 			}
 			return $tags;
 		} catch(PDOException $e) {
