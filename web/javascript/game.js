@@ -1021,6 +1021,8 @@ function sendTags() {
 			// get the result
 			success: checkTagSent
 		});
+		
+		
 	}
 
 	
@@ -1037,6 +1039,31 @@ function checkTagSent (data) {
 	} else {
 		// TODO we will see later
 		dispMsg("alert-danger", "danger", data);
+	}
+	
+	// ---------------------------------
+	// AFTER (avoid the parallelization)
+	// ---------------------------------
+	// actualize the user's score
+	$.ajax({
+		async: true,
+		// destination page
+		url: 'http://136.206.48.60/SharksTag/php_script/getScore.php',
+		// use POST method
+		type: 'POST',
+		// POST's arguments
+		data: {
+			session : $("#session_id").val()
+		},
+		context: this,
+		// get the result
+		success: setScore
+	});
+}
+
+function setScore (data) {
+	if(data !== 'NULL') {
+		$("#scoreButton").html(data);
 	}
 }
 

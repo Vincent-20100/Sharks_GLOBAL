@@ -39,9 +39,7 @@
 	<!--Image Container-->
 	<div id="container" class="container noSelect" onmousedown="initZone()" onmousemove="setZone()" onmouseup="endSelectZone()" >
 		<div id="imageContainer" class="noSelect">
-			<!-- TODO look if the image have been analysed before -->
-			<!-- make the function that will give you the image adress that we want to analyse -->
-			<img class="img-responsive" src="images/tutorial.jpg">
+			<?php include 'php_script/getAnImage.php'; ?>
 		</div>
 	</div>
 	
