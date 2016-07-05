@@ -35,9 +35,9 @@ class ImageManager
 
 			$q = $this->_db->query('SELECT * FROM Image WHERE id = '.$id);
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-	    	return new Image($donnees);
+	    	return new Image($data);
     	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -49,8 +49,8 @@ class ImageManager
 			$q = $this->_db->query("SELECT * FROM Image WHERE name = '$name'");
 			if($q === false){ return null; }
 			
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
-			if(! $donnees){
+			$data = $q->fetch(PDO::FETCH_ASSOC);
+			if(! $data){
 				$image = new Image([
 				  	'name' => $name,
 				  	'hdDir' => "",
@@ -60,7 +60,7 @@ class ImageManager
 				$this->add($image);
 				return $this->getByName($name);
 			}
-	    		return new Image($donnees);
+	    		return new Image($data);
 	    	} catch(PDOException $e) {
 				exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -72,9 +72,9 @@ class ImageManager
 			$images = [];
 			$q = $this->_db->query('SELECT * FROM Image ORDER BY id');
 			if($q === false){ return null; }
-			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
-				$images[] = new Image($donnees);
+				$images[] = new Image($data);
 			}
 			return $images;
 		} catch(PDOException $e) {

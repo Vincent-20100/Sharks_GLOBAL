@@ -54,9 +54,9 @@ class PlayerManager
 
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, activationCode, score, tutorialFinished FROM Person per, Player pla  WHERE per.id = $id AND pla.id_person = $id');
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-			return new Player($donnees);
+			return new Player($data);
     	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -82,9 +82,9 @@ class PlayerManager
 			$players = [];
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person, Player WHERE Person.id = Player.id_person ORDER BY Person.id');
 			if($q === false){ return null; }
-			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
-				$players[] = new Player($donnees);
+				$players[] = new Player($data);
 			}
 			return $players;
 		} catch(PDOException $e) {

@@ -29,38 +29,40 @@
 	 	//check if the image is in the database
 		$imageManager = new ImageManager($db);
 		$image = $imageManager->getByName($imageURL);
-	
-		$taggedImage = new TaggedImage([
+
+		if($image->analysed() == 1) {
+			$taggedImage = new TaggedImage([
 		  	'id_image' => $image->id(),
 		  	'id_session' => $id_session
-		]);
-	 
-		//create a taggedImage
-		$taggedImageManager = new TaggedImageManager($db);
-		$taggedImageManager->add($taggedImage);
-		$taggedImage = $taggedImageManager->getBySessionAndImage($taggedImage->id_session(), $taggedImage->id_image());
+			]);
+		 
+			//create a taggedImage
+			$taggedImageManager = new TaggedImageManager($db);
+			$taggedImageManager->add($taggedImage);
+			$taggedImage = $taggedImageManager->getBySessionAndImage($taggedImage->id_session(), $taggedImage->id_image());
 
 
-		$listTags = [];
-		$speciesManager = new SpeciesManager($db);
-		$tagManager = new TagManager($db);
-	
-		for($i=0; $i<count($listPostedTags); $i++){
-				$sharkName = $listPostedTags[$i]['sharkName'];
-				$sharkNameId = $speciesManager->getIdByName($sharkName);
-				$tag = new Tag([
-					'id_taggedImage' => $taggedImage->id(),
-					'id_species' => $sharkNameId,
-				  	'x1' => $listPostedTags[$i]['x1'],
-				  	'y1' => $listPostedTags[$i]['y1'],
-				  	'x2' => $listPostedTags[$i]['x2'],
-				  	'y2' => $listPostedTags[$i]['y2']
-				]);
+			$listTags = [];
+			$speciesManager = new SpeciesManager($db);
+			$tagManager = new TagManager($db);
+		
+			for($i=0; $i<count($listPostedTags); $i++){
+					$sharkName = $listPostedTags[$i]['sharkName'];
+					$sharkNameId = $speciesManager->getIdByName($sharkName);
+					$tag = new Tag([
+						'id_taggedImage' => $taggedImage->id(),
+						'id_species' => $sharkNameId,
+					  	'x1' => $listPostedTags[$i]['x1'],
+					  	'y1' => $listPostedTags[$i]['y1'],
+					  	'x2' => $listPostedTags[$i]['x2'],
+					  	'y2' => $listPostedTags[$i]['y2']
+					]);
+					
+					$tagManager->add($tag);
 				
-				$tagManager->add($tag);
-			
-				array_push($listTags, $tag);
-			
+					array_push($listTags, $tag);
+				
+			}
 		}
 
 			
