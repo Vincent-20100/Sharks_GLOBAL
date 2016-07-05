@@ -101,8 +101,6 @@
 			The conditions to stop presenting the image doesn't match
 			so we exit the function and don't touch the presenting image parameter
 			**/
-			echo "The conditions to stop presenting the image doesn't match
-			so we exit the function and don't touch the presenting image parameter";
 			return 'Success';
 		}
 		
