@@ -65,8 +65,10 @@
 
 			
 		// at least 5 person must have tagged the image before giving points
-		if(count($taggedImageManager->getList())<5)
+		if(count($taggedImageManager->getListByIdImage($image->id()))<5
+			|| $image->analysed() == 1)
 		{
+			// go to the next image
 			echo 'Success';
 		} else {
 			echo analyseTagsOnImage($image->id());

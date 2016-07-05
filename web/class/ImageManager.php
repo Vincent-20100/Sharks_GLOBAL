@@ -47,8 +47,8 @@ class ImageManager
 	{
 		try {
 			$q = $this->_db->query("SELECT * FROM Image WHERE name = '$name'");
-			
 			if($q === false){ return null; }
+			
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 			if(! $donnees){
 				$image = new Image([

@@ -1005,11 +1005,10 @@ function sendTags() {
 	else {
 		
 		// send the tags to the data base
-		
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.174/SharksTag/php_script/tagSent.php',
+			url: 'http://136.206.48.60/SharksTag/php_script/tagSent.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -1032,7 +1031,7 @@ function checkTagSent (data) {
 	console.log(data);
 
 	if(data == 'Success'){
-		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php');
+		$("#imageContainer").load('http://136.206.48.60/SharksTag/php_script/getAnImage.php');
 		/* end by del the selected zone */
 		resetAllZone();
 	} else {

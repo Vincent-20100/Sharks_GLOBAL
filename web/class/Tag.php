@@ -4,7 +4,7 @@ $_TAG_PHP = true;
 class Tag {
 	private $id;
 	private $id_taggedImage;
-	private $id_species;	
+	private $id_species;
 	private $x1;
 	private $y1;
 	private $x2;

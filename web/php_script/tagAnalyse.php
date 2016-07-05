@@ -36,7 +36,6 @@
 		
 		
 		//we keep a number of list equal to the supposed number of sharks in the image (tags/users) amoung the most numerous. In case of similar list, we  merge them
-
 		$toUnset = [];
 		$merged = false;
 		$tabToDel = 0;
@@ -75,24 +74,35 @@
 		for ($i = 0; $i<count($tabTags); $i++) {
 			$tabTags[$i] = array_values($tabTags[$i]);
 		}
-		
+/*
+		echo " --- tabTags : ";
+		print_r($tabTags);
 
-		$thereIsAFive = false;
-		$thereIsNoThreeOrFour = true;
+		echo " --- count(tabTags) : ";
+		echo count($tabTags);
+
+		for ($i = 0; $i<count($tabTags); $i++) {
+			echo " --- count(tabTags[$i]) : ";
+			echo count($tabTags[$i]);
+		}
+*/
+		$willToContinue = true;
 		//we look at the number of person who agree on a tag
 		for($i = 0; $i<count($tabTags); $i++) {
+			if($willToContinue == false) break;
 			if(count($tabTags[$i])>=5){
-				$thereIsAFive = true;
 			}
 			else if (count($tabTags[$i])>=3){
-				$thereIsNoThreeOrFour = false;
+				$willToContinue = false;
 			}
 		}
-		if(!($thereIsAFive && $thereIsNoThreeOrFour)) {
+		if($willToContinue == false) {
 			/**
 			The conditions to stop presenting the image doesn't match
 			so we exit the function and don't touch the presenting image parameter
 			**/
+			echo "The conditions to stop presenting the image doesn't match
+			so we exit the function and don't touch the presenting image parameter";
 			return 'Success';
 		}
 		
@@ -110,10 +120,23 @@
 
 		for($i = 0; $i<count($tabTags); $i++) {
 			
-			$weights = array_fill(0, count($tabTags[$i]), 1)
-			$barycenter[$i] = new Barycenter($tabTags[$i], $weights);
+			$weights = array_fill(0, count($tabTags[$i]), 1);
+			for ($j=0; $j < count($tabTags[$i]); $j++) { 
+				$tagsVectors[$i][$j][0] = $tabTags[$i][$j]->x1(); //x1
+				$tagsVectors[$i][$j][1] = $tabTags[$i][$j]->y1(); //y1
+				$tagsVectors[$i][$j][2] = $tabTags[$i][$j]->x2(); //x2
+				$tagsVectors[$i][$j][3] = $tabTags[$i][$j]->y2(); //y2
+			}
+			
+			$barycenter[$i] = new Barycenter($tagsVectors[$i], $weights);
 			$tabRef[$i] = $barycenter[$i]->getBarycenter();
-			//print_r($tabRef[$i]->getBarycentre());
+
+			/*
+			echo " --- barycenter class : ";
+			print_r($barycenter[$i]);
+			echo " --- barycenter : ";
+			print_r($tabRef[$i]);
+			*/
 
 			//among all the species from the selected ones, we choose the species selected the most, if there is one
 			if(count($tabTags[$i])>=5){
@@ -139,20 +162,16 @@
 				$speciesIdTag[$i] = "undefined";
 			}
 
-			
-
 			//if a species is choosen, the image cannot be tagged any longer			
 			$q3 = $db->prepare('UPDATE Image SET analysed = 1 WHERE id = :id_image');
 			$q3->bindValue(':id_image', $imageId);
 			$q3->execute();
-
 
 			//echo "speciesIdTag : ";
 			//print_r($speciesIdTag);
 			
 			//echo " -- taille tabTags[$i] : ";
 			//print_r(count($tabTags[$i]));
-
 
 			for($j = 0; $j<count($tabTags[$i]); $j++) {
 				
@@ -168,19 +187,12 @@
 				$q1 = $db->query("SELECT person.id FROM Person person, Session session, TaggedImage taggedImage, Tag tag WHERE tag.id_taggedImage = taggedImage.id AND session.id = taggedImage.id_session AND session.id_person = person.id AND tag.id = ".$tagId);
 				if($q1 === false){ return null; }
 				$donnees = $q1->fetch(PDO::FETCH_ASSOC);
-				echo " --- Id du joueur qui gagne des points ".$donnees['id'];
 
 				//update the player score
 				$q2 = $db->prepare('UPDATE Player SET score = score + :points WHERE :id_person = id_person');
 				$q2->bindValue(':id_person', $donnees['id']);
 				$q2->bindValue(':points', $points);
 				$q2->execute();
-
-				$q4 = $db->query('SELECT score FROM Player WHERE id = :id_person');
-				if($q4 === false){ return null; }
-				$donnees = $q4->fetch(PDO::FETCH_ASSOC);
-				echo " --- Score du joueur qui gagne des points".$donnees['score'];
-
 			}
 			
 			//create the reference tags
@@ -189,13 +201,13 @@
 			]);
 			$taggedImageManager = new TaggedImageManager($db);
 			$taggedImageManager->addRef($taggedImage);
-			$taggedImage = $taggedImageManager->getRefByImageId($taggedImage);
+			$taggedImage = $taggedImageManager->getRefByImageId($imageId);
 			
 			$tagRef = new Tag([
-			  	'x1' => '$tabRef[$i][0]',
-			  	'y1' => '$tabRef[$i][1]',
-			  	'x2' => '$tabRef[$i][2]',
-			  	'y2' => '$tabRef[$i][3]',
+			  	'x1' => $tabRef[$i][0],
+			  	'y1' => $tabRef[$i][1],
+			  	'x2' => $tabRef[$i][2],
+			  	'y2' => $tabRef[$i][3],
 			  	'isReference' => '1'
 			]);
 

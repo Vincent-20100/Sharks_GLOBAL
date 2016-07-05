@@ -38,10 +38,10 @@ class TaggedImageManager
 		$this->_db->exec('DELETE FROM TaggedImage WHERE id = '.$taggedImage->id());
 	}
 
-	public function getById($id)
+	public function getById($tag_id)
 	{
 		try {
-			$id = (int) $id;
+			$id = (int) $tag_id;
 
 			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id = '.$id);
 			if($q === false){ return null; }
@@ -69,9 +69,9 @@ class TaggedImageManager
 	public function getRefByImageId($id_image)
 	{
 		try {
-			$id = (int) $id;
+			$id = (int) $id_image;
 
-			$q = $this->_db->query("SELECT * FROM TaggedImage WHERE id_image = $id_image AND id_session IS NULL");
+			$q = $this->_db->query("SELECT * FROM TaggedImage WHERE id_image = $id AND id_session IS NULL");
 			if($q === false){ return null; }
 			$donnees = $q->fetch(PDO::FETCH_ASSOC);
 

@@ -22,11 +22,8 @@ class Species {
 	public function name() {
 		return $this->name;
 	}
-	public function otherName() {
-		return $this->otherName;
-	}
-	public function id() {
-		return $this->id;
+	public function otherNames() {
+		return $this->otherNames;
 	}
 	public function image() {
 		return $this->image;
@@ -67,9 +64,6 @@ class Species {
 	}
 	public function setOtherNames($otherNames) {
 		$this->otherNames = $otherNames;
-	}
-	public function setId($id) {
-		$this->id = $id;
 	}
 	public function setImage($image) {
 		$this->image = $image;

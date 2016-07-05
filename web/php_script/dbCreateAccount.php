@@ -189,7 +189,7 @@ function sendEMailNewAccount($email, $username) {
 			<body>
 				<p>Hi $username!</p>
 				<p>Here is your activation code. Use the link below to activate your account.</p>
-				<p><a href='http://136.206.48.174/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.174/SharksTag/activation.php?user=$username&code=$activationCode</a>
+				<p><a href='http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode</a>
 				<p>Have a good play!</a>
 			</body>
 			</html>";
