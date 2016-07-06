@@ -1,14 +1,21 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 	
-	$image = getOldImage();
+	if(isset($_GET['s'])) {
+		$session = $_GET['s'];
+	}
+	else {
+		$session = $_COOKIE['PHPSESSID'];
+	}
+
+	$image = getOldImage($session);
 	if( $image == null) {
 		$image = getNewImage();
 	}
 	print $image;
 
 
-	function getOldImage() {
+	function getOldImage($sessionName) {
 
 		if((@include 'class/ImageManager.php') == false) {
 			include '../class/ImageManager.php';
@@ -17,23 +24,29 @@
 		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
 		$manager = new ImageManager($db);
 
-		$q = $db->query("SELECT * FROM Image WHERE analysed = 0 AND :containsIP = 0");
-		$q->bindValue(':containsIP', containsIP($_COOKIE['PHPSESSID'], Image.id));
+		$q = $db->query("SELECT * FROM Image WHERE analysed = 0");
 		if($q === false){ return null; }
-		$data = $q->fetch(PDO::FETCH_ASSOC);
 		
-		if(! $data) { return null; }
-		//else
-		
-		// print the hmtl <img> tag
-		$image = "<img class='img-responsive' idImage='{$data['id']}' src='{$data['name']}' alt='a databank image'>";
+
+		while($data = $q->fetch(PDO::FETCH_ASSOC)) {
+			
+			$containsIP = containsIP($sessionName, $data['id']);
+
+			if(! $containsIP ) {
+				// print the hmtl <img> tag
+				$image = "<img class='img-responsive' idImage='{$data['id']}' src='{$data['name']}' alt='a databank image'>";
+				$db = null;
+
+				return $image;
+			}
+		}
 		$db = null;
-		return $image;
+		return null;
 	}
 
 	function getNewImage() {
 		$dir = array();
-		$dir['html'] = 'http://136.206.48.60/SharksTag/serverFiles/public/images/sharks';
+		$dir['html'] = 'http://136.206.48.174/SharksTag/serverFiles/public/images/sharks';
 		$dir['server'] = '/home/socguest/Desktop/serverFiles/public/images/sharks';
 
 		// get the list of images
@@ -63,16 +76,16 @@
 	}
 
 
-	function containsIP($idsession, $idimage){
+	function containsIP($sessionName, $idimage){
 		//look if someone with the same ip adress has not already tagged the image
 		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');	
 
-		$q2 = $db->query('SELECT Session.ipv4, Session.id_person FROM Session WHERE Session.id = $idsession');
-		$data = $q2->fetch(PDO::FETCH_ASSOC)
+		$q = $db->query("SELECT Session.ipv4, Session.id_person FROM Session WHERE Session.name = '$sessionName'");
+		$data = $q->fetch(PDO::FETCH_ASSOC);
 
-		$q = $db->query('SELECT Session.ipv4, Session.id_person FROM Session, Image, TaggedImage WHERE Image.id = TaggedImage.id_image AND Session.id = TaggedImage.id_session AND Image.id = '. $idimage);
-		while ($data2 = $q->fetch(PDO::FETCH_ASSOC)){
-			if (isSameIPLocation(long2ip($data2['ipv4']), long2ip($data['ipv4']) && $data['id_person'] == $data2['id_person']){
+		$q2 = $db->query('SELECT Session.ipv4, Session.id_person FROM Session, Image, TaggedImage WHERE Image.id = TaggedImage.id_image AND Session.id = TaggedImage.id_session AND Image.id = '. $idimage);
+		while ($data2 = $q2->fetch(PDO::FETCH_ASSOC)){
+			if (isSameIPLocation(long2ip($data2['ipv4']), long2ip($data['ipv4'])) && $data['id_person'] == $data2['id_person']){
 				return true;
 			}
 		}

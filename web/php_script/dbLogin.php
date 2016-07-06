@@ -63,19 +63,16 @@ function loginAccount($username, $passwd_hash, $userSession) {
 				if ($resultAA->num_rows === 1) {
 					// YES it is active
 					// history the session statistics
-					if(setNewSession($mysqli, $userSession, $userId)) {
-						// store the current player session
-						if(setPlayerSession($mysqli, $username, $userSession, $userId)){
-							echo "Success";
-							$return = true;
-						}
-						else {
-							echo "Session unreachable.";
-						}
+					$sessionIds = setNewSession($mysqli, $userSession, $userId);
+					
+					$userSessionId = $sessionIds->fetch_assoc()['id'];
+					// store the current player session
+					if(setPlayerSession($mysqli, $username, $userSessionId, $userId)){
+						echo "Success";
+						$return = true;
 					}
 					else {
-						// session issue
-						echo "Session issue";
+						echo "Session unreachable.";
 					}
 				}
 				// NO this account is not active
@@ -103,10 +100,10 @@ function loginAccount($username, $passwd_hash, $userSession) {
 }
 	
 	
-function setPlayerSession($mysqli, $username, $userSession, $userId) {
+function setPlayerSession($mysqli, $username, $userSessionId, $userId) {
 	// write the current session in the database
 	$query = "UPDATE Person
-			SET id_sessionCurrent = '$userSession'
+			SET id_sessionCurrent = $userSessionId
 			WHERE username = '$username'";
 	return $mysqli->query($query);
 }
@@ -118,16 +115,30 @@ function setNewSession($mysqli, $userSession, $userId) {
 	$os = $browser->getPlatform();
 	$browserVersion = $browser->getBrowser();
 	
-	$query = "INSERT INTO Session (id, id_person, ipv4, os, device, browser)
+	$queryStart = "START TRANSACTION;";
+
+	$query1 = 	"INSERT INTO Session (name, id_person, ipv4, os, device, browser)
 				VALUES('$userSession',
 						$userId,
 						'" . ip2long($_SERVER['REMOTE_ADDR']) . "',
 						'$os',
 						'$device',
 						'$browserVersion'
-						)";
+						);";
 	
-	return $mysqli->query($query);
+	$query2 = 	"SELECT id
+				FROM Session
+				WHERE name = '$userSession'
+				ORDER BY date DESC;";
+
+	$queryEnd = "COMMIT";
+	
+			$mysqli->query($queryStart);
+			$mysqli->query($query1);
+	$data = $mysqli->query($query2);
+			$mysqli->query($queryEnd);
+
+	return $data;
 }
 
 //modify any special character like <p> </p>

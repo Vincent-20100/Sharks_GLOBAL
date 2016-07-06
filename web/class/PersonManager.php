@@ -57,13 +57,18 @@ class PersonManager
 	public function getBySession($session)
 	{
 		try {
-			$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt, activationCode FROM Person WHERE id_sessionCurrent = '" . $session . "'");
+			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode
+									FROM Person
+									WHERE id_sessionCurrent = $session");
 
 			if($q === false){ return null; }
 			$data = $q->fetch(PDO::FETCH_ASSOC);
 			if( ! $data ){ return null; }
 
-			$q2 = $this->_db->query("SELECT * FROM Person P, Administrator A WHERE P.id = A.id_person AND P.id_sessionCurrent = '" . $session . "'");
+			$q2 = $this->_db->query("	SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode
+										FROM Person P, Administrator A
+										WHERE P.id = A.id_person
+										AND P.id_sessionCurrent = $session");
 			if($q2 === false){ return null; }
 			$data2 = $q2->fetch(PDO::FETCH_ASSOC);
 
@@ -79,6 +84,38 @@ class PersonManager
 		}
 	}
 
+	public function getBySessionName($session)
+	{
+		try {
+			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode
+									FROM Person P, Session S
+									WHERE P.id_sessionCurrent = S.id
+									AND S.name = '$session'");
+
+			if($q === false){ return null; }
+			$data = $q->fetch(PDO::FETCH_ASSOC);
+			if( ! $data ){ return null; }
+
+			$q2 = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode
+									FROM Person P, Administrator A, Session S
+									WHERE P.id = A.id_person
+									AND P.id_sessionCurrent = S.id
+									AND S.name = '$session'");
+			if($q2 === false){ return null; }
+			$data2 = $q2->fetch(PDO::FETCH_ASSOC);
+
+			if($data2) {
+				return new Administrator($data);
+			}
+			else if ($data){
+				return new Player($data);
+			}
+			else { return null; }
+		} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+	
 	public function printSaltByUsername($username)
 	{
 		try {

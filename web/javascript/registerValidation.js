@@ -23,7 +23,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.60/SharksTag/php_script/dbCreateAccount.php',
+			url: 'http://136.206.48.174/SharksTag/php_script/dbCreateAccount.php',
 			// use POST method 
 			type: 'POST',
 			// POST's arguments
@@ -46,7 +46,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.60/SharksTag/php_script/dbCheckEmailExists.php',
+			url: 'http://136.206.48.174/SharksTag/php_script/dbCheckEmailExists.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -64,7 +64,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.60/SharksTag/php_script/dbCheckUsernameExists.php',
+			url: 'http://136.206.48.174/SharksTag/php_script/dbCheckUsernameExists.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments

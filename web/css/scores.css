@@ -29,6 +29,10 @@ td[name="col1"], td[name="col2"], td[name="col3"]{
 	max-height: 180px;
 }
 
+#bodyTable table {
+	overflow-x: hidden;
+}
+
 #bodyTable tr:nth-child(1) { /* gold */
 	background-color : rgb(234, 186, 63); 
 }
@@ -39,4 +43,8 @@ td[name="col1"], td[name="col2"], td[name="col3"]{
 
 #bodyTable tr:nth-child(3) { /* bronze */
 	background-color: rgba(162, 78, 38, 0.89);
+}
+
+#bodyTable tr.select {
+	border: 2px solid #f00;
 }

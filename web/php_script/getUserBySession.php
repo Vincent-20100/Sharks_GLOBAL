@@ -16,8 +16,8 @@ $db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
 $adminM = new AdministratorManager($db);
 $playerM = new PlayerManager($db);
 
-if(($pers = $adminM->getBySession( $sessionCurrent )) == null) {
-	$pers = $playerM->getBySession( $sessionCurrent );
+if(($pers = $adminM->getBySessionName( $sessionCurrent )) == null) {
+	$pers = $playerM->getBySessionName( $sessionCurrent );
 }
 
 $db = null; // db disconnect

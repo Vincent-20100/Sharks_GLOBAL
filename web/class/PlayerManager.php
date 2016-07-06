@@ -65,7 +65,28 @@ class PlayerManager
 	public function getBySession($session)
 	{
 		try {
-			$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt, activationCode, score, tutorialFinished FROM Person per, Player pla WHERE per.id = pla.id_person AND per.id_sessionCurrent = '$session'");
+			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode, Pl.score, Pl.tutorialFinished
+									FROM Person P, Player Pl
+									WHERE P.id = Pl.id_person
+									AND P.id_sessionCurrent = $session");
+			if($q === false){ return null; }
+			$data = $q->fetch(PDO::FETCH_ASSOC);
+
+			if($data) { return new Player($data); }
+			else { return null; }
+    	} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+
+	public function getBySessionName($session)
+	{
+		try {
+			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode, Pl.score, Pl.tutorialFinished
+									FROM Person P, Player Pl, Session S
+									WHERE P.id = Pl.id_person
+									AND P.id_sessionCurrent = S.id
+									AND S.name = '$session'");
 			if($q === false){ return null; }
 			$data = $q->fetch(PDO::FETCH_ASSOC);
 

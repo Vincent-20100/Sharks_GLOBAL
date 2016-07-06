@@ -25,24 +25,23 @@
 		
 
 		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
-	
+		$taggedImageManager = new TaggedImageManager($db);
+
 	 	//check if the image is in the database
 		$imageManager = new ImageManager($db);
 		$image = $imageManager->getByName($imageURL);
 
-		if($image->analysed() == 1) {
+		if($image->analysed() == 0) {
 			$taggedImage = new TaggedImage([
 		  	'id_image' => $image->id(),
 		  	'id_session' => $id_session
 			]);
 		 
 			//create a taggedImage
-			$taggedImageManager = new TaggedImageManager($db);
 			$taggedImageManager->add($taggedImage);
 			$taggedImage = $taggedImageManager->getBySessionAndImage($taggedImage->id_session(), $taggedImage->id_image());
 
 
-			$listTags = [];
 			$speciesManager = new SpeciesManager($db);
 			$tagManager = new TagManager($db);
 		
@@ -60,7 +59,6 @@
 					
 					$tagManager->add($tag);
 				
-					array_push($listTags, $tag);
 				
 			}
 		}

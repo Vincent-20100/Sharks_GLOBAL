@@ -20,7 +20,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.60/SharksTag/php_script/dbGetSalt.php',
+			url: 'http://136.206.48.174/SharksTag/php_script/dbGetSalt.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -58,7 +58,7 @@ function checkAccount(salt) {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.60/SharksTag/php_script/dbLogin.php',
+			url: 'http://136.206.48.174/SharksTag/php_script/dbLogin.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments

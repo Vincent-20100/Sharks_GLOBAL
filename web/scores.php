@@ -39,7 +39,8 @@ include 'php_script/startSession.php';
 			</div>
 			<div id="bodyTable" class="table-responsive">
 				<table class="table table-hover table-condensed" ng-app='scoresApp' ng-controller='scoresCtrl'>
-					<tr ng-repeat="x in scoresTable">
+					<!-- put the class 'select' if the current line is the current player scores -->
+					<tr ng-repeat="x in scoresTable" ng-class="x['username'] == '<?php echo $_SESSION['user']->username(); ?>' ? 'select' : ''">
 						<td>{{ x['rank'] }}</td>
 						<td name="col1">{{ x['username'] }}</td>
 						<td name="col2">{{ x['NB_TAG'] }}</td>

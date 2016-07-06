@@ -998,32 +998,25 @@ function sendTags() {
 	// we need to use a JSON to send a tab to the server
 	var jsonListTags = JSON.stringify(listTags);
 		
-	// the person didn't tagged the image
-	if(listTags.length == 0){
-		checkTagSent('Success');
-	}
-	else {
+	
 		
-		// send the tags to the data base
-		$.ajax({
-			async: true,
-			// destination page
-			url: 'http://136.206.48.60/SharksTag/php_script/tagSent.php',
-			// use POST method
-			type: 'POST',
-			// POST's arguments
-			data: {
-				imageURL : $("#imageContainer img").attr("src"),
-				id_session : $("#session_id").val(),
-				tabTagsPos : jsonListTags
-			},
-			context: this,
-			// get the result
-			success: checkTagSent
-		});
-		
-		
-	}
+	// send the tags to the data base
+	$.ajax({
+		async: true,
+		// destination page
+		url: 'http://136.206.48.174/SharksTag/php_script/tagSent.php',
+		// use POST method
+		type: 'POST',
+		// POST's arguments
+		data: {
+			imageURL : $("#imageContainer img").attr("src"),
+			id_session : $("#session_id").val(),
+			tabTagsPos : jsonListTags
+		},
+		context: this,
+		// get the result
+		success: checkTagSent
+	});
 
 	
 
@@ -1033,7 +1026,7 @@ function checkTagSent (data) {
 	console.log(data);
 
 	if(data == 'Success'){
-		$("#imageContainer").load('http://136.206.48.60/SharksTag/php_script/getAnImage.php');
+		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php?s=' + $("#session_id").val());
 		/* end by del the selected zone */
 		resetAllZone();
 	} else {
@@ -1048,7 +1041,7 @@ function checkTagSent (data) {
 	$.ajax({
 		async: true,
 		// destination page
-		url: 'http://136.206.48.60/SharksTag/php_script/getScore.php',
+		url: 'http://136.206.48.174/SharksTag/php_script/getScore.php',
 		// use POST method
 		type: 'POST',
 		// POST's arguments

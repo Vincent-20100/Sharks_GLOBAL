@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		    	echo "Your Email or Username already exist in the database\n";
 		    }
 		    else {
-		    	createAccount($username, $session, $email, $password, $salt);
+		    	createAccount($username, $email, $password, $salt);
 		    	//uncomment later
 		    	//sendEMailNewAccount($email, $username);
 		    }
@@ -104,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 									echo "Your Email or Username already exist in the database\n";
 								}
 								else {
-									createAccount($username, $session, $email, $passwd_hash, $salt);
+									createAccount($username, $email, $passwd_hash, $salt);
 									sendEMailNewAccount($email);
 								}
 							}
@@ -119,12 +119,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	}
 }
 
-function createAccount($username, $session, $email, $passwd_hash, $salt) {
+function createAccount($username, $email, $passwd_hash, $salt) {
 
 	// open connection
 	require 'dbConnect.php';
 	
-	if (setNewAccount($mysqli, $username, $session, $email, $passwd_hash, $salt)) {
+	if (setNewAccount($mysqli, $username, $email, $passwd_hash, $salt)) {
 		echo "Success";
 	}
 	else {
@@ -135,7 +135,7 @@ function createAccount($username, $session, $email, $passwd_hash, $salt) {
 	include 'dbDisconnect.php';
 }
 
-function setNewAccount($mysqli, $username, $session, $email, $passwd_hash, $salt) {
+function setNewAccount($mysqli, $username, $email, $passwd_hash, $salt) {
 	$activationCode = bin2hex(random_bytes(5));
 	
 	require 'Browser.php-master/lib/Browser.php';
@@ -147,8 +147,8 @@ function setNewAccount($mysqli, $username, $session, $email, $passwd_hash, $salt
 	$query = "
 		START TRANSACTION;
 		
-		INSERT INTO Person(username, id_sessionCurrent, email, password, salt, activationCode)
-		VALUES('$username', '$session', '$email', '$passwd_hash', '$salt', '$activationCode');
+		INSERT INTO Person(username, email, password, salt, activationCode)
+		VALUES('$username', '$email', '$passwd_hash', '$salt', '$activationCode');
 		
 		INSERT INTO Player(id_person)
 		VALUES ( ( SELECT id FROM Person WHERE username = '$username') );
@@ -189,7 +189,7 @@ function sendEMailNewAccount($email, $username) {
 			<body>
 				<p>Hi $username!</p>
 				<p>Here is your activation code. Use the link below to activate your account.</p>
-				<p><a href='http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode</a>
+				<p><a href='http://136.206.48.174/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.174/SharksTag/activation.php?user=$username&code=$activationCode</a>
 				<p>Have a good play!</a>
 			</body>
 			</html>";

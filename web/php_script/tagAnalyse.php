@@ -182,7 +182,12 @@
 
 				//we look for the player id who made the tag
 				$tagId = $tabTags[$i][$j]->id();
-				$q1 = $db->query("SELECT person.id FROM Person person, Session session, TaggedImage taggedImage, Tag tag WHERE tag.id_taggedImage = taggedImage.id AND session.id = taggedImage.id_session AND session.id_person = person.id AND tag.id = ".$tagId);
+				$q1 = $db->query("	SELECT person.id
+									FROM Person person, Session session, TaggedImage taggedImage, Tag tag
+									WHERE tag.id_taggedImage = taggedImage.id
+									AND session.id = taggedImage.id_session
+									AND session.id_person = person.id
+									AND tag.id = ".$tagId);
 				if($q1 === false){ return null; }
 				$data = $q1->fetch(PDO::FETCH_ASSOC);
 

@@ -12,9 +12,10 @@ class SessionManager
 
 	public function add(Session $session)
 	{
-		$q = $this->_db->prepare('INSERT INTO Session(id, id_person, ipv4, date, os, device, browser) VALUES(:id, :id_person, :ipv4, :date, :os, :device, :browser)');
+		$q = $this->_db->prepare('INSERT INTO Session(id, name, id_person, ipv4, date, os, device, browser) VALUES(:id, :id_person, :ipv4, :date, :os, :device, :browser)');
 		
 		$q->bindValue(':id', $session->id());
+		$q->bindValue(':name', $session->name());
 		$q->bindValue(':id_person', $session->id_person());
 		$q->bindValue(':ipv4', $session->ipv4());
 		$q->bindValue(':date', $session->date());
@@ -34,7 +35,24 @@ class SessionManager
 	public function get($id)
 	{
 		try{
-			$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser  FROM Session  WHERE id = '.$id);
+			$q = $this->_db->query("SELECT id, name, id_person, ipv4, date, os, device, browser
+									FROM Session
+									WHERE id = $id");
+			if($q === false){ return null; }
+			$data = $q->fetch(PDO::FETCH_ASSOC);
+
+	    	return new Session($data);
+	    } catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+
+	public function getByName($name)
+	{
+		try{
+			$q = $this->_db->query("SELECT id, name, id_person, ipv4, date, os, device, browser
+									FROM Session
+									WHERE name = '$id'");
 			if($q === false){ return null; }
 			$data = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -48,7 +66,9 @@ class SessionManager
 	{
 		try{
 			$sessions = [];
-			$q = $this->_db->query('SELECT id, id_person, ipv4, date, os, device, browser ORDER BY id_person');
+			$q = $this->_db->query("SELECT id, name, id_person, ipv4, date, os, device, browser
+									FROM Session
+									ORDER BY id_person");
 			if($q === false){ return null; }
 			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
@@ -62,7 +82,9 @@ class SessionManager
 
 	public function update(Session $session)
 	{
-		$q = $this->_db->prepare('UPDATE Session SET id = :id, id_person = :id_person, ipv4 = :ipv4, os = :os, device = :device, browser = :browser WHERE id = :id');
+		$q = $this->_db->prepare("UPDATE Session
+									SET id = :id, id_person = :id_person, ipv4 = :ipv4, os = :os, device = :device, browser = :browser
+									WHERE id = :id");
 		
 		$q->bindValue(':id', $session->id());
 		$q->bindValue(':id_person', $session->id_person());
