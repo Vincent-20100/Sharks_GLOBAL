@@ -36,8 +36,9 @@ function getPos(){
 
 
 $(function (){
-//This is a Jquery function, it's called all the time
-//We get the position of the mouse and we put it in posym
+	
+	//This is a Jquery function, it's called all the time
+	//We get the position of the mouse and we put it in posym
 	$("#container").mousemove(function(e) {
 		posym.x = e.pageX;
 		posym.y = e.pageY;

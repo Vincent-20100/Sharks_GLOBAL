@@ -1,20 +1,8 @@
 <?php
-	include('../class/ImageManager.php');
-	include('../class/TaggedImageManager.php');
-	include('../class/SpeciesManager.php');
-	include('../class/TagManager.php');
-	include('tagAnalyse.php');
+	include 'dbManager.php';
+	include_once 'tagAnalyse.php';
 
-	if( !isset($_POST['imageURL'])) {
-		echo "111";
-	
-	}
-	elseif( !isset($_POST['id_session'])) {
-		echo "222";
-	
-	}
-	elseif( !isset($_POST['tabTagsPos']))
-	{
+	if( !isset($_POST['imageURL']) || !isset($_POST['id_session']) || !isset($_POST['tabTagsPos'])) {
 		echo "Missing parameters !";
 	}
 	else {
@@ -24,7 +12,7 @@
 		$listPostedTags = json_decode($_POST['tabTagsPos'], true);
 		
 
-		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
+		$db = dbOpen();
 		$taggedImageManager = new TaggedImageManager($db);
 
 	 	//check if the image is in the database
@@ -73,6 +61,8 @@
 		} else {
 			echo analyseTagsOnImage($image->id());
 		}
+
+		dbClose($db);
 	}
 
 	

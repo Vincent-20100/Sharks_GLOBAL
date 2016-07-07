@@ -1,7 +1,11 @@
 
 
 $( function () {
-	
+	$('[data-toggle="popover"]').popover();
+
+
+
+
 	// add in head of the html file the file needed to encrypt
 	$("head").append("<script type='text/javascript' src='javascript/sha512.js'></script>");
 	
@@ -41,7 +45,7 @@ $( function () {
 function checkAccount(salt) {
 	
 	if (salt == "Failed") {
-		dispMsg("alert-danger", "ok-sign", get_notConnected() );
+		dispMsg("alert-danger", "remove-sign", get_notConnected() );
 	}
 	else {
 		
@@ -77,7 +81,7 @@ function checkAccount(salt) {
 function checkConnection(data) {
 	console.log(data);
 	
-	if(data == 'Success'){
+	if(data.endsWith("Success")){
 		dispMsg("alert-success", "ok-sign", get_connected() );
 		window.location.href = $("#login-form").attr("next-page");
 	}

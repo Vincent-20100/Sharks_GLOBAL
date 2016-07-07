@@ -120,8 +120,8 @@ function checkCreated(data) {
 }
 
 function checkEmailExists(data) {
-	elemValidation( "email", data=="Failed");
-	if (data=='Success') {
+	elemValidation( "email", !data.endsWith("Success"));
+	if (data.endsWith("Success")) {
 		// 'success' means that the e-mail has been found,
 		// so this new account can't be created, print an error
 		dispMsg("alert-danger", "remove-sign", "This e-mail is already used by an other account.");
@@ -132,8 +132,8 @@ function checkEmailExists(data) {
 }
 
 function checkUsernameExists(data) {
-	elemValidation( "username", data=="Failed");
-	if (data=='Success') {
+	elemValidation( "username", !data.endsWith("Success"));
+	if (data.endsWith("Success")) {
 		// 'success' means that the username has been found,
 		// so this new account can't be created, print an error
 		dispMsg("alert-danger", "remove-sign", "This username already exists.");

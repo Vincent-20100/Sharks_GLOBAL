@@ -1,6 +1,9 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 	
+	include 'dbManager.php';
+
+
 	if(isset($_GET['s'])) {
 		$session = $_GET['s'];
 	}
@@ -17,17 +20,15 @@
 
 	function getOldImage($sessionName) {
 
-		if((@include 'class/ImageManager.php') == false) {
-			include '../class/ImageManager.php';
-		}
 
-		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
+		$db = dbOpen();
 		$manager = new ImageManager($db);
 
-		$q = $db->query("SELECT * FROM Image WHERE analysed = 0");
+		$q = $db->query("	SELECT *
+							FROM Image
+							WHERE analysed = 0");
 		if($q === false){ return null; }
 		
-
 		while($data = $q->fetch(PDO::FETCH_ASSOC)) {
 			
 			$containsIP = containsIP($sessionName, $data['id']);
@@ -35,12 +36,12 @@
 			if(! $containsIP ) {
 				// print the hmtl <img> tag
 				$image = "<img class='img-responsive' idImage='{$data['id']}' src='{$data['name']}' alt='a databank image'>";
-				$db = null;
+				dbClose($db);
 
 				return $image;
 			}
 		}
-		$db = null;
+		dbClose($db);
 		return null;
 	}
 
@@ -78,12 +79,21 @@
 
 	function containsIP($sessionName, $idimage){
 		//look if someone with the same ip adress has not already tagged the image
-		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');	
+		$db = dbOpen();	
 
-		$q = $db->query("SELECT Session.ipv4, Session.id_person FROM Session WHERE Session.name = '$sessionName'");
+		$q = $db->query("	SELECT Session.ipv4, Session.id_person
+							FROM Session
+							WHERE Session.name = '$sessionName'");
 		$data = $q->fetch(PDO::FETCH_ASSOC);
 
-		$q2 = $db->query('SELECT Session.ipv4, Session.id_person FROM Session, Image, TaggedImage WHERE Image.id = TaggedImage.id_image AND Session.id = TaggedImage.id_session AND Image.id = '. $idimage);
+		$q2 = $db->query("	SELECT Session.ipv4, Session.id_person
+							FROM Session, Image, TaggedImage
+							WHERE Image.id = TaggedImage.id_image
+							AND Session.id = TaggedImage.id_session
+							AND Image.id = $idimage");
+
+		dbClose($db);
+		
 		while ($data2 = $q2->fetch(PDO::FETCH_ASSOC)){
 			if (isSameIPLocation(long2ip($data2['ipv4']), long2ip($data['ipv4'])) && $data['id_person'] == $data2['id_person']){
 				return true;

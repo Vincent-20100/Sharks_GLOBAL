@@ -1,14 +1,12 @@
 <?php
 	
-	include_once('../class/TaggedImageManager.php');
-	include_once('../class/TagManager.php');
-	include_once('../class/Barycenter.php');	
+	include 'dbManager.php';
 
 	//at least 5 person have tagged the image
 	function analyseTagsOnImage($imageId){
 		
 		//search for all taggedimage linked to this image
-		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
+		$db = dbOpen();
 		$db->beginTransaction();
 		
 		$taggedImageManager = new TaggedImageManager($db);
@@ -161,7 +159,9 @@
 			}
 
 			//if a species is choosen, the image cannot be tagged any longer			
-			$q3 = $db->prepare('UPDATE Image SET analysed = 1 WHERE id = :id_image');
+			$q3 = $db->prepare("UPDATE Image
+								SET analysed = 1
+								WHERE id = :id_image");
 			$q3->bindValue(':id_image', $imageId);
 			$q3->execute();
 
@@ -192,7 +192,9 @@
 				$data = $q1->fetch(PDO::FETCH_ASSOC);
 
 				//update the player score
-				$q2 = $db->prepare('UPDATE Player SET score = score + :points WHERE :id_person = id_person');
+				$q2 = $db->prepare("UPDATE Player
+									SET score = score + :points
+									WHERE :id_person = id_person");
 				$q2->bindValue(':id_person', $data['id']);
 				$q2->bindValue(':points', $points);
 				$q2->execute();
@@ -221,6 +223,7 @@
 		}
 		
 		$db->commit();
+		dbClose($db);
 		
 		return 'Success'; //Full success
 	}
