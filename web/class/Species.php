@@ -7,8 +7,8 @@ class Species {
 	private $otherNames;
 	private $image;
 	private $length;
-	private $distributation;
-	private $distributationImage;
+	private $distribution;
+	private $distributionImage;
 	private $food;
 	private $commercialImportance;
 	private $stateOfEndangerment;
@@ -31,11 +31,11 @@ class Species {
 	public function length() {
 		return $this->length;
 	}
-	public function distributation() {
-		return $this->distributation;
+	public function distribution() {
+		return $this->distribution;
 	}
-	public function distributationImage() {
-		return $this->distributationImage;
+	public function distributionImage() {
+		return $this->distributionImage;
 	}
 	public function food() {
 		return $this->food;
@@ -71,11 +71,11 @@ class Species {
 	public function setLength($length) {
 		$this->length = $length;
 	}
-	public function setDistributation($distributation) {
-		$this->distributation = $distributation;
+	public function setDistribution($distribution) {
+		$this->distribution = $distribution;
 	}
-	public function setDistributationImage($distributationImage) {
-		$this->distributationImage = $distributationImage;
+	public function setDistributionImage($distributionImage) {
+		$this->distributionImage = $distributionImage;
 	}
 	public function setFood($food) {
 		$this->food = $food;
