@@ -45,6 +45,7 @@
 		return null;
 	}
 
+
 	function getNewImage() {
 		$dir = array();
 		$dir['html'] = 'http://136.206.48.174/SharksTag/serverFiles/public/images/sharks';

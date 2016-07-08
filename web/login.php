@@ -22,8 +22,10 @@ $_SESSION["username"] = "";
 <html lang="en">
 <head>
 	<title>Shark Tagging Game</title>
+
 	
 	<?php include('php_shared/header.php'); ?>
+
 	
 	<!-- Custom CSS for login.php -->
 	<link rel="stylesheet" href="css/login.css"/>
@@ -45,8 +47,10 @@ $_SESSION["username"] = "";
 </head>
 <body background="images/back.jpg">
 
-<?php 
-	  include 'php_shared/head.php';
+<?php include('noscript.php'); 
+	  include('mainNavBar.php');
+	  include 'php_script/cookieSession.php';
+	  include 'php_script/dispError.php';
 ?>
 <!--
 /****************************************************************************/
