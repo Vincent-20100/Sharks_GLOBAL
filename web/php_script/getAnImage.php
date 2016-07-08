@@ -35,7 +35,7 @@
 
 			if(! $containsIP ) {
 				// print the hmtl <img> tag
-				$image = "<img class='img-responsive' idImage='{$data['id']}' src='{$data['name']}' alt='a databank image'>";
+				$image = "<img class='img-responsive avoidrag' idImage='{$data['id']}' src='{$data['name']}' alt='a databank image'>";
 				dbClose($db);
 
 				return $image;
@@ -68,7 +68,7 @@
 			// choose randomly one file
 			$i = array_rand($filesArray);
 			// print the hmtl <img> tag
-			return "<img class='img-responsive' src='{$dir['html']}/{$filesArray[$i]}' alt='a databank image'>";
+			return "<img class='img-responsive avoidrag' src='{$dir['html']}/{$filesArray[$i]}' alt='a databank image'>";
 		}
 		else {
 			//print an error
