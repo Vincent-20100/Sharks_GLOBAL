@@ -1,4 +1,5 @@
 <?php
+$_BARYCENTER_PHP = true;
 
 class Barycenter {
     private $vecteurArray = null; // Array of vectors
@@ -18,12 +19,22 @@ class Barycenter {
 	 
     */
 
+/* Class Tag
+	private $id;
+	private $id_taggedImage;
+	private $id_species;
+	private $x1;
+	private $y1;
+	private $x2;
+	private $y2;
+	private $isReference;
+*/
 
     function __construct($vectors, $weights) {
-	$this->vecteurArray = $vectors;
-	$this->nbrVectors = count($vectors);
-	$this->nbrCoord = count($vectors[0])-2;
-	$this->weights = $weights;
+		$this->vecteurArray = $vectors;
+		$this->nbrVectors = count($vectors);
+		$this->nbrCoord = count($vectors[0]);
+		$this->weights = $weights;
     }
     
     /**
@@ -40,14 +51,14 @@ class Barycenter {
 
     public function getBarycenter(){
 	
-	for($c=1; $c<$this->nbrCoord-1; $c++){
+	for($c=0; $c<$this->nbrCoord; $c++){
 	    $this->coord = 0;
 	            
 	    for($v = 0; $v < $this->nbrVectors; $v++){
 	        $this->coord = $this->calcul($v,$c);
 	    }
 	    
-	    $this->G[$c-1] = $this->coord / array_sum($this->weights);
+	    $this->G[$c] = $this->coord / array_sum($this->weights);
 	}
 	return $this->G;
     

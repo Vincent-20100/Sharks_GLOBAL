@@ -1,6 +1,6 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
-	$_DEBUG = true;
+	$_DEBUG = false;
 	
 	if (!$_DEBUG) {
 		initStartSession();
@@ -39,25 +39,7 @@ function initStartSession() {
 			// check if it is active for a user
 	
 		
-			include '/home/socguest/Desktop/Sharks_GLOBAL/web/class/AdministratorManager.php';
-			include '/home/socguest/Desktop/Sharks_GLOBAL/web/class/PlayerManager.php';
-			// person manager linked to the database
-			$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
-			$adminM = new AdministratorManager($db);
-			$playerM = new PlayerManager($db);
-			
-			if(($pers = $adminM->getBySession($_COOKIE['PHPSESSID'])) == null) {
-				$pers = $playerM->getBySession($_COOKIE['PHPSESSID']);
-			}
-			
-			$db = null; // db disconnect
-			// store the user in the session vars
-			if($pers && $pers != NULL) {
-				$_SESSION['user'] = $pers;
-			}
-			else {
-				$_SESSION['user'] = null;
-			}
+			include 'getUserBySession.php';
 			
 			if($_SERVER['PHP_SELF'] == '/SharksTag/login.php' ||
 				$_SERVER['PHP_SELF'] == '/SharksTag/forgotPassword.php' ||
@@ -108,7 +90,6 @@ function initStartSession() {
 }
 
 
-
 function startsWith($haystack, $needle) {
 	// search backwards starting from haystack length characters from the end
 	return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
@@ -118,5 +99,5 @@ function endsWith($haystack, $needle) {
 	// search forward starting from end minus needle length characters
 	return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
 }
-	
+
 ?>

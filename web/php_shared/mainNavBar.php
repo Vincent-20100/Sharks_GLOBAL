@@ -27,7 +27,7 @@
 				
 				if($_DEBUG || $_SESSION['user'] == null) {
 					echo "
-					<li><a id='registerButton' href='login.php' type='button'><i class='ionicons ion-person-add'></i> Register</a></li>
+					<li><a id='registerButton' href='login.php?tab=register' type='button'><i class='ionicons ion-person-add'></i> Register</a></li>
 					<li><a id='activateButton' href='activateAccount.php' type='button'><i class='ionicons ion-unlocked'></i> Activate account</a></li>
 					<li><a id='loginButton' href='login.php' type='button'><span class='glyphicon glyphicon-log-in'></span> Login</a></li>
 					";

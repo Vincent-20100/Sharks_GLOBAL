@@ -7,55 +7,23 @@
 	
 	<?php include('php_shared/header.php'); ?>
 	
-	
 	<link rel="stylesheet" type="text/css" href="css/game.css">
-	<link rel="stylesheet" type="text/css" href="css/dropdown-submenu.css">
 	<script type="text/javascript" src="javascript/game.js"></script>
+	
+	<!-- in listSpecies.php -->
+	<link rel="stylesheet" type="text/css" href="css/modal.css">
 	<script type="text/javascript" src="javascript/comboBoxSharksSpecies.js"></script>
+	<script type="text/javascript" src="javascript/modal.js"></script>
 	
 </head>
 <body data-spy="scroll" data-target="#navGame" >
 <embed src="/SharksTag/music/wave.wav" autostart="true" loop="-1" hidden="true"></embed>
 <audio id='player_audio' src="/SharksTag/music/buble.wav"></audio>
-	<?php include 'php_shared/head.php'; ?>
+	<?php
+		include 'php_shared/head.php';
+		include 'php_script/navbarGame.php';
+	?>
 
-	<div id="navGame" class="navbar navbar-default" data-spy="affix">
-	    <div class="container-fluid">
-		    <!--La Barre de jeu-->
-			<!--<ul class="nav navbar-nav navbar-left">
-				<li id="appMenu">Select an area on the image below and tag the species aside </li>
-			</ul>-->	
-		
-			<!-- Split button -->
-			<div class="col-xs-6">
-				<?php include 'table.php';
-					includeComboBox();
-				?>
-			</div>
-			<div class="col-xs-6 btn-group btn-group-justified">
-				<div class="btn-group">
-					<button id="newImage" type="button" class="btn btn-success" onclick="newImage()">
-					<span class="glyphicon glyphicon-check"></span>
-					<span class="hidden-xs"> Send</span></button>
-				</div>
-				<div class="btn-group">
-				<button id="delete" class="btn btn-warning" onclick="deleteZone()">
-					<span class="glyphicon glyphicon-erase"></span>
-					<span class="hidden-xs"> Delete</span></button>
-				</div>
-				<div class="btn-group">
-				<button id="resetAll" class="btn btn-danger" onclick ="resetAllZone()">
-					<span class="glyphicon glyphicon-trash"></span>
-					<span class="hidden-xs"> Reset</span></button>
-				</div>
-				<div class="btn-group">
-				<button id="tipsButton" class="btn btn-info" onclick="showHideTips()">
-					<span class="glyphicon glyphicon-option-vertical"></span>
-					<span class="hidden-xs"> Tips</span></button>
-				</div>
-			</div>
-		</div>
-	</div>
 	<!--Tips-->
 	<div id="tipsMenu" class="container-fluid dontShow">
 		<p>Tips :</p>
@@ -71,7 +39,9 @@
 	<!--Image Container-->
 	<div id="container" class="container noSelect"   onmousedown="initZone()" onmousemove="setZone()" onmouseup="endSelectZone()" ontouchstart="initZone()" ontouchmove="setZone()" ontouchend="endSelectZone()">
 		<div id="imageContainer" class="noSelect">
-			<img class="img-responsive avoidrag" src="images/tutorial.jpg">
+
+			<?php include 'php_script/getAnImage.php'; ?>
+
 		</div>
 	</div>
 	

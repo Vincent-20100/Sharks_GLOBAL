@@ -1,5 +1,7 @@
 <?php
-include 'Species.php';
+if(!isset($_SPECIES_PHP)){
+	include 'Species.php';
+}
 
 class SpeciesManager
 {
@@ -39,9 +41,9 @@ class SpeciesManager
 
 			$q = $this->_db->query('SELECT id, image, length, distribution, food, commercialImportance, stateOfEndangerment, attacksOnHumans, swimmingDeep, uniqueIdentifyingFeature FROM Species WHERE id = '.$id);
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-	    	return new Species($donnees);
+	    	return new Species($data);
     	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -51,12 +53,11 @@ class SpeciesManager
 	{
 		try {
 
-			$q = $this->_db->query('SELECT id FROM Species WHERE name = :name');
-			$q->bindValue(':name', $sharkName);
+			$q = $this->_db->query("SELECT id FROM Species WHERE name = '$sharkName'");
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-	    	return $donnees['id'];
+	    	return $data['id'];
     	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -68,9 +69,9 @@ class SpeciesManager
 			$species = [];
 			$q = $this->_db->query('SELECT id, image, length, distribution, food, commercialImportance, stateOfEndangerment, attacksOnHumans, swimmingDeep, uniqueIdentifyingFeature FROM Species ORDER BY id');
 			if($q === false){ return null; }
-			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
-				$species[] = new Species($donnees);
+				$species[] = new Species($data);
 			}
 			return $species;
 		} catch(PDOException $e) {

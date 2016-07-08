@@ -12,7 +12,9 @@ include 'php_script/startSession.php';
 	
 	<?php include('php_shared/header.php'); ?>
 	
-	<link rel="stylesheet" href="css/menu.css"/>
+	<script type="text/javascript" src="javascript/scores.js"></script>
+
+	<link rel="stylesheet" href="css/scores.css"/>
 </head>
 <body background="images/back.jpg">
 	<?php 
@@ -22,39 +24,31 @@ include 'php_script/startSession.php';
 		
 		<div class="panel panel-default">
 			<!-- Table -->
-			<div class="table-responsive">
-				<table class="table table-hover table-bordered table-condensed" border="1">
-					<thead>
-						<tr>
-							<th colspan="3" id="table-title">Highscores</th>
-						</tr>
-	   					<tr>
-							<th name="col1" class="text-center">Player</th>
-							<th name="col2" class="text-center">Tagged sharks</th>
-							<th name="col3" class="text-center">Score</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td name="col1">play1</td>
-							<td name="col2">55</td>
-							<td name="col3">55</td>
-						</tr>
-						<tr>
-							<td name="col1">play1</td>
-							<td name="col2">55</td>
-							<td name="col3">55</td>
-						</tr>
-						<tr>
-							<td name="col1">play2</td>
-							<td name="col2">45</td>
-							<td name="col3">45</td>
-						</tr>
-					</tbody>
+			<div class="table-responsive" >
+				<table id="headTable" class="table table-hover table-condensed">
+					<tr>
+						<th colspan="4" id="table-title">Highscores</th>
+					</tr>
+   					<tr>
+						<th class="text-center">#</th>
+						<th name="col1" class="text-center">Player</th>
+						<th name="col2" class="text-center">Tagged sharks</th>
+						<th name="col3" class="text-center">Score</th>
+					</tr>
+				</table>
+			</div>
+			<div id="bodyTable" class="table-responsive">
+				<table class="table table-hover table-condensed" ng-app='scoresApp' ng-controller='scoresCtrl'>
+					<!-- put the class 'select' if the current line is the current player scores -->
+					<tr ng-repeat="x in scoresTable" ng-class="x['username'] == '<?php echo $_SESSION['user']->username(); ?>' ? 'select' : ''">
+						<td>{{ x['rank'] }}</td>
+						<td name="col1">{{ x['username'] }}</td>
+						<td name="col2">{{ x['NB_TAG'] }}</td>
+						<td name="col3">{{ x['score'] }}</td>
+					</tr>
 				</table>
 			</div>
 		</div>
-		<br/><br/>
 		<div class="raw">
 			<div class="col-lg-12 text-center">
 				<a href="menu.php" class="btn btn-primary btn-lg" role="button">Back</a>

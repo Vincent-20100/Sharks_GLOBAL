@@ -12,7 +12,12 @@ include 'php_script/startSession.php';
 	<?php include('php_shared/header.php'); ?>
 	
 	<style type="text/css">
-	.error {color: #FF0000;}
+
+		body > .container {
+			margin-top: 10%;
+		}
+		
+		.error {color: #FF0000;}
 	</style>
 
 </head>
@@ -22,51 +27,53 @@ include 'php_script/startSession.php';
 ?>
 
 
-<?php 
+<?php
+	include 'php_script/dbManager.php';
+
 	$activationCode = "";
 
 	if (isset($_POST["activationCode"])) {
 
-	  	if (empty($_POST["activationCode"])) {
-	    	echo "Please, enter an activation code.";
+		if (empty($_POST["activationCode"])) {
+			echo "Please, enter an activation code.";
 		} else {
 			//success !
-		    $activationCode = test_input($_POST["activationCode"]);
+			$activationCode = test_input($_POST["activationCode"]);
 
-		    $querySelect = "SELECT id
-		    				FROM Person
-		    				WHERE activationCode = '$activationCode'";
-		    
-		    $queryUpdate = "UPDATE Person
-		    				SET activationCode = NULL
-		    				WHERE activationCode = '$activationCode'";
-		    
-		    include 'php_script/dbConnect.php';
-		    
-		    if ($result = $mysqli->query($querySelect)) {
-		    	if($result->num_rows == 1) {
-		    		if ($result = $mysqli->query($queryUpdate)) {
-		    			echo 'Success';
-		    		}
-		    		else echo 'Failed while using your valid code';
-		    	}
-		    	else {
-		    		echo 'Invalid code.';
-		    	}
-		    }
-		    else {
-		    	echo "Can't execute the request.";
-		    }
-		    
-		    include 'php_script/dbDisconnect.php';
+			$querySelect = "SELECT id
+							FROM Person
+							WHERE activationCode = '$activationCode'";
+
+			$queryUpdate = "UPDATE Person
+							SET activationCode = NULL
+							WHERE activationCode = '$activationCode'";
+
+			$db = dbOpen();
+
+			if ($result = $db->query($querySelect)) {
+				if($result->fetch(PDO::FETCH_ASSOC)) {
+					if ($db->query($queryUpdate)) {
+						echo 'Success';
+					}
+					else echo 'Failed while using your valid code';
+				}
+				else {
+					echo 'Invalid code.';
+				}
+			}
+			else {
+				echo "Can't execute the request.";
+			}
+
+			dbClose($db);
 		}
 	}
 
 	function test_input($data) {
-	  $data = trim($data);
-	  $data = stripslashes($data);
-	  $data = htmlspecialchars($data);
-	  return $data;
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
 	}
 ?>
 

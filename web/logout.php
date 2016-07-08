@@ -1,17 +1,15 @@
 <?php
 // Start the session
 include 'php_script/startSession.php';
-
+include 'php_script/dbManager.php';
 
 // disconnect the user in the database
-require 'php_script/dbConnect.php';
-$query = "UPDATE Person
-			SET id_sessionCurrent = NULL
-			WHERE id_sessionCurrent = '{$_COOKIE['PHPSESSID']}'";
+$db = dbOpen();
+$result = $db->query("	UPDATE Person
+						SET id_sessionCurrent = NULL
+						WHERE id_sessionCurrent = " . $_SESSION['user']->id_sessionCurrent() );
 
-$result = $mysqli->query($query);
-
-require 'php_script/dbDisconnect.php';
+dbClose($db);
 
 if( ! $result) {
 	echo "An error occured while loging out.";

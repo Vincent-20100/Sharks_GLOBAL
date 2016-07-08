@@ -27,11 +27,12 @@ var initPos = [0, 0];
 var mousePos = [0,0,0,0];
 var mouseAction = setZone;
 
+var UNDEFINED_SPECIES = 'undefined';
+
 function getPos(){
 	var pos = $("#mainNav").height();
 	$("#navGame").attr("data-offset-top", pos);
 }
-
 
 
 $(function (){
@@ -61,7 +62,7 @@ $(function (){
 		//In which SelectedZone
 		var elem = $("#selectedZone"+curent);
 		elem.attr("species", speciesSelected);
-		if (speciesSelected === 'empty') {
+		if (speciesSelected === UNDEFINED_SPECIES) {
 			elem.html("");
 		}
 		else {
@@ -175,11 +176,13 @@ function setZone() {
    		console.log("set zone");
         if(setOK===true){
         //Creation of a new SelectedZone as well as 4 points
-		    $("#container").append("<div id='selectedZone"+rank+"' value= '"+rank+"' species='empty' class = 'selectedZone' name='touch' ontouchstart ='initDrag("+rank+")' ontouchmove ='dragZone()' onmousedown = 'initDrag("+rank+")'  onmousemove='dragZone()' onmouseup='endSelectZone()'></div>");
+
+		    $("#container").append("<div id='selectedZone"+rank+"' value= '"+rank+"' species='" + UNDEFINED_SPECIES + "' class = 'selectedZone' name='touch' ontouchstart ='initDrag("+rank+")' ontouchmove ='dragZone()' onmousedown = 'initDrag("+rank+")'  onmousemove='dragZone()' onmouseup='endSelectZone()'></div>");
 		    $("#container").append("<div id='point1"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd' ontouchstart ='initResize1("+rank+")' ontouchmove='resizePoint1()' onmousedown = 'initResize1("+rank+")' onmousemove ='resizePoint1()'></div>");
 		    $("#container").append("<div id='point2"+rank+"' value= '"+rank+"' species='' class='point' name='pointeven' ontouchstart ='initResize2("+rank+")' ontouchmove='resizePoint2()' onmousedown = 'initResize2("+rank+")' onmousemove ='resizePoint2()'></div>");
 		    $("#container").append("<div id='point3"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd' ontouchstart ='initResize3("+rank+")' ontouchmove='resizePoint3()' onmousedown = 'initResize3("+rank+")' onmousemove ='resizePoint3()'></div>");
 		    $("#container").append("<div id='point4"+rank+"' value= '"+rank+"' species='' class='point' name='pointeven' ontouchstart ='initResize4("+rank+")' ontouchmove='resizePoint4()' onmousedown = 'initResize4("+rank+")' onmousemove ='resizePoint4()'></div>");
+
 		    first = true;
 		    var elem = $("#selectedZone"+curent);
             elem.removeClass("selected");
@@ -201,8 +204,8 @@ function setZone() {
 	    var point4 = $("#point4"+curent);
 	    var img = $('#imageContainer');
 	   
-		// set the selected option in the combobox to empty value
-		$("#sharkSpecies").val('empty');
+		// set the selected option in the combobox to undefined value
+		$("#sharkSpecies").val(UNDEFINED_SPECIES);
 		
 	    var pointRef ={
 		    x:0,		
@@ -313,8 +316,8 @@ function initDrag(rank){
     elem.addClass("selected");
     elem.attr("name","grab");
     
-    // set the selected option in the combobox to empty value
-	$("#sharkSpecies").val(elem.attr('species'));
+    // set the selected option in the combobox to UNDEFINED_SPECIES value
+	$("#sharkSpecies").val(elem.attr(UNDEFINED_SPECIES));
 }
 
 
@@ -803,8 +806,8 @@ function deleteZone(){
 	var point3 = $("#point3"+curent);
 	var point4 = $("#point4"+curent);
 	
-	// set the selected option in the combobox to empty value
-	$("#sharkSpecies").val('empty');	
+	// set the selected option in the combobox to UNDEFINED_SPECIES value
+	$("#sharkSpecies").val(UNDEFINED_SPECIES);	
 	elem.remove();
 	point1.remove();
 	point2.remove();
@@ -847,8 +850,8 @@ function resetAllZone(){
 	point3.remove();
 	point4.remove();
 	
-	// set the selected option in the combobox to empty value
-	$("#sharkSpecies").val('empty');
+	// set the selected option in the combobox to UNDEFINED_SPECIES value
+	$("#sharkSpecies").val(UNDEFINED_SPECIES);
 	setOK=true;
 }
 
@@ -992,15 +995,19 @@ function newImage() {
 function sendTags() {
 
 	var listTags = [];
+
+
+	
 	for(i=0; i<rank; i++){
-		var elem = $("selectedZone"+i);
+		var elem = $("#selectedZone"+i);
+		
 		if(elem.length != 0){
-			var sharkName = $("#selectedZone" + i).attr("species");
+			listTags[i] = {};
 			var x1 = elem.offset().left;
 			var y1 = elem.offset().top;
-			var y1 = elem.offset().left + elem.width();
-			var x1 = elem.offset().top + elem.height();
-			listTags[i]['sharkName'] = sharkName;
+			var x2 = elem.offset().left + elem.width();
+			var y2 = elem.offset().top + elem.height();
+			listTags[i]['sharkName'] = $("#selectedZone" + i).attr("species");
 			listTags[i]['x1'] = x1;
 			listTags[i]['y1'] = y1;
 			listTags[i]['x2'] = x2;
@@ -1008,28 +1015,30 @@ function sendTags() {
 		}
 	}
 
-	if(listTags.length == 0){
-		checkTagSent('Success');
-	}
-	else {
-		// send the tags to the data base
-		$.ajax({
-			async: true,
-			// destination page
-			url: 'http://136.206.48.174/SharksTag/php_script/tagSent.php',
-			// use POST method
-			type: 'POST',
-			// POST's arguments
-			data: {
-				imageURL : $("#image-container img").attr("src"),
-				id_session : $("#session_id").val(),
-				tabTagsPos : listTags
-			},
-			context: this,
-			// get the result
-			success: checkTagSent
-		});
-	}
+	
+	// we need to use a JSON to send a tab to the server
+	var jsonListTags = JSON.stringify(listTags);
+		
+	
+		
+	// send the tags to the data base
+	$.ajax({
+		async: true,
+		// destination page
+		url: 'http://136.206.48.174/SharksTag/php_script/tagSent.php',
+		// use POST method
+		type: 'POST',
+		// POST's arguments
+		data: {
+			imageURL : $("#imageContainer img").attr("src"),
+			id_session : $("#session_id").val(),
+			tabTagsPos : jsonListTags
+		},
+		context: this,
+		// get the result
+		success: checkTagSent
+	});
+
 
 	
 
@@ -1039,12 +1048,37 @@ function checkTagSent (data) {
 	console.log(data);
 
 	if(data == 'Success'){
-		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php');
+		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php?s=' + $("#session_id").val());
 		/* end by del the selected zone */
 		resetAllZone();
 	} else {
 		// TODO we will see later
-		
+		dispMsg("alert-danger", "danger", data);
+	}
+	
+	// ---------------------------------
+	// AFTER (avoid the parallelization)
+	// ---------------------------------
+	// actualize the user's score
+	$.ajax({
+		async: true,
+		// destination page
+		url: 'http://136.206.48.174/SharksTag/php_script/getScore.php',
+		// use POST method
+		type: 'POST',
+		// POST's arguments
+		data: {
+			session : $("#session_id").val()
+		},
+		context: this,
+		// get the result
+		success: setScore
+	});
+}
+
+function setScore (data) {
+	if(data !== 'NULL') {
+		$("#scoreButton").html(data);
 	}
 }
 

@@ -1,5 +1,9 @@
 <?php
-include 'TaggedImage.php';
+$_TAGGED_IMAGE_MANAGER_PHP = true;
+
+if(!isset($_TAGGED_IMAGE_PHP)){
+	include 'TaggedImage.php';
+}
 
 class TaggedImageManager
 {
@@ -34,16 +38,16 @@ class TaggedImageManager
 		$this->_db->exec('DELETE FROM TaggedImage WHERE id = '.$taggedImage->id());
 	}
 
-	public function getById($id)
+	public function getById($tag_id)
 	{
 		try {
-			$id = (int) $id;
+			$id = (int) $tag_id;
 
 			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id = '.$id);
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-		    	return new TaggedImage($donnees);
+		    	return new TaggedImage($data);
 	    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -52,13 +56,11 @@ class TaggedImageManager
 	public function getBySessionAndImage($id_session, $id_image)
 	{
 		try {
-			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id_image = :id_image and id_session = :id_session');
-			$q->bindValue(':id_image', $id_image);
-			$q->bindValue(':id_session', $id_session);
+			$q = $this->_db->query("SELECT * FROM TaggedImage WHERE id_image = '$id_image' AND id_session = '$id_session'");
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-		    	return new TaggedImage($donnees);
+		    	return new TaggedImage($data);
 	    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -67,14 +69,13 @@ class TaggedImageManager
 	public function getRefByImageId($id_image)
 	{
 		try {
-			$id = (int) $id;
+			$id = (int) $id_image;
 
-			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id_image = :id_image and id_session = null');
-			$q->bindValue(':id_image', $id_image);
+			$q = $this->_db->query("SELECT * FROM TaggedImage WHERE id_image = $id AND id_session IS NULL");
 			if($q === false){ return null; }
-			$donnees = $q->fetch(PDO::FETCH_ASSOC);
+			$data = $q->fetch(PDO::FETCH_ASSOC);
 
-		    	return new TaggedImage($donnees);
+		    	return new TaggedImage($data);
 	    	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -86,9 +87,9 @@ class TaggedImageManager
 			$taggedImages = [];
 			$q = $this->_db->query('SELECT * FROM TaggedImage ORDER BY id');
 			if($q === false){ return null; }
-			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
-				$taggedImages[] = new TaggedImage($donnees);
+				$taggedImages[] = new TaggedImage($data);
 			}
 			return $taggedImages;
 		} catch(PDOException $e) {
@@ -100,13 +101,12 @@ class TaggedImageManager
 	{
 		try {
 			$taggedImages = [];
-			$q = $this->_db->query('SELECT * FROM TaggedImage WHERE id_image = :idImage');
-			$q->bindValue(':idImage', $idImage);
+			$q = $this->_db->query("SELECT * FROM TaggedImage WHERE id_image = '$idImage'");
 
 			if($q === false){ return null; }
-			while ($donnees = $q->fetch(PDO::FETCH_ASSOC))
+			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
-				$taggedImages[] = new TaggedImage($donnees);
+				$taggedImages[] = new TaggedImage($data);
 			}
 			return $taggedImages;
 		} catch(PDOException $e) {

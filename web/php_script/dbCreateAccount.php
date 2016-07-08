@@ -1,6 +1,8 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 	
+	include 'dbManager.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	if( isset($_POST['email']) && isset($_POST['username']) &&
 		isset($_POST['password']) && isset($_POST['salt']) && isset($_POST['session'])) {
@@ -52,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		    	echo "Your Email or Username already exist in the database\n";
 		    }
 		    else {
-		    	createAccount($username, $session, $email, $password, $salt);
+		    	createAccount($username, $email, $password, $salt);
 		    	//uncomment later
 		    	//sendEMailNewAccount($email, $username);
 		    }
@@ -104,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 									echo "Your Email or Username already exist in the database\n";
 								}
 								else {
-									createAccount($username, $session, $email, $passwd_hash, $salt);
+									createAccount($username, $email, $passwd_hash, $salt);
 									sendEMailNewAccount($email);
 								}
 							}
@@ -119,12 +121,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	}
 }
 
-function createAccount($username, $session, $email, $passwd_hash, $salt) {
+function createAccount($username, $email, $passwd_hash, $salt) {
 
 	// open connection
-	require 'dbConnect.php';
+	$db = dbOpen();
 	
-	if (setNewAccount($mysqli, $username, $session, $email, $passwd_hash, $salt)) {
+	if (setNewAccount($db, $username, $email, $passwd_hash, $salt)) {
 		echo "Success";
 	}
 	else {
@@ -132,10 +134,10 @@ function createAccount($username, $session, $email, $passwd_hash, $salt) {
 	}
 	
 	// close connection
-	include 'dbDisconnect.php';
+	dbClose($db);
 }
 
-function setNewAccount($mysqli, $username, $session, $email, $passwd_hash, $salt) {
+function setNewAccount($db, $username, $email, $passwd_hash, $salt) {
 	$activationCode = bin2hex(random_bytes(5));
 	
 	require 'Browser.php-master/lib/Browser.php';
@@ -144,36 +146,31 @@ function setNewAccount($mysqli, $username, $session, $email, $passwd_hash, $salt
 	$os = $browser->getPlatform();
 	$browserVersion = $browser->getBrowser();
 	
-	$query = "
-		START TRANSACTION;
-		
-		INSERT INTO Person(username, id_sessionCurrent, email, password, salt, activationCode)
-		VALUES('$username', '$session', '$email', '$passwd_hash', '$salt', '$activationCode');
-		
-		INSERT INTO Player(id_person)
-		VALUES ( ( SELECT id FROM Person WHERE username = '$username') );
-		
-		COMMIT;";
+	$db->beginTransaction();
+	$res = $db->query("	INSERT INTO Person(username, email, password, salt, activationCode)
+						VALUES('$username', '$email', '$passwd_hash', '$salt', '$activationCode');
+						
+						INSERT INTO Player(id_person)
+						VALUES ( ( SELECT id FROM Person WHERE username = '$username') );";
+	$db->commit();
 
-	echo $query;
-
-	return $mysqli->multi_query($query);
+	return $res;
 }
 
 function sendEMailNewAccount($email, $username) {
 	
 	// open connection
-	require 'dbConnect.php';
+	$db = dbOpen();
 	
 	$activationCode = "";
 
 	
-	if ($result = getActivationCode($mysqli, $email)){
-		if($result->num_rows == 1) {
-			$activationCode = $result->fetch_row()[0];
+	if ($result = getActivationCode($db, $email)){
+		if($row = $result->fetch(PDO::FETCH_ASSOC)) {
+			$activationCode = $row['activationCode'];
 
 			// close connection
-			include 'dbDisconnect.php';
+			dbClose($db);
 
 			// Send an automatic e-mail to give the activation code
 			
@@ -215,19 +212,17 @@ function sendEMailNewAccount($email, $username) {
 		}
 	}
 	// close connection
-	include 'dbDisconnect.php';
+	dbClose($db);
 
 	return false;
 }
 
-function getActivationCode($mysqli, $email) {
+function getActivationCode($db, $email) {
 	// get activation code
-	$query = "SELECT Pl.activationCode
-				FROM Player Pl, Person Pe
-				WHERE Pl.id_person = Pe.id
-				AND Pe.email = '$email'";
-
-	return $mysqli->query($query);
+	return $db->query("	SELECT Pl.activationCode
+						FROM Player Pl, Person Pe
+						WHERE Pl.id_person = Pe.id
+						AND Pe.email = '$email'");
 }
 
 //modify any special character like <p> </p>

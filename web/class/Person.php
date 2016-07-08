@@ -4,8 +4,8 @@ $_PERSON_PHP = true;
 
 class Person {
 	private $id;
-	private $username;
 	private $id_sessionCurrent;
+	private $username;
 	private $email;
 	private $password;
 	private $salt;
@@ -14,12 +14,12 @@ class Person {
 	public function id() {
 		return $this->id;
 	}
-	public function username() {
-		return $this->username;
-	}
 	public function id_sessionCurrent() {
 		return $this->id_sessionCurrent;
 	}
+	public function username() {
+		return $this->username;
+	}	
 	public function email() {
 		return $this->email;
 	}

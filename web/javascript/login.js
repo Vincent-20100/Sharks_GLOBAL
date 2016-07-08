@@ -1,11 +1,29 @@
 
 
 $( function () {
-	
-	// add in head of the html file the file needed to encrypt
+	//add at the head of the html file the reference to the file needed to encrypt
 	$("head").append("<script type='text/javascript' src='javascript/sha512.js'></script>");
 	
+	//==========================================================================
 	
+	//enable the popover button
+	$('[data-toggle="popover"]').popover();
+	
+	//==========================================================================
+	
+	//open the register tab if needed
+	if(getUrlParameter('tab') === "register") {
+		//set correct links
+		$("#login-form-link").removeClass("active");
+		$("#register-form-link").addClass("active");
+		//set correct tabs
+		$("#login-form").css("display", "none");
+		$("#register-form").css("display", "block");
+	}
+	
+	//==========================================================================
+	
+	//set the actions while submiting
 	$("#login-form").submit (function ( evt ) {
 		// disable the form action
 		if(evt.preventDefault) {
@@ -41,7 +59,7 @@ $( function () {
 function checkAccount(salt) {
 	
 	if (salt == "Failed") {
-		dispMsg("alert-danger", "ok-sign", get_notConnected() );
+		dispMsg("alert-danger", "remove-sign", get_notConnected() );
 	}
 	else {
 		
@@ -77,7 +95,7 @@ function checkAccount(salt) {
 function checkConnection(data) {
 	console.log(data);
 	
-	if(data == 'Success'){
+	if(data.endsWith("Success")){
 		dispMsg("alert-success", "ok-sign", get_connected() );
 		window.location.href = $("#login-form").attr("next-page");
 	}
@@ -86,19 +104,7 @@ function checkConnection(data) {
 	}
 }
 
-function dispMsg(type, glyphicon, msg) {
-	$("#disp-error-msg").removeClass("hide alert-danger alert-warning alert-info alert-success");
-	$("#disp-error-msg").addClass(type);
-	
-	var txt;
-	if (glyphicon === null) {
-		txt = msg;
-	}
-	else {
-		txt = "<span class='glyphicon glyphicon-" + glyphicon + "'></span> " + msg;
-	}
-	$("#disp-error-msg").html(txt);
-}
+
 
 /* **************************************************************************
    ************************************************************************** */
@@ -114,4 +120,25 @@ function get_notConnected() {
 function get_disconnected() {
 	return "Disconnected.";
 }
+
+/* **************************************************************************
+	Next function extracted from:
+	http://stackoverflow.com/questions/19491336/get-url-parameter-jquery-or-how-to-get-query-string-values-in-js
+   ************************************************************************** */
+
+function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+    return false;
+};
 

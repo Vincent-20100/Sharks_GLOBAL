@@ -1,33 +1,32 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 	
+	include 'dbManager.php';
+
 $return = false;
 if( isset($_POST['username']) ) {
 	
 	// open connection
-	require 'dbConnect.php';
+	$db = dbOpen();
 	
 	$username = $_POST['username'];
 	
 	// find potential accounts already using this username
-	$query  = "SELECT id FROM Person
-				WHERE username = '$username'";
-	
-	if ($result = $mysqli->query($query)) {
-		if ($result->num_rows <= 0) {
-			echo "Failed";
-		}
-		else { // $result >= 1
+	$q = $db->query("	SELECT id FROM Person
+						WHERE username = '$username'");
+	if ($q) {
+		if ($q->fetch(PDO::FETCH_ASSOC)) { // $result >= 1
 			// this username is already used
 			echo "Success";
 			$return = true;
 		}
-		
-		$result->close();
+		else {
+			echo "Failed";
+		}
 	}
 	
 	// close connection
-	include 'dbDisconnect.php';
+	dbClose($db);
 	
 }
 else {
