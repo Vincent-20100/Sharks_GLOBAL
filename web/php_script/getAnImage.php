@@ -27,7 +27,7 @@
 		// choose randomly one file
 		$i = array_rand($filesArray);
 		// print the hmtl <img> tag
-		print("<img class='img-responsive' src='{$dir['html']}/{$filesArray[$i]}' alt='a databank image'>");
+		print("<img class='img-responsive avoidrag' src='{$dir['html']}/{$filesArray[$i]}' alt='a databank image'>");
 	}
 	else {
 		//print an error
