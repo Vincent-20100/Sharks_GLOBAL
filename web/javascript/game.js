@@ -1061,20 +1061,6 @@ function setScore (data) {
 	}
 }
 
-function dispMsg(type, glyphicon, msg) {
-	$("#disp-error-msg").removeClass("hide alert-danger alert-warning alert-info alert-success");
-	$("#disp-error-msg").addClass(type);
-	
-	var txt;
-	if (glyphicon === null) {
-		txt = msg;
-	}
-	else {
-		txt = "<span class='glyphicon glyphicon-" + glyphicon + "'></span> " + msg;
-	}
-	$("#disp-error-msg").html(txt);
-}
-
 function showHideTips() {
 	$("#tipsMenu").toggleClass("dontShow");
 	$("#player_audio").trigger("play");

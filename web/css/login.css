@@ -8,6 +8,10 @@ body {
 	background-repeat: no-repeat;
 	background-position: top;
 }
+body > .container {
+	margin-top: 10%;
+}
+
 .panel-login {
 	border-color: #ccc;
 	-webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
@@ -65,31 +69,12 @@ body {
 	text-decoration: underline;
 	color: #666;
 }
-#disp-error-msg {
-	margin-top: 10px;
-}
-#disp-error-msg.hide {
-	display: block !important;
-	visibility: hidden;
-}
 #register-form [name="validation"] {
 	text-align: left;
 	line-height: 18px;
 	font-size: 18px;
 	display: inline-block;
 	padding: 10px 0;
-}
-.icon-danger {
-	color: #a94442;
-}
-.icon-warning {
-	color: #8a6d3b;
-}
-.icon-info {
-	color: #31708f;
-}
-.icon-success {
-	color: #3c763d;
 }
 .border-danger {
 	border-color: #a94442 !important;

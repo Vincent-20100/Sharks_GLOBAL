@@ -1,0 +1,37 @@
+#disp-error {
+	border-top: 1px solid;
+	border-bottom: 1px solid;
+	position: fixed;
+	top: -100px;
+/*	left: 15%;
+	width: 70%;*/
+	width: 100%;
+	-webkit-transition: top 0.5s;
+    transition: top 0.5s;
+    text-align: center;
+	z-index: 2;
+}
+
+#disp-error.show {
+	top: 0px;
+}
+
+#disp-error-msg {
+	width: 100%;
+	display: inline-block;
+	font-size: 18px;
+	padding: 12px 30px;
+}
+
+.color-danger {
+	color: #a94442;
+}
+.color-warning {
+	color: #8a6d3b;
+}
+.color-info {
+	color: #31708f;
+}
+.color-success {
+	color: #3c763d;
+}

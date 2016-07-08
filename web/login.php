@@ -133,9 +133,9 @@ $_SESSION["username"] = "";
 										</div>
 										<div name="validation" class="hidden-xs col-sm-1">
 											<div class="content show-tooltip icon-info" data-toggle="popover" data-placement="right" 
-												data-title="How to choose a strong password?"
+												data-title="How choose a strong password?"
 												data-content="It must contain at least 6 character long with one digit, one uppercase and one lowercase character.">
-												<span class="glyphicon glyphicon-info-sign"></span>
+												<span class="glyphicon glyphicon-info-sign color-info"></span>
 											</div>
 										</div>
 									</div>

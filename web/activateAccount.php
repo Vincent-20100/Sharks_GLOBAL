@@ -12,6 +12,11 @@ include 'php_script/startSession.php';
 	<?php include('php_shared/header.php'); ?>
 	
 	<style type="text/css">
+
+		body > .container {
+			margin-top: 10%;
+		}
+		
 		.error {color: #FF0000;}
 	</style>
 
