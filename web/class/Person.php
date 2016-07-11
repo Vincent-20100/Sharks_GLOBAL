@@ -10,6 +10,7 @@ class Person {
 	private $password;
 	private $salt;
 	private $activationCode;
+	private $recoveryCode;
 
 	public function id() {
 		return $this->id;
@@ -32,6 +33,10 @@ class Person {
 	public function activationCode() {
 		return $this->activationCode;
 	}
+	public function recoveryCode() {
+		return $this->recoveryCode;
+	}
+
 
 	public function setId($id) {
 		$this->id = $id;
@@ -53,6 +58,9 @@ class Person {
 	}
 	public function setActivationCode($activationCode) {
 		$this->activationCode = $activationCode;
+	}
+	public function setRecoveryCode($recoveryCode) {
+		$this->recoveryCode = $recoveryCode;
 	}
 	
 	public function isAdmin() {

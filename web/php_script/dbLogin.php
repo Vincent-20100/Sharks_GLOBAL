@@ -1,7 +1,7 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 
-//if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$username = "";
 	$passwd_hash = "";
@@ -31,15 +31,12 @@
 	else {
 		echo "Uncomplete request :(";
 	}
-	return false;
-//}
+}
 
 function loginAccount($username, $passwd_hash, $userSession) {
 	
 	// open connection
 	require 'dbConnect.php';
-	
-	$return = false;
 
 	// connect to the account by checking the hashed passwd
 	// Even if the password is correct, success only if the activation code
@@ -67,7 +64,6 @@ function loginAccount($username, $passwd_hash, $userSession) {
 						// store the current player session
 						if(setPlayerSession($mysqli, $username, $userSession, $userId)){
 							echo "Success";
-							$return = true;
 						}
 						else {
 							echo "Session unreachable.";

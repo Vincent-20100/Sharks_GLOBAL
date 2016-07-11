@@ -7,7 +7,7 @@ if( isset($_POST['username']) ) {
 	// open connection
 	require 'dbConnect.php';
 	
-	$username = $_POST['username'];
+	$username = test_input($_POST['username']);
 	
 	// get the user's password salt
 	$query  = "SELECT salt FROM Person WHERE username = '$username'";
@@ -28,5 +28,13 @@ if( isset($_POST['username']) ) {
 }
 else {
 	echo "Failed";
+}
+
+//modify any special character like <p> </p>
+function test_input($data) {
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data);
+	return $data;
 }
 ?>

@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		    }
 		    else {
 		    	createAccount($username, $session, $email, $password, $salt);
-		    	//uncomment later
+		    	//uncomment later if you can send email with the server
 		    	//sendEMailNewAccount($email, $username);
 		    }
 
@@ -190,7 +190,7 @@ function sendEMailNewAccount($email, $username) {
 				<p>Hi $username!</p>
 				<p>Here is your activation code. Use the link below to activate your account.</p>
 				<p><a href='http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.60/SharksTag/activation.php?user=$username&code=$activationCode</a>
-				<p>Have a good play!</a>
+				<p>Have a good play!</p>
 			</body>
 			</html>";
 

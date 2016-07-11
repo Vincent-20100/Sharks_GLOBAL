@@ -6,21 +6,21 @@
 	include('tagAnalyse.php');
 
 	if( !isset($_POST['imageURL'])) {
-		echo "111";
+		echo "No image url given";
 	
 	}
 	elseif( !isset($_POST['id_session'])) {
-		echo "222";
+		echo "No session id given";
 	
 	}
 	elseif( !isset($_POST['tabTagsPos']))
 	{
-		echo "Missing parameters !";
+		echo "No tag submitted";
 	}
 	else {
 	
 		$imageURL = $_POST['imageURL'];
-		$id_session = $_POST['id_session'];
+		$id_session = test_input($_POST['id_session']);
 		$listPostedTags = json_decode($_POST['tabTagsPos'], true);
 		
 
@@ -77,5 +77,11 @@
 		}
 	}
 
-	
+	//modify any special character like <p> </p>
+	function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
 ?>
