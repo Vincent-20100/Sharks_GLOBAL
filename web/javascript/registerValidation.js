@@ -29,7 +29,7 @@ $( function () {
 			// POST's arguments
 			data: {
 				username : $("#username-register").val(),
-				session : $("#session_id").val(),
+				session : $("#session_id").attr("session-name"),
 				email : $("#email-register").val(),
 				password : passwordHashed,
 				salt : generatedSalt

@@ -83,7 +83,7 @@ function checkAccount(salt) {
 			data: {
 				username : $("#username-login").val(),
 				password : hashedPasswd,
-				userSession : $("#session_id").val() //read a cookie
+				userSession : $("#session_id").attr("session-name") //read a cookie
 			},
 			context: this,
 			// get the result
