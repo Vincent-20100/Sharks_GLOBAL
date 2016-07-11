@@ -14,13 +14,15 @@ class TagManager
 
 	public function add(Tag $tag)
 	{
-		$q = $this->_db->prepare('INSERT INTO Tag(id_taggedImage, id_species, x1, y1, x2, y2) VALUES(:id_taggedImage, :id_species, :x1, :y1, :x2, :y2)');
+		$q = $this->_db->prepare("INSERT INTO Tag(id_taggedImage, id_species, x1, y1, x2, y2) VALUES(:id_taggedImage, :id_species, :x1, :y1, :x2, :y2)");
 		$q->bindValue(':id_taggedImage', $tag->id_taggedImage());
 		$q->bindValue(':id_species', $tag->id_species());
 		$q->bindValue(':x1', $tag->x1());
 		$q->bindValue(':y1', $tag->y1());
 		$q->bindValue(':x2', $tag->x2());
 		$q->bindValue(':y2', $tag->y2());
+
+//		print("INSERT INTO Tag(id_taggedImage, id_species, x1, y1, x2, y2) VALUES(".$tag->id_taggedImage().", ".$tag->id_species().", ".$tag->x1().", ".$tag->y1().", ".$tag->x2().", ".$tag->y2().")");
 
 		$q->execute();
 	}

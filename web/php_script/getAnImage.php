@@ -63,6 +63,7 @@
 									WHERE name = :name");
 		
 		$filesArray = array();
+		$i=0;
 		foreach($files as $f) {
 			// keep only the files
 			if(is_file("{$dir['server']}/$f")) {

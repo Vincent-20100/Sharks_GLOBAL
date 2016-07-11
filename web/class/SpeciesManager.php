@@ -53,7 +53,9 @@ class SpeciesManager
 	{
 		try {
 
-			$q = $this->_db->query("SELECT id FROM Species WHERE name = '$sharkName'");
+			$q = $this->_db->query("SELECT id
+									FROM Species
+									WHERE name = '$sharkName'");
 			if($q === false){ return null; }
 			$data = $q->fetch(PDO::FETCH_ASSOC);
 

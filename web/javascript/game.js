@@ -317,7 +317,7 @@ function initDrag(rank){
     elem.attr("name","grab");
     
     // set the selected option in the combobox to UNDEFINED_SPECIES value
-	$("#sharkSpecies").val(elem.attr(UNDEFINED_SPECIES));
+	$("#sharkSpecies").val(elem.attr("species"));
 }
 
 
