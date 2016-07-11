@@ -121,9 +121,8 @@ class PlayerManager
 
 	public function update(Player $player)
 	{
-		$q = $this->_db->prepare("UPDATE Person
-									SET id_sessionCurrent = :id_sessionCurrent, username = :username, email = :email, password = :password, salt = :salt
-									WHERE id = :id");
+		$q = $this->_db->prepare('UPDATE Person SET id_sessionCurrent = :id_sessionCurrent, username = :username, email = :email, password = :password, salt = :salt, activationCode = :activationCode WHERE id = :id');
+
 		
 		$q->bindValue(':id', $player->id());
 		$q->bindValue(':id_sessionCurrent', $player->id_sessionCurrent());
@@ -131,18 +130,16 @@ class PlayerManager
 		$q->bindValue(':email', $player->email());
 		$q->bindValue(':password', $player->password());
 		$q->bindValue(':salt', $player->salt());
+		$q->bindValue(':activationCode', $player->activationCode());
 
 		$q->execute();
 
 
-		$q1 = $this->_db->prepare("UPDATE Player
-									SET score = :score, tutorialFinished = :tutorialFinished, activationCode = :activationCode
-									WHERE id_person = :id_person");
+		$q1 = $this->_db->prepare('UPDATE Player SET score = :score, tutorialFinished = :tutorialFinished WHERE id_person = :id_person');
 
 		$q1->bindValue(':id_person', $player->id_person());
 		$q1->bindValue(':score', $player->score());
 		$q1->bindValue(':tutorialFinished', $player->tutorialFinished());
-		$q1->bindValue(':activationCode', $player->activationCode());
 
 		$q1->execute();
 	}
