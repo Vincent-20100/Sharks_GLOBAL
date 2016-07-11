@@ -1,5 +1,8 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
+	
+	include 'dbManager.php';
+
 	/*
 	// get the shark species
 	//$filedir = '/home/socguest/Desktop/Sharks_GLOBAL/web/private/sharksNames.txt';
@@ -52,8 +55,8 @@
 	
 	
 	
-	include 'dbConnect.php';
-	$sharks = getSharksList($mysqli);
+	$db = dbOpen();
+	$sharks = getSharksList($db);
 	
 	
 	
@@ -80,10 +83,10 @@
 	
 	echo '{ "records" :[ ';
 	//1st occurence
-	$s = $sharks->fetch_array();
+	$s = $sharks->fetch(PDO::FETCH_ASSOC);
 	echo json_encode($s);
 	//others
-	while($s = $sharks->fetch_array()) {
+	while($s = $sharks->fetch(PDO::FETCH_ASSOC)) {
 		echo ", ";
 		echo json_encode($s);
 	}
@@ -148,15 +151,13 @@
 	//print "</select>";
 	//print $details;
 	
-	include 'dbDisconnect.php';
+	dbClose($db);
 	
 	
 	
 	
-function getSharksList($mysqli) {
-	$query = "	SELECT id, name, otherNames, image, length, uniqueIdentifyingFeature AS 'uif'
-				FROM Species";
-	
-	return $mysqli->query($query);
+function getSharksList($db) {
+	return $db->query("	SELECT id, name, otherNames, image, length, uniqueIdentifyingFeature AS 'uif'
+						FROM Species");
 }
 ?>

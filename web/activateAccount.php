@@ -12,7 +12,12 @@ include 'php_script/startSession.php';
 	<?php include('php_shared/header.php'); ?>
 	
 	<style type="text/css">
-	.error {color: #FF0000;}
+
+		body > .container {
+			margin-top: 10%;
+		}
+		
+		.error {color: #FF0000;}
 	</style>
 
 </head>
@@ -22,51 +27,53 @@ include 'php_script/startSession.php';
 ?>
 
 
-<?php 
+<?php
+	include 'php_script/dbManager.php';
+
 	$activationCode = "";
 
 	if (isset($_POST["activationCode"])) {
 
-	  	if (empty($_POST["activationCode"])) {
-	    	echo "Please, enter an activation code.";
+		if (empty($_POST["activationCode"])) {
+			echo "Please, enter an activation code.";
 		} else {
 			//success !
-		    $activationCode = test_input($_POST["activationCode"]);
+			$activationCode = test_input($_POST["activationCode"]);
 
-		    $querySelect = "SELECT id
-		    				FROM Person
-		    				WHERE activationCode = '$activationCode'";
-		    
-		    $queryUpdate = "UPDATE Person
-		    				SET activationCode = NULL
-		    				WHERE activationCode = '$activationCode'";
-		    
-		    include 'php_script/dbConnect.php';
-		    
-		    if ($result = $mysqli->query($querySelect)) {
-		    	if($result->num_rows == 1) {
-		    		if ($result = $mysqli->query($queryUpdate)) {
-		    			echo 'Success';
-		    		}
-		    		else echo 'Failed while using your valid code';
-		    	}
-		    	else {
-		    		echo 'Invalid code.';
-		    	}
-		    }
-		    else {
-		    	echo "Can't execute the request.";
-		    }
-		    
-		    include 'php_script/dbDisconnect.php';
+			$querySelect = "SELECT id
+							FROM Person
+							WHERE activationCode = '$activationCode'";
+
+			$queryUpdate = "UPDATE Person
+							SET activationCode = NULL
+							WHERE activationCode = '$activationCode'";
+
+			$db = dbOpen();
+
+			if ($result = $db->query($querySelect)) {
+				if($result->fetch(PDO::FETCH_ASSOC)) {
+					if ($db->query($queryUpdate)) {
+						echo 'Success';
+					}
+					else echo 'Failed while using your valid code';
+				}
+				else {
+					echo 'Invalid code.';
+				}
+			}
+			else {
+				echo "Can't execute the request.";
+			}
+
+			dbClose($db);
 		}
 	}
 
 	function test_input($data) {
-	  $data = trim($data);
-	  $data = stripslashes($data);
-	  $data = htmlspecialchars($data);
-	  return $data;
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
 	}
 ?>
 
@@ -79,7 +86,7 @@ include 'php_script/startSession.php';
  -->
 <div class="container">
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
+		<div class="col-sm-6 col-sm-offset-3">
 			<div class="panel panel-activateAccount">
 				<div class="panel-heading">
 					<div class="row">
@@ -98,10 +105,10 @@ include 'php_script/startSession.php';
 								</div>
 								<div class="form-group">
 									<div class="row">
-										<div class="col-sm-offset-3 col-sm-6">
+										<div class="col-sm-8">
 											<input type="submit" name="activateAccount-submit" id="activateAccount-submit" tabindex="2" class="btn btn-success btn-lg btn-block" value="Activate Account">
 										</div>
-										<div class="col-sm-3">
+										<div class="col-sm-4">
 											<a href="login.php" role="button" name="cancel" id="cancel" tabindex="3" class="btn btn-danger btn-lg btn-block">Cancel</a>
 										</div>
 									</div>

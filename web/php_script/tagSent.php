@@ -1,21 +1,10 @@
 <?php
-	include('../class/ImageManager.php');
-	include('../class/TaggedImageManager.php');
-	include('../class/SpeciesManager.php');
-	include('../class/TagManager.php');
-	include('tagAnalyse.php');
+	include 'dbManager.php';
+	include_once 'tagAnalyse.php';
 
-	if( !isset($_POST['imageURL'])) {
-		echo "No image url given";
-	
-	}
-	elseif( !isset($_POST['id_session'])) {
-		echo "No session id given";
-	
-	}
-	elseif( !isset($_POST['tabTagsPos']))
-	{
-		echo "No tag submitted";
+
+	if( !isset($_POST['imageURL']) || !isset($_POST['id_session']) || !isset($_POST['tabTagsPos'])) {
+		echo "Missing parameters !";
 	}
 	else {
 	
@@ -24,25 +13,24 @@
 		$listPostedTags = json_decode($_POST['tabTagsPos'], true);
 		
 
-		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
-	
+		$db = dbOpen();
+		$taggedImageManager = new TaggedImageManager($db);
+
 	 	//check if the image is in the database
 		$imageManager = new ImageManager($db);
 		$image = $imageManager->getByName($imageURL);
 
-		if($image->analysed() == 1) {
+		if($image->analysed() == 0) {
 			$taggedImage = new TaggedImage([
 		  	'id_image' => $image->id(),
 		  	'id_session' => $id_session
 			]);
 		 
 			//create a taggedImage
-			$taggedImageManager = new TaggedImageManager($db);
 			$taggedImageManager->add($taggedImage);
 			$taggedImage = $taggedImageManager->getBySessionAndImage($taggedImage->id_session(), $taggedImage->id_image());
 
 
-			$listTags = [];
 			$speciesManager = new SpeciesManager($db);
 			$tagManager = new TagManager($db);
 		
@@ -60,7 +48,6 @@
 					
 					$tagManager->add($tag);
 				
-					array_push($listTags, $tag);
 				
 			}
 		}
@@ -75,6 +62,8 @@
 		} else {
 			echo analyseTagsOnImage($image->id());
 		}
+
+		dbClose($db);
 	}
 
 	//modify any special character like <p> </p>

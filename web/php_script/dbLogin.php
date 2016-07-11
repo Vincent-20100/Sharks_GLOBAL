@@ -1,6 +1,8 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 
+include 'dbManager.php';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$username = "";
@@ -36,42 +38,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 function loginAccount($username, $passwd_hash, $userSession) {
 	
 	// open connection
-	require 'dbConnect.php';
+	$db = dbOpen();
+	
+	$return = false;
 
 	// connect to the account by checking the hashed passwd
 	// Even if the password is correct, success only if the activation code
 	// has been used
-	$query  = "	SELECT id FROM Person
-				WHERE username = '$username'
-				AND password = '$passwd_hash'";
 	
-	if ($result = $mysqli->query($query)) {
-		
-		if ($result->num_rows === 1) {
+	$q = $db->query("	SELECT id FROM Person
+						WHERE username = '$username'
+						AND password = '$passwd_hash'");
+	if ( $q ) {
+		if($result = $q->fetch(PDO::FETCH_ASSOC)) {
 			// username found and correct password
-			$row = $result->fetch_row();
-			$userId = $row[0];
-			
-			$queryAccountActive = "	SELECT id FROM Person
-									WHERE id = '$userId'
-									AND activationCode IS NULL";
-			// check if the account has been activated
-			if ($resultAA = $mysqli->query($queryAccountActive)) {
-				if ($resultAA->num_rows === 1) {
+			$userId = $result['id'];
+
+			$queryAccountActive = $db->query("	SELECT id FROM Person
+												WHERE id = $userId
+												AND activationCode IS NULL");
+			if ( $queryAccountActive ) {
+				// check if the account has been activated
+				if ($resultAA = $queryAccountActive->fetch(PDO::FETCH_ASSOC)) {
 					// YES it is active
 					// history the session statistics
-					if(setNewSession($mysqli, $userSession, $userId)) {
-						// store the current player session
-						if(setPlayerSession($mysqli, $username, $userSession, $userId)){
-							echo "Success";
-						}
-						else {
-							echo "Session unreachable.";
-						}
+					$sessionIds = setNewSession($db, $userSession, $userId);
+					
+					$userSessionId = $sessionIds->fetch(PDO::FETCH_ASSOC)['id'];
+					// store the current player session
+					if(setPlayerSession($db, $username, $userSessionId, $userId)){
+						echo "Success";
+						$return = true;
 					}
 					else {
-						// session issue
-						echo "Session issue";
+						echo "Session unreachable.";
 					}
 				}
 				// NO this account is not active
@@ -87,43 +87,50 @@ function loginAccount($username, $passwd_hash, $userSession) {
 			// wrong user name or password
 			echo "Please, check your username or password.";
 		}
-		$result->close();
 	}
 	else {
 		echo "Wrong request";
 	}
 	
 	// close connection
-	include 'dbDisconnect.php';
+	dbClose($db);
 	
 }
 	
 	
-function setPlayerSession($mysqli, $username, $userSession, $userId) {
+function setPlayerSession($db, $username, $userSessionId, $userId) {
 	// write the current session in the database
-	$query = "UPDATE Person
-			SET id_sessionCurrent = '$userSession'
-			WHERE username = '$username'";
-	return $mysqli->query($query);
+	return $db->query ("UPDATE Person
+						SET id_sessionCurrent = $userSessionId
+						WHERE username = '$username'");
 }
 
-function setNewSession($mysqli, $userSession, $userId) {
+function setNewSession($db, $userSession, $userId) {
 	require 'Browser.php-master/lib/Browser.php';
 	$browser = new Browser();
 	$device = $browser->getPlatform();
 	$os = $browser->getPlatform();
 	$browserVersion = $browser->getBrowser();
 	
-	$query = "INSERT INTO Session (id, id_person, ipv4, os, device, browser)
+	$db->beginTransaction();
+
+	$db->query("INSERT INTO Session (name, id_person, ipv4, os, device, browser)
 				VALUES('$userSession',
 						$userId,
 						'" . ip2long($_SERVER['REMOTE_ADDR']) . "',
 						'$os',
 						'$device',
 						'$browserVersion'
-						)";
+						);");
 	
-	return $mysqli->query($query);
+	$data = $db->query("SELECT id
+						FROM Session
+						WHERE name = '$userSession'
+						ORDER BY date DESC;");
+	
+	$db->commit();
+	
+	return $data;
 }
 
 //modify any special character like <p> </p>

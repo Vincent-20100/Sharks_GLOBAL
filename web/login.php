@@ -22,8 +22,10 @@ $_SESSION["username"] = "";
 <html lang="en">
 <head>
 	<title>Shark Tagging Game</title>
+
 	
 	<?php include('php_shared/header.php'); ?>
+
 	
 	<!-- Custom CSS for login.php -->
 	<link rel="stylesheet" href="css/login.css"/>
@@ -45,9 +47,7 @@ $_SESSION["username"] = "";
 </head>
 <body background="images/back.jpg">
 
-<?php 
-	  include 'php_shared/head.php';
-?>
+<?php include 'php_shared/head.php'; ?>
 <!--
 /****************************************************************************/
 /* HTML inpired from "Login and Register tabbed form"						*/
@@ -132,12 +132,10 @@ $_SESSION["username"] = "";
 											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password"  maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 										<div name="validation" class="hidden-xs col-sm-1">
-											<div class="content show-tooltip icon-info" data-toggle="tooltip" data-placement="auto bottom" data-html="true" 
-												title="-Password must be at least 6 character long&#13;
-													-Password must contain at least one digit&#13;
-													-Password must contain at least one uppercase character&#13;
-													-Password must contain at least one lowercase character&#13;">
-												<span class="glyphicon glyphicon-info-sign"></span>
+											<div class="content show-tooltip icon-info" data-toggle="popover" data-placement="right" 
+												data-title="How choose a strong password?"
+												data-content="It must contain at least 6 character long with one digit, one uppercase and one lowercase character.">
+												<span class="glyphicon glyphicon-info-sign color-info"></span>
 											</div>
 										</div>
 									</div>

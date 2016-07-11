@@ -52,7 +52,10 @@ class PlayerManager
 		try {
 			$id = (int) $id;
 
-			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, activationCode, score, tutorialFinished FROM Person per, Player pla  WHERE per.id = $id AND pla.id_person = $id');
+			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode, Pl.score, Pl.tutorialFinished
+									FROM Person P, Player Pl
+									WHERE P.id = $id
+									AND Pl.id_person = $id");
 			if($q === false){ return null; }
 			$data = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -65,7 +68,28 @@ class PlayerManager
 	public function getBySession($session)
 	{
 		try {
-			$q = $this->_db->query("SELECT id, id_sessionCurrent, username, email, password, salt, activationCode, score, tutorialFinished FROM Person per, Player pla WHERE per.id = pla.id_person AND per.id_sessionCurrent = '$session'");
+			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode, Pl.score, Pl.tutorialFinished
+									FROM Person P, Player Pl
+									WHERE P.id = Pl.id_person
+									AND P.id_sessionCurrent = $session");
+			if($q === false){ return null; }
+			$data = $q->fetch(PDO::FETCH_ASSOC);
+
+			if($data) { return new Player($data); }
+			else { return null; }
+    	} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+
+	public function getBySessionName($session)
+	{
+		try {
+			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode, Pl.score, Pl.tutorialFinished
+									FROM Person P, Player Pl, Session S
+									WHERE P.id = Pl.id_person
+									AND P.id_sessionCurrent = S.id
+									AND S.name = '$session'");
 			if($q === false){ return null; }
 			$data = $q->fetch(PDO::FETCH_ASSOC);
 
@@ -80,7 +104,10 @@ class PlayerManager
 	{
 		try{
 			$players = [];
-			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, score, tutorialFinished, activationCode FROM Person, Player WHERE Person.id = Player.id_person ORDER BY Person.id');
+			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode, Pl.score, Pl.tutorialFinished
+									FROM Person P, Player Pl
+									WHERE P.id = Pl.id_person
+									ORDER BY P.id");
 			if($q === false){ return null; }
 			while ($data = $q->fetch(PDO::FETCH_ASSOC))
 			{
@@ -95,6 +122,7 @@ class PlayerManager
 	public function update(Player $player)
 	{
 		$q = $this->_db->prepare('UPDATE Person SET id_sessionCurrent = :id_sessionCurrent, username = :username, email = :email, password = :password, salt = :salt, activationCode = :activationCode WHERE id = :id');
+
 		
 		$q->bindValue(':id', $player->id());
 		$q->bindValue(':id_sessionCurrent', $player->id_sessionCurrent());

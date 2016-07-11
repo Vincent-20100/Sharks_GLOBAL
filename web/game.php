@@ -37,9 +37,11 @@
 		</ul>
 	</div>
 	<!--Image Container-->
-	<div id="container" class="container noSelect" onmousedown="initZone()" onmousemove="setZone()" onmouseup="endSelectZone()" >
+	<div id="container" class="container noSelect"   onmousedown="initZone()" onmousemove="setZone()" onmouseup="endSelectZone()" ontouchstart="initZone()" ontouchmove="setZone()" ontouchend="endSelectZone()">
 		<div id="imageContainer" class="noSelect">
+
 			<?php include 'php_script/getAnImage.php'; ?>
+
 		</div>
 	</div>
 	

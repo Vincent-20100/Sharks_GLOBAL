@@ -38,12 +38,24 @@ function getPos(){
 $(function (){
 //This is a Jquery function, it's called all the time
 //We get the position of the mouse and we put it in posym
-	$("#container").mousemove(function(e) {
-		posym.x = e.pageX;
-		posym.y = e.pageY;
+
+
+
+	$("#container").on('mousemove ', function(e) {
+  		posym.x =  e.pageX
+  		posym.y =  e.pageY
 	});
 
-	//Each time we have a change in the comboBox, this function is called
+
+
+	$("#container").on('touchstart touchmove', function(e) {
+  		posym.x =  e.originalEvent.touches[0].pageX
+  		posym.y =  e.originalEvent.touches[0].pageY
+	});
+
+	
+
+		//Each time we have a change in the comboBox, this function is called
 	$("#sharkSpecies").change( function() {
 		//What is choosen in the comboBox
 		var speciesSelected = $("#sharkSpecies :selected").attr("value");
@@ -60,8 +72,6 @@ $(function (){
 		}
 		
 	});
-
-
 	var bod = $('body');
 	var img = $("#imageContainer img")
 	var bodwidth = bod.width();
@@ -140,11 +150,18 @@ document.onkeydown = function(e) {
 function initZone() {
 //Function called when we click on the div id='container'
 	if(isDragging != true && isResizing1 != true && isResizing2 != true && isResizing3 != true && isResizing4 != true){
-	
-	initPos[0] = posym.x; // x
-	initPos[1] = posym.y; // y
-	
-	isMousePressed = true;   
+		
+		$("#container").on('touchstart', function(e) {
+	  		posym.x =  e.originalEvent.touches[0].pageX
+	  		posym.y =  e.originalEvent.touches[0].pageY
+			initPos[0] = posym.x; // x
+			initPos[1] = posym.y; // y
+		});
+		
+		initPos[0] = posym.x; // x
+		initPos[1] = posym.y; // y
+
+		isMousePressed = true;   
 	}
 	
 }
@@ -156,14 +173,16 @@ function setZone() {
 //Function called when we move on the div id='container'
 //If we have clicked on the div id='container', isMousePressed === true
    if (isMousePressed){
-
+   		console.log("set zone");
         if(setOK===true){
         //Creation of a new SelectedZone as well as 4 points
-		    $("#container").append("<div id='selectedZone"+rank+"' value= '"+rank+"' species='" + UNDEFINED_SPECIES + "' class = 'selectedZone' name='touch' onmousedown = 'initDrag("+rank+")'  onmousemove='dragZone()'></div>");
-		    $("#container").append("<div id='point1"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd' onmousedown = 'initResize1("+rank+")' onmousemove ='resizePoint1()'></div>");
-		    $("#container").append("<div id='point2"+rank+"' value= '"+rank+"' species='' class='point' name='pointeven' onmousedown = 'initResize2("+rank+")' onmousemove ='resizePoint2()'></div>");
-		    $("#container").append("<div id='point3"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd'onmousedown = 'initResize3("+rank+")' onmousemove ='resizePoint3()'></div>");
-		    $("#container").append("<div id='point4"+rank+"' value= '"+rank+"' species='' class='point' name='pointeven' onmousedown = 'initResize4("+rank+")' onmousemove ='resizePoint4()'></div>");
+
+		    $("#container").append("<div id='selectedZone"+rank+"' value= '"+rank+"' species='" + UNDEFINED_SPECIES + "' class = 'selectedZone' name='touch' ontouchstart ='initDrag("+rank+")' ontouchmove ='dragZone()' onmousedown = 'initDrag("+rank+")'  onmousemove='dragZone()' onmouseup='endSelectZone()'></div>");
+		    $("#container").append("<div id='point1"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd' ontouchstart ='initResize1("+rank+")' ontouchmove='resizePoint1()' onmousedown = 'initResize1("+rank+")' onmousemove ='resizePoint1()'></div>");
+		    $("#container").append("<div id='point2"+rank+"' value= '"+rank+"' species='' class='point' name='pointeven' ontouchstart ='initResize2("+rank+")' ontouchmove='resizePoint2()' onmousedown = 'initResize2("+rank+")' onmousemove ='resizePoint2()'></div>");
+		    $("#container").append("<div id='point3"+rank+"' value= '"+rank+"' species='' class='point' name='pointodd' ontouchstart ='initResize3("+rank+")' ontouchmove='resizePoint3()' onmousedown = 'initResize3("+rank+")' onmousemove ='resizePoint3()'></div>");
+		    $("#container").append("<div id='point4"+rank+"' value= '"+rank+"' species='' class='point' name='pointeven' ontouchstart ='initResize4("+rank+")' ontouchmove='resizePoint4()' onmousedown = 'initResize4("+rank+")' onmousemove ='resizePoint4()'></div>");
+
 		    first = true;
 		    var elem = $("#selectedZone"+curent);
             elem.removeClass("selected");
@@ -282,6 +301,7 @@ function passDiv(){
 
 function initDrag(rank){
 //This function is called when you click on a SelectedZone
+	console.log("initDRAG");
     isDragging = true;
     initPos[0]= posym.x
 	initPos[1] = posym.y
@@ -305,7 +325,7 @@ function dragZone() {
 //This function is called when you move the mouse on a SelectedZone
 	
     if(isDragging === true){
-   
+   	console.log("Is DRAGGING");
     //recovery of data, the curent element etc...
     var elem = $('#selectedZone'+curent)
     var point1 = $("#point1"+curent)
@@ -994,36 +1014,31 @@ function sendTags() {
 			listTags[i]['y2'] = y2;
 		}
 	}
+
 	
 	// we need to use a JSON to send a tab to the server
 	var jsonListTags = JSON.stringify(listTags);
 		
-	// the person didn't tagged the image
-	if(listTags.length == 0){
-		checkTagSent('Success');
-	}
-	else {
+	
 		
-		// send the tags to the data base
-		$.ajax({
-			async: true,
-			// destination page
-			url: 'http://136.206.48.60/SharksTag/php_script/tagSent.php',
-			// use POST method
-			type: 'POST',
-			// POST's arguments
-			data: {
-				imageURL : $("#imageContainer img").attr("src"),
-				id_session : $("#session_id").val(),
-				tabTagsPos : jsonListTags
-			},
-			context: this,
-			// get the result
-			success: checkTagSent
-		});
-		
-		
-	}
+	// send the tags to the data base
+	$.ajax({
+		async: true,
+		// destination page
+		url: 'http://136.206.48.174/SharksTag/php_script/tagSent.php',
+		// use POST method
+		type: 'POST',
+		// POST's arguments
+		data: {
+			imageURL : $("#imageContainer img").attr("src"),
+			id_session : $("#session_id").val(),
+			tabTagsPos : jsonListTags
+		},
+		context: this,
+		// get the result
+		success: checkTagSent
+	});
+
 
 	
 
@@ -1033,7 +1048,7 @@ function checkTagSent (data) {
 	console.log(data);
 
 	if(data == 'Success'){
-		$("#imageContainer").load('http://136.206.48.60/SharksTag/php_script/getAnImage.php');
+		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php?s=' + $("#session_id").val());
 		/* end by del the selected zone */
 		resetAllZone();
 	} else {
@@ -1048,7 +1063,7 @@ function checkTagSent (data) {
 	$.ajax({
 		async: true,
 		// destination page
-		url: 'http://136.206.48.60/SharksTag/php_script/getScore.php',
+		url: 'http://136.206.48.174/SharksTag/php_script/getScore.php',
 		// use POST method
 		type: 'POST',
 		// POST's arguments
@@ -1065,20 +1080,6 @@ function setScore (data) {
 	if(data !== 'NULL') {
 		$("#scoreButton").html(data);
 	}
-}
-
-function dispMsg(type, glyphicon, msg) {
-	$("#disp-error-msg").removeClass("hide alert-danger alert-warning alert-info alert-success");
-	$("#disp-error-msg").addClass(type);
-	
-	var txt;
-	if (glyphicon === null) {
-		txt = msg;
-	}
-	else {
-		txt = "<span class='glyphicon glyphicon-" + glyphicon + "'></span> " + msg;
-	}
-	$("#disp-error-msg").html(txt);
 }
 
 function showHideTips() {

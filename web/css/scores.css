@@ -1,0 +1,50 @@
+p{
+	font-size: 18px;
+	text-align: center;
+}
+
+.container#table-highscores {
+	margin-top: 10%;
+}
+
+#table-title {
+	color : rgba(218, 165, 32, 0.9);
+	text-align: center;
+	margin-top: 0px;
+	font-size: 40px;
+}
+
+th[name="col1"], th[name="col2"], th[name="col3"] {
+	text-align: center;
+	font-size: 18px;
+	width : 33%;
+}
+
+td[name="col1"], td[name="col2"], td[name="col3"]{
+	text-align: center;
+	width : 33%;
+}
+
+#bodyTable{
+	max-height: 180px;
+}
+
+#bodyTable table {
+	overflow-x: hidden;
+}
+
+#bodyTable tr:nth-child(1) { /* gold */
+	background-color : rgb(234, 186, 63); 
+}
+
+#bodyTable tr:nth-child(2) { /* silver */
+	background-color : rgb(216, 216, 216); 
+}
+
+#bodyTable tr:nth-child(3) { /* bronze */
+	background-color: rgba(162, 78, 38, 0.89);
+}
+
+#bodyTable tr.select {
+	border: 2px solid #f00;
+}

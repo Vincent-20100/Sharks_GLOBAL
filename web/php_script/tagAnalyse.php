@@ -1,14 +1,12 @@
 <?php
 	
-	include_once('../class/TaggedImageManager.php');
-	include_once('../class/TagManager.php');
-	include_once('../class/Barycenter.php');	
+	include 'dbManager.php';
 
 	//at least 5 person have tagged the image
 	function analyseTagsOnImage($imageId){
 		
 		//search for all taggedimage linked to this image
-		$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
+		$db = dbOpen();
 		$db->beginTransaction();
 		
 		$taggedImageManager = new TaggedImageManager($db);
@@ -101,8 +99,6 @@
 			The conditions to stop presenting the image doesn't match
 			so we exit the function and don't touch the presenting image parameter
 			**/
-			echo "The conditions to stop presenting the image doesn't match
-			so we exit the function and don't touch the presenting image parameter";
 			return 'Success';
 		}
 		
@@ -163,7 +159,9 @@
 			}
 
 			//if a species is choosen, the image cannot be tagged any longer			
-			$q3 = $db->prepare('UPDATE Image SET analysed = 1 WHERE id = :id_image');
+			$q3 = $db->prepare("UPDATE Image
+								SET analysed = 1
+								WHERE id = :id_image");
 			$q3->bindValue(':id_image', $imageId);
 			$q3->execute();
 
@@ -184,12 +182,19 @@
 
 				//we look for the player id who made the tag
 				$tagId = $tabTags[$i][$j]->id();
-				$q1 = $db->query("SELECT person.id FROM Person person, Session session, TaggedImage taggedImage, Tag tag WHERE tag.id_taggedImage = taggedImage.id AND session.id = taggedImage.id_session AND session.id_person = person.id AND tag.id = ".$tagId);
+				$q1 = $db->query("	SELECT person.id
+									FROM Person person, Session session, TaggedImage taggedImage, Tag tag
+									WHERE tag.id_taggedImage = taggedImage.id
+									AND session.id = taggedImage.id_session
+									AND session.id_person = person.id
+									AND tag.id = ".$tagId);
 				if($q1 === false){ return null; }
 				$data = $q1->fetch(PDO::FETCH_ASSOC);
 
 				//update the player score
-				$q2 = $db->prepare('UPDATE Player SET score = score + :points WHERE :id_person = id_person');
+				$q2 = $db->prepare("UPDATE Player
+									SET score = score + :points
+									WHERE :id_person = id_person");
 				$q2->bindValue(':id_person', $data['id']);
 				$q2->bindValue(':points', $points);
 				$q2->execute();
@@ -218,6 +223,7 @@
 		}
 		
 		$db->commit();
+		dbClose($db);
 		
 		return 'Success'; //Full success
 	}
