@@ -3,7 +3,6 @@
 	
 	include 'dbManager.php';
 
-
 	if(isset($_GET['s'])) {
 		$session = $_GET['s'];
 	}
@@ -11,11 +10,36 @@
 		$session = $_COOKIE['SESSID'];
 	}
 
-	$image = getOldImage($session);
-	if( $image == null) {
-		$image = getNewImage();
+	$db = dbOpen();
+	$personM = new PersonManager($db);
+	// test if the user session is still active
+	$usr = $personM->getBySession($session);
+	dbClose($db);
+/*
+	if($usr->id_sessionCurrent() != null) {
+		$image = getOldImage($session);
+		if( $image == null) {
+			$image = getNewImage();
+		}
+		print $image;
 	}
-	print $image;
+	else {*/
+		print getErrorDiv("
+			<div class='color-warning'>
+				<span class='glyphicon glyphicon-exclamation-sign'></span>
+				Your session expired.
+			</div><br>
+			<div class='color-info'>
+				<span class='glyphicon glyphicon-refresh'></span>
+				Refresh the page to log in again.
+			</div><br>
+			<div class='color-success'>
+				<span class='glyphicon glyphicon-ok color-success'></span>
+				Nevertheless, your tags have been sent.
+			</div>");
+//	}
+
+	
 
 
 	function getOldImage($session) {
@@ -82,7 +106,7 @@
 		}
 		else {
 			//print an error
-			return "<div style='font-size: 32px; text-align: center; padding: 20px; border: solid #f00 2px; margin: auto;'>No image found</div>";
+			return getErrorDiv("No image found");
 		}
 	}
 
@@ -150,6 +174,10 @@
 		}
 
 		return $ok;
+	}
+
+	function getErrorDiv($message) {
+		return "<div style='font-size: 32px; text-align: left; padding: 20px; border: solid #f00 0; margin: auto;'>$message</div>";
 	}
 
 ?>
