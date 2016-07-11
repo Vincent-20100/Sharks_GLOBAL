@@ -147,11 +147,10 @@ function setNewAccount($db, $username, $email, $passwd_hash, $salt) {
 	$browserVersion = $browser->getBrowser();
 	
 	$db->beginTransaction();
-	$res = $db->query("	INSERT INTO Person(username, email, password, salt, activationCode)
-						VALUES('$username', '$email', '$passwd_hash', '$salt', '$activationCode');
-						
-						INSERT INTO Player(id_person)
-						VALUES ( ( SELECT id FROM Person WHERE username = '$username') );";
+	$db->query("INSERT INTO Person(username, email, password, salt, activationCode)
+				VALUES('$username', '$email', '$passwd_hash', '$salt', '$activationCode')");
+	$res = $db->query("	INSERT INTO Player(id_person)
+						VALUES ( ( SELECT id FROM Person WHERE username = '$username') )");
 	$db->commit();
 
 	return $res;

@@ -76,6 +76,9 @@ $( function () {
 		});
 	});
 	
+	$("#password-register").keyup (checkPasswordAreEquals);
+	$("#confirm-password-register").keyup (checkPasswordAreEquals);
+	
 });
 
 
@@ -121,23 +124,39 @@ function checkUsernameExists(data) {
 	}
 }
 
+function checkPasswordAreEquals() {
+	if($("#confirm-password-register").val() == $("#password-register").val()) {
+		elemValidationReset("confirm-password");
+	}
+	else {
+		elemValidation("confirm-password", false);
+	}
+}
+
 function elemValidation(elementName, isValid) {
 	var elem = $("#" + elementName + "-validation");
 	var elemInput = $("#" + elementName + "-register");
+	elem.removeClass("color-danger color-warning color-info color-success");
+	elemInput.removeClass("border-danger border-warning border-info border-success");
+	
 	if(isValid) {
-		elem.removeClass("color-danger color-warning color-info color-success");
 		elem.addClass("color-success");
 		elem.html("<span class='glyphicon glyphicon-ok-sign'></span>");
-
-		elemInput.removeClass("border-danger border-warning border-info border-success");
+		
 		elemInput.addClass("border-success");
 	}
 	else {
-		elem.removeClass("color-danger color-warning color-info color-success");
 		elem.addClass("color-danger");
 		elem.html("<span class='glyphicon glyphicon-remove-sign'></span>");
-
-		elemInput.removeClass("border-danger border-warning border-info border-success");
+		
 		elemInput.addClass("border-danger");
 	}
+}
+
+function elemValidationReset(elementName) {
+	var elem = $("#" + elementName + "-validation");
+	var elemInput = $("#" + elementName + "-register");
+	elem.removeClass("color-danger color-warning color-info color-success");
+	elem.html("");
+	elemInput.removeClass("border-danger border-warning border-info border-success");
 }

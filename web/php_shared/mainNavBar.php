@@ -2,7 +2,7 @@
 // Vincent Bessouet, DCU School of Computing, 2016
 ?>
 
-<nav id="mainNav" class="navbar navbar-inverse">
+<nav id="mainNav" class="navbar navbar-inverse noSelect">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavBar" aria-expanded="false" aria-controls="navbar">
@@ -21,10 +21,7 @@
 		<div id="mainNavBar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;" >
 			<ul class="nav navbar-nav navbar-right">
 				<?php
-				//////////
-				// TODO //
-				//////////
-				
+
 				if($_DEBUG || $_SESSION['user'] == null) {
 					echo "
 					<li><a id='registerButton' href='login.php?tab=register' type='button'><i class='ionicons ion-person-add'></i> Register</a></li>

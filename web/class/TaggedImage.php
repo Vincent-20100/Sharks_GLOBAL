@@ -5,6 +5,7 @@ class TaggedImage {
 	private $id;
 	private $id_image;
 	private $id_session;
+	private $date;
 
 	public function id() {
 		return $this->id;
@@ -15,6 +16,9 @@ class TaggedImage {
 	public function id_session() {
 		return $this->id_session;
 	}
+	public function date() {
+		return $this->date;
+	}
 
 	public function setId($id) {
 		$this->id = $id;
@@ -24,6 +28,9 @@ class TaggedImage {
 	}
 	public function setId_session($id_session) {
 		$this->id_session = $id_session;
+	}
+	public function setDate($date) {
+		$this->date = $date;
 	}
 	
 	/* This function takes an array as parmeter.

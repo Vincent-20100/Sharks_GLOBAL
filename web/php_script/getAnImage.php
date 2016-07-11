@@ -8,7 +8,7 @@
 		$session = $_GET['s'];
 	}
 	else {
-		$session = $_COOKIE['PHPSESSID'];
+		$session = $_COOKIE['SESSID'];
 	}
 
 	$image = getOldImage($session);
@@ -18,7 +18,7 @@
 	print $image;
 
 
-	function getOldImage($sessionName) {
+	function getOldImage($session) {
 
 
 		$db = dbOpen();
@@ -31,7 +31,7 @@
 		
 		while($data = $q->fetch(PDO::FETCH_ASSOC)) {
 			
-			$containsIP = containsIP($sessionName, $data['id']);
+			$containsIP = containsIP($session, $data['id']);
 
 			if(! $containsIP ) {
 				// print the hmtl <img> tag
@@ -57,13 +57,21 @@
 		array_pop($files);
 		array_pop($files);
 
-		// keep only the files
+		$db = dbOpen();
+		$prepared = $db->prepare("	SELECT *
+									FROM Image
+									WHERE name = :name");
+		
 		$filesArray = array();
 		foreach($files as $f) {
+			// keep only the files
 			if(is_file("{$dir['server']}/$f")) {
-				array_push($filesArray,$f);
+				if( ! existsInDataBase($prepared, "{$dir['html']}/$f")){
+					array_push($filesArray,$f);
+				}
 			}
 		}
+		dbClose($db);
 
 		if (count($filesArray) > 0) {
 			// choose randomly one file
@@ -77,14 +85,19 @@
 		}
 	}
 
+	function existsInDataBase($prepared, $image) {
+		$prepared->bindValue(':name', $image);
+		$prepared->execute();
+		return $prepared->fetch(PDO::FETCH_ASSOC);
+	}
 
-	function containsIP($sessionName, $idimage){
+	function containsIP($session, $idimage){
 		//look if someone with the same ip adress has not already tagged the image
 		$db = dbOpen();	
 
 		$q = $db->query("	SELECT Session.ipv4, Session.id_person
 							FROM Session
-							WHERE Session.name = '$sessionName'");
+							WHERE Session.id = $session");
 		$data = $q->fetch(PDO::FETCH_ASSOC);
 
 		$q2 = $db->query("	SELECT Session.ipv4, Session.id_person

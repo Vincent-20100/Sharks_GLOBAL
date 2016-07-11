@@ -47,11 +47,7 @@ $_SESSION["username"] = "";
 </head>
 <body background="images/back.jpg">
 
-<?php include('noscript.php'); 
-	  include('mainNavBar.php');
-	  include 'php_script/cookieSession.php';
-	  include 'php_script/dispError.php';
-?>
+<?php include 'php_shared/head.php'; ?>
 <!--
 /****************************************************************************/
 /* HTML inpired from "Login and Register tabbed form"						*/

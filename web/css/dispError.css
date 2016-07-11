@@ -2,18 +2,18 @@
 	border-top: 1px solid;
 	border-bottom: 1px solid;
 	position: fixed;
-	top: -100px;
-/*	left: 15%;
-	width: 70%;*/
+	top: -50px;
 	width: 100%;
-	-webkit-transition: top 0.5s;
-    transition: top 0.5s;
+	opacity: 0;
+	-webkit-transition: top 0.5s, opacity 0.5s;
+    transition: top 0.5s, opacity 0.5s;
     text-align: center;
 	z-index: 2;
 }
 
 #disp-error.show {
-	top: 0px;
+	top: 0;
+	opacity: 1;
 }
 
 #disp-error-msg {
