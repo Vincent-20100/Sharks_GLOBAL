@@ -15,7 +15,7 @@ include 'php_script/startSession.php';
 	<script type="text/javascript" src="javascript/account.js"></script>
 	<script src="javascript/accountInputCheck.js"></script>
 
-	<link rel="stylesheet" href="css/menu.css"/>
+	<link rel="stylesheet" href="css/account.css"/>
 </head>
 <body background="images/back.jpg">
 	<?php 
@@ -44,7 +44,7 @@ include 'php_script/startSession.php';
 					<div class="panel-body">
 						<div class="row">
 		
-							<form id="changepassword-form" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
+							<form id="changepassword-form" method="POST" enctype="multipart/form-data" role="form">
 
 								<div class="form-group">
 									<div class="row">
@@ -58,11 +58,11 @@ include 'php_script/startSession.php';
 										<div class="col-sm-offset-1 col-sm-10">
 											<input type="password" name="password" id="newpassword" tabindex="2" class="form-control" placeholder="New Password"  maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
-											<div name="validation" class="hidden-xs col-sm-1">
-												<div class="content show-tooltip icon-info" data-toggle="popover" data-placement="right" 
-													data-title="How to choose a strong password?"
-													data-content="It must contain at least 6 character long with one digit, one uppercase and one lowercase character.">
-													<span class="glyphicon glyphicon-info-sign"></span>
+										<div name="validation" class="hidden-xs col-sm-1">
+											<div class="content show-tooltip icon-info" data-toggle="popover" data-placement="right" 
+												data-title="How choose a strong password?"
+												data-content="It must contain at least 6 character long with one digit, one uppercase and one lowercase character.">
+												<span class="glyphicon glyphicon-info-sign color-info"></span>
 											</div>
 										</div>
 									</div>

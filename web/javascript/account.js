@@ -3,6 +3,9 @@ $( function () {
 	// add in head of the html file the file needed to encrypt
 	$("head").append("<script type='text/javascript' src='javascript/sha512.js'></script>");
 	
+	//enable the popover button
+	$('[data-toggle="popover"]').popover();
+	
 	
 	$("#changepassword-form").submit (function (evt) {
 		if(evt.preventDefault) {
@@ -22,7 +25,7 @@ $( function () {
 			type: 'POST',
 			// POST's arguments
 			data: {
-				username : $_SESSION['user']->username()
+				username : $("#session_id").attr("session-username")
 			},
 			context: this,
 			// get the result
@@ -32,67 +35,49 @@ $( function () {
 		
 	
 	});
+});
 
+function changePassword (salt) {
+	// encrypt the password
+	var shaObj = new jsSHA("SHA-512", "TEXT");
 
-	function changePassword (salt){
-		// encrypt the password
-		var shaObj = new jsSHA("SHA-512", "TEXT");
+	shaObj.update( $('#oldpassword').val() + salt );
+	var oldpasswordHashed = shaObj.getHash("HEX");
 
-		shaObj.update( $('#oldpassword').val() + salt );
-		var oldpasswordHashed = shaObj.getHash("HEX");
+	var shaObj2 = new jsSHA("SHA-512", "TEXT");
 
-		var shaObj2 = new jsSHA("SHA-512", "TEXT");
+	shaObj2.update( $("#newpassword").val() + salt );
+	var newpasswordHashed = shaObj2.getHash("HEX");
 
-		shaObj2.update( $("#newpassword").val() + salt );
-		var newpasswordHashed = shaObj2.getHash("HEX");
+	
+	$.ajax({
+		async: true,
+		// destination page
+		url: 'http://136.206.48.174/SharksTag/php_script/dbChangePassword.php',
+		// use POST method 
+		type: 'POST',
+		// POST's arguments
+		data: {
+			oldpassword : oldpasswordHashed,
+			newpassword : newpasswordHashed,
+			session : $("#session_id").attr("session-name")
+		},
+		// get the result
+		success: checkNewpassword
+	});
 
-		
-		
-		$.ajax({
-			async: true,
-			// destination page
-			url: 'http://136.206.48.174/SharksTag/php_script/dbChangePassword.php',
-			// use POST method 
-			type: 'POST',
-			// POST's arguments
-			data: {
-				oldpassword : oldpasswordHashed,
-				newpassword : newpasswordHashed,
-				session : $_SESSION['user']->session()
-			},
-			// get the result
-			success: checkNewpassword
-		});
-
-	}
 }
 
 function checkNewpassword(data) {
 	console.log(data);
 
 	if(data.endsWith("Success")){
-		dispMsg("alert-success", "ok-sign", "Password changed" );
+		window.location.href = "/SharksTag/account.php?e=PCS";
 	}
 	else{ // data == "Failed"
 		dispMsg("alert-danger", "remove-sign", data );
 	}
 }
-
-
-function dispMsg(type, glyphicon, msg) {
-	$("#disp-error-msg").removeClass("hide alert-danger alert-warning alert-info alert-success");
-	$("#disp-error-msg").addClass(type);
-	
-	var txt;
-	if (glyphicon === null) {
-		txt = msg;
-	}
-	else {
-		txt = "<span class='glyphicon glyphicon-" + glyphicon + "'></span> " + msg;
-	}
-	$("#disp-error-msg").html(txt);
-}
-
 
 
 function elemValidation(elementName, isValid) {

@@ -8,17 +8,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		
 		if (empty($_POST["newpassword"])) {
 		   	echo "NewPassword is required\n";
-		if (empty($_POST["oldpassword"])) {
+		}
+		else if (empty($_POST["oldpassword"])) {
 			echo "OldPassword is required\n";
 	  	} else {
 	  		//success !
 			$oldpassword = test_input($_POST["oldpassword"]);
 			$newpassword = test_input($_POST["newpassword"]);
 			$session = test_input($_POST['session']);
-			$db = db_open();
-			$personManager = PersonManager($db);
-			if($person = $personManager->getBySession($session)){
-				if(strcmp($oldpassword, $person->password()) == 0)
+			$db = dbOpen();
+			$personManager = new PersonManager($db);
+			if($person = $personManager->getBySessionName($session)) {
+				if(strcmp($oldpassword, $person->password()) == 0) {
 					$person->setPassword($newpassword);
 					$personManager->update($person);
 					echo "Success";
@@ -26,9 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 					echo "old password not matching the actual password";			
 				}
 			} else {
-				echo "Session issue.\n"
+				echo "Session issue.\n";
 			}
-			db_close($db);
+			dbClose($db);
 		}
 	}
 	else {
