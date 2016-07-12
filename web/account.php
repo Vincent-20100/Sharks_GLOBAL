@@ -1,6 +1,6 @@
 <?php
 // Start the session
-//include 'php_script/startSession.php';
+include 'php_script/startSession.php';
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +28,7 @@
 				<div class="panel-heading">
 					<div class="row">
 						
-						<?//php echo "<h2>Welcome" . $_SESSION['user']->username() . "</h2>"; ?>
+						<?php echo "<h2>Welcome " . $_SESSION['user']->username() . "</h2>"; ?>
 
 						
 					</div>
