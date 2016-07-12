@@ -15,7 +15,7 @@
 	// test if the user session is still active
 	$usr = $personM->getBySession($session);
 	dbClose($db);
-/*
+
 	if($usr->id_sessionCurrent() != null) {
 		$image = getOldImage($session);
 		if( $image == null) {
@@ -23,21 +23,21 @@
 		}
 		print $image;
 	}
-	else {*/
+	else {
 		print getErrorDiv("
-			<div class='color-warning'>
-				<span class='glyphicon glyphicon-exclamation-sign'></span>
+			<div>
+				<span class='glyphicon glyphicon-exclamation-sign color-warning' style='font-size: 75%;'></span>
 				Your session expired.
-			</div><br>
-			<div class='color-info'>
-				<span class='glyphicon glyphicon-refresh'></span>
+			</div>
+			<div>
+				<span class='glyphicon glyphicon-refresh color-info' style='font-size: 75%;'></span>
 				Refresh the page to log in again.
-			</div><br>
-			<div class='color-success'>
-				<span class='glyphicon glyphicon-ok color-success'></span>
+			</div>
+			<div>
+				<span class='glyphicon glyphicon-tags color-success' style='font-size: 75%;'></span>
 				Nevertheless, your tags have been sent.
 			</div>");
-//	}
+	}
 
 	
 
