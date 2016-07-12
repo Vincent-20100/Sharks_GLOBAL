@@ -38,7 +38,7 @@
 						";
 					}
 					echo "
-					<li><a id='userButton' href='#' type='button'><i class='ionicons ion-person'></i> " . $_SESSION['user']->username() . "</a></li>
+					<li><a id='userButton' href='account.php' type='button'><i class='ionicons ion-person'></i> " . $_SESSION['user']->username() . "</a></li>
 					<li><a id='logoutButton' href='logout.php' type='button'><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>
 					";
 				}
