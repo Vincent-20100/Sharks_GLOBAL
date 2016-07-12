@@ -22,3 +22,7 @@
 
 <!-- Latest jQuery Validation Plugin -->
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+
+<!-- display errors -->
+<link rel="stylesheet" type="text/css" href="css/dispError.css"/>
+<script type="text/javascript" src="javascript/dispError.js"></script>

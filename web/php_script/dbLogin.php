@@ -1,7 +1,9 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
 
-	include 'dbManager.php';
+include 'dbManager.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	$username = "";
 	$passwd_hash = "";
@@ -31,8 +33,7 @@
 	else {
 		echo "Uncomplete request :(";
 	}
-	return false;
-
+}
 
 function loginAccount($username, $passwd_hash, $userSession) {
 	

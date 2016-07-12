@@ -2,13 +2,14 @@
 	include 'dbManager.php';
 	include_once 'tagAnalyse.php';
 
+
 	if( !isset($_POST['imageURL']) || !isset($_POST['id_session']) || !isset($_POST['tabTagsPos'])) {
 		echo "Missing parameters !";
 	}
 	else {
 	
 		$imageURL = $_POST['imageURL'];
-		$id_session = $_POST['id_session'];
+		$id_session = test_input($_POST['id_session']);
 		$listPostedTags = json_decode($_POST['tabTagsPos'], true);
 		
 
@@ -65,5 +66,11 @@
 		dbClose($db);
 	}
 
-	
+	//modify any special character like <p> </p>
+	function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
 ?>

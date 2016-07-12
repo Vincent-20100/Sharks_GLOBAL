@@ -29,7 +29,7 @@ $( function () {
 			// POST's arguments
 			data: {
 				username : $("#username-register").val(),
-				session : $("#session_id").val(),
+				session : $("#session_id").attr("session-name"),
 				email : $("#email-register").val(),
 				password : passwordHashed,
 				salt : generatedSalt
@@ -76,6 +76,9 @@ $( function () {
 		});
 	});
 	
+	$("#password-register").keyup (checkPasswordAreEquals);
+	$("#confirm-password-register").keyup (checkPasswordAreEquals);
+	
 });
 
 
@@ -89,22 +92,6 @@ function makeSalt( length ) {
 
     return text;
 }
-
-
-function dispMsg(type, glyphicon, msg) {
-	$("#disp-error-msg").removeClass("hide alert-danger alert-warning alert-info alert-success");
-	$("#disp-error-msg").addClass(type);
-	
-	var txt;
-	if (glyphicon === null) {
-		txt = msg;
-	}
-	else {
-		txt = "<span class='glyphicon glyphicon-" + glyphicon + "'></span> " + msg;
-	}
-	$("#disp-error-msg").html(txt);
-}
-
 
 function checkCreated(data) {
 	console.log(data);
@@ -126,9 +113,6 @@ function checkEmailExists(data) {
 		// so this new account can't be created, print an error
 		dispMsg("alert-danger", "remove-sign", "This e-mail is already used by an other account.");
 	}
-	else {
-		$("#disp-error-msg").addClass("hide");
-	}
 }
 
 function checkUsernameExists(data) {
@@ -138,28 +122,41 @@ function checkUsernameExists(data) {
 		// so this new account can't be created, print an error
 		dispMsg("alert-danger", "remove-sign", "This username already exists.");
 	}
+}
+
+function checkPasswordAreEquals() {
+	if($("#confirm-password-register").val() == $("#password-register").val()) {
+		elemValidationReset("confirm-password");
+	}
 	else {
-		$("#disp-error-msg").addClass("hide");
+		elemValidation("confirm-password", false);
 	}
 }
 
 function elemValidation(elementName, isValid) {
 	var elem = $("#" + elementName + "-validation");
 	var elemInput = $("#" + elementName + "-register");
+	elem.removeClass("color-danger color-warning color-info color-success");
+	elemInput.removeClass("border-danger border-warning border-info border-success");
+	
 	if(isValid) {
-		elem.removeClass("icon-danger icon-warning icon-info icon-success");
-		elem.addClass("icon-success");
+		elem.addClass("color-success");
 		elem.html("<span class='glyphicon glyphicon-ok-sign'></span>");
-
-		elemInput.removeClass("border-danger border-warning border-info border-success");
+		
 		elemInput.addClass("border-success");
 	}
 	else {
-		elem.removeClass("icon-danger icon-warning icon-info icon-success");
-		elem.addClass("icon-danger");
+		elem.addClass("color-danger");
 		elem.html("<span class='glyphicon glyphicon-remove-sign'></span>");
-
-		elemInput.removeClass("border-danger border-warning border-info border-success");
+		
 		elemInput.addClass("border-danger");
 	}
+}
+
+function elemValidationReset(elementName) {
+	var elem = $("#" + elementName + "-validation");
+	var elemInput = $("#" + elementName + "-register");
+	elem.removeClass("color-danger color-warning color-info color-success");
+	elem.html("");
+	elemInput.removeClass("border-danger border-warning border-info border-success");
 }

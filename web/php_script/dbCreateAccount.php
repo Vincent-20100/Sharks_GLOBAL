@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		    }
 		    else {
 		    	createAccount($username, $email, $password, $salt);
-		    	//uncomment later
+		    	//uncomment later if you can send mails
 		    	//sendEMailNewAccount($email, $username);
 		    }
 
@@ -147,11 +147,10 @@ function setNewAccount($db, $username, $email, $passwd_hash, $salt) {
 	$browserVersion = $browser->getBrowser();
 	
 	$db->beginTransaction();
-	$res = $db->query("	INSERT INTO Person(username, email, password, salt, activationCode)
-						VALUES('$username', '$email', '$passwd_hash', '$salt', '$activationCode');
-						
-						INSERT INTO Player(id_person)
-						VALUES ( ( SELECT id FROM Person WHERE username = '$username') );";
+	$db->query("INSERT INTO Person(username, email, password, salt, activationCode)
+				VALUES('$username', '$email', '$passwd_hash', '$salt', '$activationCode')");
+	$res = $db->query("	INSERT INTO Player(id_person)
+						VALUES ( ( SELECT id FROM Person WHERE username = '$username') )");
 	$db->commit();
 
 	return $res;
@@ -187,7 +186,7 @@ function sendEMailNewAccount($email, $username) {
 				<p>Hi $username!</p>
 				<p>Here is your activation code. Use the link below to activate your account.</p>
 				<p><a href='http://136.206.48.174/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.174/SharksTag/activation.php?user=$username&code=$activationCode</a>
-				<p>Have a good play!</a>
+				<p>Have a good play!</p>
 			</body>
 			</html>";
 

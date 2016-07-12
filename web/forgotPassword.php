@@ -20,9 +20,9 @@ include 'php_script/startSession.php';
 </head>
 <body background="images/back.jpg">
 <?php 
-	  include 'php_shared/head.php';
-?>
-<?php 
+	include_once 'php_shared/head.php';
+	include_once 'dbSendNewPassword.php';
+
 	$usernameOrEmailErr = "";
 	$usernameOrEmail = "";
 
@@ -32,7 +32,7 @@ include 'php_script/startSession.php';
 
 	    	$usernameOrEmailErr = "Enter a username or an email";
 		} else {
-			//success !
+			
 		    $usernameOrEmail = test_input($_POST["usernameOrEmail"]);
 
 		    // check if username/e-mail address is well-formed
@@ -41,6 +41,8 @@ include 'php_script/startSession.php';
 		    } 
 		    else {
 		    	//success !
+
+		    	sendRecoveryCode($usernameOrEmail);
 		    }
 		}
 	}
@@ -77,7 +79,7 @@ include 'php_script/startSession.php';
 						<div class="col-lg-12">
 							<form id="recover-form" action="" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
 								<div class="form-group">
-									<input type="text" name="usernameOrEmailErr" id="usernameOrEmailErr" tabindex="1" class="form-control" placeholder="Email Address" value="<?php echo $usernameOrEmail?>">
+									<input type="text" name="usernameOrEmailErr" id="usernameOrEmailErr" tabindex="1" class="form-control" placeholder="Username or Email Address" value="<?php echo $usernameOrEmail?>">
 								</div>
 								<div class="form-group">
 									<div class="row">

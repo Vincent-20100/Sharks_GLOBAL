@@ -3,22 +3,46 @@
 	
 	include 'dbManager.php';
 
-
 	if(isset($_GET['s'])) {
 		$session = $_GET['s'];
 	}
 	else {
-		$session = $_COOKIE['PHPSESSID'];
+		$session = $_COOKIE['SESSID'];
 	}
 
-	$image = getOldImage($session);
-	if( $image == null) {
-		$image = getNewImage();
+	$db = dbOpen();
+	$personM = new PersonManager($db);
+	// test if the user session is still active
+	$usr = $personM->getBySession($session);
+	dbClose($db);
+/*
+	if($usr->id_sessionCurrent() != null) {
+		$image = getOldImage($session);
+		if( $image == null) {
+			$image = getNewImage();
+		}
+		print $image;
 	}
-	print $image;
+	else {*/
+		print getErrorDiv("
+			<div class='color-warning'>
+				<span class='glyphicon glyphicon-exclamation-sign'></span>
+				Your session expired.
+			</div><br>
+			<div class='color-info'>
+				<span class='glyphicon glyphicon-refresh'></span>
+				Refresh the page to log in again.
+			</div><br>
+			<div class='color-success'>
+				<span class='glyphicon glyphicon-ok color-success'></span>
+				Nevertheless, your tags have been sent.
+			</div>");
+//	}
+
+	
 
 
-	function getOldImage($sessionName) {
+	function getOldImage($session) {
 
 
 		$db = dbOpen();
@@ -31,11 +55,11 @@
 		
 		while($data = $q->fetch(PDO::FETCH_ASSOC)) {
 			
-			$containsIP = containsIP($sessionName, $data['id']);
+			$containsIP = containsIP($session, $data['id']);
 
 			if(! $containsIP ) {
 				// print the hmtl <img> tag
-				$image = "<img class='img-responsive' idImage='{$data['id']}' src='{$data['name']}' alt='a databank image'>";
+				$image = "<img class='img-responsive avoidrag' idImage='{$data['id']}' src='{$data['name']}' alt='a databank image'>";
 				dbClose($db);
 
 				return $image;
@@ -44,6 +68,7 @@
 		dbClose($db);
 		return null;
 	}
+
 
 	function getNewImage() {
 		$dir = array();
@@ -56,34 +81,48 @@
 		array_pop($files);
 		array_pop($files);
 
-		// keep only the files
+		$db = dbOpen();
+		$prepared = $db->prepare("	SELECT *
+									FROM Image
+									WHERE name = :name");
+		
 		$filesArray = array();
+		$i=0;
 		foreach($files as $f) {
+			// keep only the files
 			if(is_file("{$dir['server']}/$f")) {
-				array_push($filesArray,$f);
+				if( ! existsInDataBase($prepared, "{$dir['html']}/$f")){
+					array_push($filesArray,$f);
+				}
 			}
 		}
+		dbClose($db);
 
 		if (count($filesArray) > 0) {
 			// choose randomly one file
 			$i = array_rand($filesArray);
 			// print the hmtl <img> tag
-			return "<img class='img-responsive' src='{$dir['html']}/{$filesArray[$i]}' alt='a databank image'>";
+			return "<img class='img-responsive avoidrag' src='{$dir['html']}/{$filesArray[$i]}' alt='a databank image'>";
 		}
 		else {
 			//print an error
-			return "<div style='font-size: 32px; text-align: center; padding: 20px; border: solid #f00 2px; margin: auto;'>No image found</div>";
+			return getErrorDiv("No image found");
 		}
 	}
 
+	function existsInDataBase($prepared, $image) {
+		$prepared->bindValue(':name', $image);
+		$prepared->execute();
+		return $prepared->fetch(PDO::FETCH_ASSOC);
+	}
 
-	function containsIP($sessionName, $idimage){
+	function containsIP($session, $idimage){
 		//look if someone with the same ip adress has not already tagged the image
 		$db = dbOpen();	
 
 		$q = $db->query("	SELECT Session.ipv4, Session.id_person
 							FROM Session
-							WHERE Session.name = '$sessionName'");
+							WHERE Session.id = $session");
 		$data = $q->fetch(PDO::FETCH_ASSOC);
 
 		$q2 = $db->query("	SELECT Session.ipv4, Session.id_person
@@ -135,6 +174,10 @@
 		}
 
 		return $ok;
+	}
+
+	function getErrorDiv($message) {
+		return "<div style='font-size: 32px; text-align: left; padding: 20px; border: solid #f00 0; margin: auto;'>$message</div>";
 	}
 
 ?>

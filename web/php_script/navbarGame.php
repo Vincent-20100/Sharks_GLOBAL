@@ -1,4 +1,4 @@
-<div id="navGame" class="navbar navbar-default" data-spy="affix">
+<div id="navGame" class="navbar navbar-default noSelect" data-spy="affix">
     
 	<div class="col-xs-5">
 		<div>

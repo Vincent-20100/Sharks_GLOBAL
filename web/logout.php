@@ -7,7 +7,7 @@ include 'php_script/dbManager.php';
 $db = dbOpen();
 $result = $db->query("	UPDATE Person
 						SET id_sessionCurrent = NULL
-						WHERE id_sessionCurrent = '{$_COOKIE['PHPSESSID']}'");
+						WHERE id_sessionCurrent = " . $_SESSION['user']->id_sessionCurrent() );
 
 dbClose($db);
 

@@ -12,6 +12,11 @@ include 'php_script/startSession.php';
 	<?php include('php_shared/header.php'); ?>
 	
 	<style type="text/css">
+
+		body > .container {
+			margin-top: 10%;
+		}
+		
 		.error {color: #FF0000;}
 	</style>
 
@@ -81,7 +86,7 @@ include 'php_script/startSession.php';
  -->
 <div class="container">
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
+		<div class="col-sm-6 col-sm-offset-3">
 			<div class="panel panel-activateAccount">
 				<div class="panel-heading">
 					<div class="row">
@@ -100,10 +105,10 @@ include 'php_script/startSession.php';
 								</div>
 								<div class="form-group">
 									<div class="row">
-										<div class="col-sm-offset-3 col-sm-6">
+										<div class="col-sm-8">
 											<input type="submit" name="activateAccount-submit" id="activateAccount-submit" tabindex="2" class="btn btn-success btn-lg btn-block" value="Activate Account">
 										</div>
-										<div class="col-sm-3">
+										<div class="col-sm-4">
 											<a href="login.php" role="button" name="cancel" id="cancel" tabindex="3" class="btn btn-danger btn-lg btn-block">Cancel</a>
 										</div>
 									</div>
