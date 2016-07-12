@@ -43,42 +43,47 @@ include 'php_script/startSession.php';
 					</div>
 					<div class="panel-body">
 						<div class="row">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-offset-1 col-sm-10">
-										<input type="password" name="password" id="oldpassword" tabindex="2" class="form-control" placeholder="Old Password" value="" maxlength="30" required/>
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-offset-1 col-sm-10">
-										<input type="password" name="password" id="newpassword" tabindex="3" class="form-control" placeholder="New Password"  maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
-									</div>
-										<div name="validation" class="hidden-xs col-sm-1">
-											<div class="content show-tooltip icon-info" data-toggle="popover" data-placement="right" 
-												data-title="How to choose a strong password?"
-												data-content="It must contain at least 6 character long with one digit, one uppercase and one lowercase character.">
-												<span class="glyphicon glyphicon-info-sign"></span>
+		
+							<form id="changepassword-form" method="POST" enctype="multipart/form-data" role="form" style="display: none;">
+
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-offset-1 col-sm-10">
+											<input type="password" name="password" id="oldpassword" tabindex="1" class="form-control" placeholder="Old Password" value="" maxlength="30" required/>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-offset-1 col-sm-10">
-										<input type="password" name="confirm-password" id="confirm-newpassword" tabindex="4" class="form-control" placeholder="Confirm New Password" value="" maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-offset-1 col-sm-10">
+											<input type="password" name="password" id="newpassword" tabindex="2" class="form-control" placeholder="New Password"  maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+										</div>
+											<div name="validation" class="hidden-xs col-sm-1">
+												<div class="content show-tooltip icon-info" data-toggle="popover" data-placement="right" 
+													data-title="How to choose a strong password?"
+													data-content="It must contain at least 6 character long with one digit, one uppercase and one lowercase character.">
+													<span class="glyphicon glyphicon-info-sign"></span>
+											</div>
+										</div>
 									</div>
-									<div name="validation" id="confirm-password-validation" class="hidden-xs col-sm-1"></div>
 								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-sm-6 col-sm-offset-3">
-										<input type="submit" name="submit" id="changepassword-submit" tabindex="5" class="btn btn-success btn-lg btn-block" value="Apply Change"/>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-offset-1 col-sm-10">
+											<input type="password" name="confirm-password" id="confirm-newpassword" tabindex="3" class="form-control" placeholder="Confirm New Password" value="" maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+										</div>
+										<div name="validation" id="confirm-password-validation" class="hidden-xs col-sm-1"></div>
 									</div>
 								</div>
-							</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-sm-6 col-sm-offset-3">
+											<input type="submit" name="submit" id="changepassword-submit" tabindex="4" class="btn btn-success btn-lg btn-block" value="Apply Change"/>
+										</div>
+									</div>
+								</div>
+
+							</form>
 						
 						</div>
 					</div>
