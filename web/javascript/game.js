@@ -1000,13 +1000,20 @@ function sendTags() {
 	
 	for(i=0; i<rank; i++){
 		var elem = $("#selectedZone"+i);
-		
+   	 	var img = $('#imageContainer img');
+   	 	var imgContainer = $('#imageContainer');
+		var navMain = $("#mainNavBar");
+		var navGame = $("#navGame");
+		var container = $('#container');
+
 		if(elem.length != 0){
 			listTags[i] = {};
-			var x1 = elem.offset().left;
-			var y1 = elem.offset().top;
-			var x2 = elem.offset().left + elem.width();
-			var y2 = elem.offset().top + elem.height();
+			
+
+			var x1 =  ((elem.offset().left - parseInt(imgContainer.css("margin-left")))/ img.width()) * img.attr("img-width");
+			var y1 = ((elem.offset().top - navMain.height() - navGame.height()) / img.height()) * img.attr("img-height");
+			var x2 = ((elem.offset().left + elem.width() - parseInt(imgContainer.css("margin-left")) )/ img.width()) * img.attr("img-width");
+			var y2 = ((elem.offset().top + elem.height() - navMain.height() - navGame.height()) / img.height()) * img.attr("img-height");
 			listTags[i]['sharkName'] = $("#selectedZone" + i).attr("species");
 			listTags[i]['x1'] = x1;
 			listTags[i]['y1'] = y1;

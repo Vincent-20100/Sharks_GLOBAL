@@ -9,8 +9,9 @@
 	?>
 	<div id="tutoContainer" class="noSelect" onmousemove="passDiv()" onmouseup="endSelectZone()">
 	
-		<div id="instructions" class="tab-content">
-			<button id="next-tutorial" num="0">Next</button>
+		<div id="instructions" num="0" class="tab-content">
+			<a id="prev-tutorial"><span class="glyphicon glyphicon-chevron-left"></span></a>
+			<a id="next-tutorial"><span class="glyphicon glyphicon-chevron-right"></span></a>
 			<div role="tabpanel" class="tab-pane active">
 				Welcome on Sharks Tag!<br/>
 				Let's start by a little tutorial.<br />
@@ -50,22 +51,35 @@
 		$(function (){
 			//This is a Jquery function, it's called all the time
 			//We get the position of the mouse and we put it in posym
-				$("#tutoContainer").mousemove(function(e) {
-					posym.x = e.pageX;
-					posym.y = e.pageY;
-				});
+			$("#tutoContainer").mousemove(function(e) {
+				posym.x = e.pageX;
+				posym.y = e.pageY;
+			});
+
+			//move the tutoContainer into the container, just after the gameContainer
+			$("#container").insertAfter($("#tutoContainer"));
+			
 		});
 		
-		$("#next-tutorial").click( function() {
+		
+		$("#next-tutorial").click( function() { switchDiv(1); } );
+
+		$("#prev-tutorial").click( function() { switchDiv(-1); } );
+
+		function switchDiv(step) {
 			
-			var num = parseInt($("#next-tutorial").attr("num"));
-			
-			$($("#instructions div")[num]).removeClass("active");
-			
-			num = num + 1;
-			$("#next-tutorial").attr("num", num);
-			$($("#instructions div")[num]).addClass("active");
-		});
+			var num = parseInt($("#instructions").attr("num"));
+			max = $("#instructions div").length;
+			console.log(max);
+			if(num + step >= 0 && num + step < max) {
+				$($("#instructions div")[num]).removeClass("active");
+				
+				num = num + step;
+				$("#instructions").attr("num", num);
+				$($("#instructions div")[num]).addClass("active");
+			}
+		}
+
 	</script>
 </body>
 

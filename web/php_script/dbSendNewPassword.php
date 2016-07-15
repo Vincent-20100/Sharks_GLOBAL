@@ -31,7 +31,7 @@ function sendRecoveryCode($usernameOrEmail) {
 			<body>
 				<p>Hi $username!</p>
 				<p>Here is your recovery code. Use the link below to change your password.</p>
-				<p><a href='http://136.206.48.60/SharksTag/recoveryCode.php?user=$username&code=$recoveryCode' alt='Your activation link'>http://136.206.48.60/SharksTag/activation.php?user=$username&code=$recoveryCode</a>
+				<p><a href='http://136.206.48.174/SharksTag/recoveryCode.php?user=$username&code=$recoveryCode' alt='Your activation link'>http://136.206.48.174/SharksTag/activation.php?user=$username&code=$recoveryCode</a>
 				<p>Have a good play!</p>
 			</body>
 			</html>";

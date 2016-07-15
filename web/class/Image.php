@@ -6,6 +6,8 @@ class Image {
 	private $name;
 	private $hdDir;
 	private $ldDir;
+	private $width;
+	private $height;
 	private $test;
 	private $analysed;
 
@@ -20,6 +22,12 @@ class Image {
 	}
 	public function ldDir() {
 		return $this->ldDir;
+	}
+	public function width() {
+		return $this->width;
+	}
+	public function height() {
+		return $this->height;
 	}
 	public function test() {
 		return $this->test;
@@ -39,6 +47,12 @@ class Image {
 	}
 	public function setLdDir($ldDir) {
 		$this->ldDir = $ldDir;
+	}
+	public function setWidth($width) {
+		$this->width = $width;
+	}
+	public function setHeight($height) {
+		$this->height = $height;
 	}
 	public function setTest($test) {
 		$this->test = $test;

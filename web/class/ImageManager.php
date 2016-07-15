@@ -14,11 +14,13 @@ class ImageManager
 
 	public function add(Image $image)
 	{
-		$q = $this->_db->prepare("INSERT INTO Image(name, hdDir, ldDir) VALUES(:name, :hdDir, :ldDir)");
+		$q = $this->_db->prepare("INSERT INTO Image(name, hdDir, ldDir, width, height) VALUES(:name, :hdDir, :ldDir, :width, :height)");
 		
 		$q->bindValue(':name', $image->name());
 		$q->bindValue(':hdDir', $image->hdDir());
 		$q->bindValue(':ldDir', $image->ldDir());
+		$q->bindValue(':width', $image->width());
+		$q->bindValue(':height', $image->height());
 
 		$q->execute();
 	}
@@ -84,12 +86,14 @@ class ImageManager
 
 	public function update(Image $image)
 	{
-		$q = $this->_db->prepare('UPDATE Image SET name = :name, hdDir = :hdDir, ldDir = :ldDir, test = :test, analysed = :analysed WHERE id = :id');
+		$q = $this->_db->prepare('UPDATE Image SET name = :name, hdDir = :hdDir, ldDir = :ldDir, width = :width, height = :height, test = :test, analysed = :analysed WHERE id = :id');
 		
 		$q->bindValue(':id', $image->id());
 		$q->bindValue(':name', $image->name());
 		$q->bindValue(':hdDir', $image->hdDir());
 		$q->bindValue(':ldDir', $image->ldDir());
+		$q->bindValue(':width', $image->width());
+		$q->bindValue(':height', $image->height());
 		$q->bindValue(':test', $image->test());
 		$q->bindValue(':analysed', $image->analysed());
 

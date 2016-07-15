@@ -26,7 +26,8 @@ td[name="col1"], td[name="col2"], td[name="col3"]{
 }
 
 #bodyTable{
-	max-height: 180px;
+	max-height: 188px;
+	overflow-y: auto;
 }
 
 #bodyTable table {

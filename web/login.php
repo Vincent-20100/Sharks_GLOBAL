@@ -77,7 +77,7 @@ $_SESSION["username"] = "";
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username" value="<?php if($_SESSION["remember"] == true) { $_SESSION["username"]; } ?>" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+											<input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username or e-mail" value="<?php if($_SESSION["remember"] == true) { $_SESSION["username"]; } ?>" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 									</div>
 								</div>

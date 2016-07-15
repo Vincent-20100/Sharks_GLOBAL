@@ -29,8 +29,15 @@ include 'php_script/startSession.php';
 			</h1>
 			<div class="menu_simple text-center">
 			<div class="btn-vertical">
-				<a href="game.php" class="btn btn-primary btn-lg btn-block" role="button">Play</a>
-				<a href="tutorial.php" class="btn btn-primary btn-lg btn-block" role="button">Tutorial</a>
+				<?php
+				// admins don't play because they don't have a score attribute
+				if (! $_SESSION['user']->isAdmin()) {
+					echo "
+					<a href='game.php' class='btn btn-primary btn-lg btn-block' role='button'>Play</a>
+					<a href='tutorial.php' class='btn btn-primary btn-lg btn-block' role='button'>Tutorial</a>
+					";
+				}
+				?>
 				<a href="scores.php" class="btn btn-primary btn-lg btn-block" role="button">Highscores</a>
 				<a href="account.php" class="btn btn-primary btn-lg btn-block" role="button">Your account</a>
 				<a href="credits.php" class="btn btn-primary btn-lg btn-block" role="button">Credits</a>

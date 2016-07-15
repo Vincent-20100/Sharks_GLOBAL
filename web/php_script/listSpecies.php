@@ -20,7 +20,7 @@
 					<div id="collapse-{{x.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{x.id}}">
 						<div class="panel-body">
 							<table class='table-condensed'> 
-								<tr class='visible-xs-block'>
+								<tr class='hidden-sm hidden-md hidden-lg'>
 									<td colspan='2'>
 										<img ng-src='{{x.image}}' alt='{{x.name}}' style='width: 100%;'/>
 									</td>
