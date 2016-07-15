@@ -11,6 +11,7 @@
 		$imageURL = $_POST['imageURL'];
 		$id_session = test_input($_POST['id_session']);
 		$listPostedTags = json_decode($_POST['tabTagsPos'], true);
+		print_r($listPostedTags);
 		
 
 		$db = dbOpen();
@@ -36,7 +37,9 @@
 		
 			for($i=0; $i<count($listPostedTags); $i++){
 					$sharkName = $listPostedTags[$i]['sharkName'];
+					echo $sharkName;
 					$sharkNameId = $speciesManager->getIdByName($sharkName);
+					echo $sharkNameId;
 					$tag = new Tag([
 						'id_taggedImage' => $taggedImage->id(),
 						'id_species' => $sharkNameId,
