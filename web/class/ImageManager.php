@@ -21,7 +21,7 @@ class ImageManager
 		$q->bindValue(':ldDir', $image->ldDir());
 		$q->bindValue(':width', $image->width());
 		$q->bindValue(':height', $image->height());
-
+print($image->name() . "   " . $image->hdDir() . "   " . $image->ldDir() . "   " . $image->width() . "   " . $image->height());
 		$q->execute();
 	}
 
@@ -57,6 +57,31 @@ class ImageManager
 				  	'name' => $name,
 				  	'hdDir' => "",
 				  	'ldDir' => ""
+				]);
+				
+				$this->add($image);
+				return $this->getByName($name);
+			}
+	    		return new Image($data);
+	    	} catch(PDOException $e) {
+				exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+
+	public function getByNameOrCreate($name, $width, $height)
+	{
+		try {
+			$q = $this->_db->query("SELECT * FROM Image WHERE name = '$name'");
+			if($q === false){ return null; }
+			
+			$data = $q->fetch(PDO::FETCH_ASSOC);
+			if(! $data){
+				$image = new Image([
+				  	'name' => $name,
+				  	'hdDir' => "",
+				  	'ldDir' => "",
+				  	'width' => $width,
+				  	'height' => $height
 				]);
 				
 				$this->add($image);

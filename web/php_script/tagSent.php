@@ -3,12 +3,15 @@
 	include_once 'tagAnalyse.php';
 
 
-	if( !isset($_POST['imageURL']) || !isset($_POST['id_session']) || !isset($_POST['tabTagsPos'])) {
-		echo "Missing parameters !";
+	if( !isset($_POST['imageURL']) /*|| !isset($_POST['imgWidth']) || !isset($_POST['imgHeight']) */||
+		!isset($_POST['id_session']) || !isset($_POST['tabTagsPos'])) {
+			echo "Missing parameters !";
 	}
 	else {
 	
 		$imageURL = $_POST['imageURL'];
+		$imgWidth = test_input($_POST['imgWidth']);
+		$imgHeight = test_input($_POST['imgHeight']);
 		$id_session = test_input($_POST['id_session']);
 		$listPostedTags = json_decode($_POST['tabTagsPos'], true);
 		print_r($listPostedTags);
@@ -19,7 +22,7 @@
 
 	 	//check if the image is in the database
 		$imageManager = new ImageManager($db);
-		$image = $imageManager->getByName($imageURL);
+		$image = $imageManager->getByNameOrCreate($imageURL, $imgWidth, $imgHeight);
 
 		if($image->analysed() == 0) {
 			$taggedImage = new TaggedImage([

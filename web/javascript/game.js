@@ -1038,6 +1038,8 @@ function sendTags() {
 		// POST's arguments
 		data: {
 			imageURL : $("#imageContainer img").attr("src"),
+			imageWidth : $("#imageContainer img").attr("img-width"),
+			imageHeight : $("#imageContainer img").attr("img-height"),
 			id_session : $("#session_id").val(),
 			tabTagsPos : jsonListTags
 		},
@@ -1054,7 +1056,7 @@ function sendTags() {
 function checkTagSent (data) {
 	console.log(data);
 
-	if(data == 'Success'){
+	if(data.endsWith('Success')){
 		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php?s=' + $("#session_id").val() );
 		/* end by del the selected zone */
 		resetAllZone();

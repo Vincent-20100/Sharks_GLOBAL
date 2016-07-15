@@ -46,7 +46,6 @@
 
 
 		$db = dbOpen();
-		$manager = new ImageManager($db);
 
 		$q = $db->query("	SELECT *
 							FROM Image
