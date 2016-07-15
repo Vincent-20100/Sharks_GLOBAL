@@ -76,6 +76,13 @@ function initStartSession() {
 					
 					// redirect anyway if the session has expired
 					if($pers->id_sessionCurrent() == null) {
+						//Destroy the expired session
+						session_regenerate_id(); // generate a new session id
+						$_SESSION = array(); // remove the session vars
+						session_destroy();
+						unset($_SESSION);
+						unset($_COOKIE);
+						//redirect to the login page with the appropriate message
 						$redirect = true;
 						$dest = "login.php?n=" . $_SERVER['REQUEST_URI'] . "&e=SELIA";
 					}
