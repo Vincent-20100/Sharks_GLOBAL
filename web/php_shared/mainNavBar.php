@@ -22,6 +22,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<?php
 
+				//if not logged in
 				if($_DEBUG || $_SESSION['user'] == null || $_SESSION['user']->id_sessionCurrent() == null) {
 					echo "
 					<li><a id='registerButton' href='login.php?tab=register' type='button'><i class='ionicons ion-person-add'></i> Register</a></li>

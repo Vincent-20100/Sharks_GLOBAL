@@ -54,6 +54,10 @@ include 'php_script/startSession.php';
 				if($result->fetch(PDO::FETCH_ASSOC)) {
 					if ($db->query($queryUpdate)) {
 						echo 'Success';
+
+						//redirection to the log in page
+						header("Location: login.php");
+						exit();
 					}
 					else echo 'Failed while using your valid code';
 				}

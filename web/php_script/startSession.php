@@ -21,9 +21,9 @@ function initStartSession() {
 		$dest = "login.php?n=" . $_SERVER['REQUEST_URI'] . "&e=LIOR";
 		// except some pages
 		if($_SERVER['PHP_SELF'] == '/SharksTag/login.php' ||
-			$_SERVER['PHP_SELF'] == '/SharksTag/logout.php') {
-				$dest = 'login.php';
-				
+			$_SERVER['PHP_SELF'] == '/SharksTag/logout.php' ||
+			$_SERVER['PHP_SELF'] == '/SharksTag/menu.php') {
+				$dest = 'login.php'; //redirect without message
 		}
 	
 		// if no session in the history: auto redirect, except on the login page

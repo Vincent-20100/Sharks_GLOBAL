@@ -12,7 +12,7 @@
 
 #instructions{
 
-	padding: 10px 100px;
+	padding: 10px 48px;
 	text-align: center;
 	font-size: 20px;
 }
@@ -29,6 +29,7 @@
 
 #prev-tutorial .glyphicon, #next-tutorial .glyphicon{
 	height :100%;
+	vertical-align: middle;
 }
 
 #prev-tutorial{
