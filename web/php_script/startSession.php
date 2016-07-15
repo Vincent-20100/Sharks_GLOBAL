@@ -48,7 +48,7 @@ function initStartSession() {
 				// if the user is already connected, redirection to the menu page
 				// else continue
 				
-				if($pers && $pers != NULL) {
+				if($pers && $pers != NULL && $pers->id_sessionCurrent() != null) {
 					$redirect = true;
 					$dest = "menu.php?e=ALI";
 				}
@@ -71,7 +71,21 @@ function initStartSession() {
 				
 				
 				if(	$pers && $pers != NULL) {
-					//echo $pers->username() . " is connected";
+					//the user is connected
+					//echo $pers->username() . "'s session is open";
+					
+					// redirect anyway if the session has expired
+					if($pers->id_sessionCurrent() == null) {
+						//Destroy the expired session
+						session_regenerate_id(); // generate a new session id
+						$_SESSION = array(); // remove the session vars
+						session_destroy();
+						unset($_SESSION);
+						unset($_COOKIE);
+						//redirect to the login page with the appropriate message
+						$redirect = true;
+						$dest = "login.php?n=" . $_SERVER['REQUEST_URI'] . "&e=SELIA";
+					}
 				}
 				else {
 					$redirect = true;

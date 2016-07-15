@@ -145,7 +145,6 @@
 
 				if (max($arrayCountValues[$i])/count($tabTags[$i]) < 0.75 ){
 					/** 
-					GOT ref : a shark has no name ;)
 					A shark have not been tagged enough to have an agreement
 					so we exit the function and don't touch the presenting image parameter 
 					**/

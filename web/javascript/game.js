@@ -317,7 +317,7 @@ function initDrag(rank){
     elem.attr("name","grab");
     
     // set the selected option in the combobox to UNDEFINED_SPECIES value
-	$("#sharkSpecies").val(elem.attr(UNDEFINED_SPECIES));
+	$("#sharkSpecies").val(elem.attr("species"));
 }
 
 
@@ -1048,7 +1048,7 @@ function checkTagSent (data) {
 	console.log(data);
 
 	if(data == 'Success'){
-		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php?s=' + $("#session_id").val());
+		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php?s=' + $("#session_id").val() );
 		/* end by del the selected zone */
 		resetAllZone();
 	} else {

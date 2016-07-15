@@ -3,20 +3,15 @@
 
 include 'dbManager.php';
 $db = dbOpen();
-$adminM = new AdministratorManager($db);
-$playerM = new PlayerManager($db);
+$personM = new PersonManager($db);
 
 
 $pers = null;
 if(isset($_POST['session'])) {
-	if(($pers = $adminM->getBySession( $_POST['session'] )) == null) {
-		$pers = $playerM->getBySession( $_POST['session'] );
-	}
+	$pers = $personM->getBySession( $_POST['session'] );
 }
 else {
-	if(($pers = $adminM->getBySessionName( $_COOKIE['PHPSESSID'] )) == null) {
-		$pers = $playerM->getBySessionName( $_COOKIE['PHPSESSID'] );
-	}
+	$pers = $personM->getBySessionName( $_COOKIE['PHPSESSID'] );
 }
 
 

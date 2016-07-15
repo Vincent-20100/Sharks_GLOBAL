@@ -58,18 +58,21 @@ class PersonManager
 	public function getBySession($session)
 	{
 		try {
-			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode
-									FROM Person
-									WHERE id_sessionCurrent = $session");
+			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode, Pl.score, Pl.tutorialFinished
+									FROM Person P, Player Pl, Session S
+									WHERE P.id = Pl.id_person
+									AND P.id = S.id_person
+									AND S.id = $session");
 
 			if($q === false){ return null; }
 			$data = $q->fetch(PDO::FETCH_ASSOC);
 			if( ! $data ){ return null; }
 
 			$q2 = $this->_db->query("	SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode
-										FROM Person P, Administrator A
+										FROM Person P, Administrator A, Session S
 										WHERE P.id = A.id_person
-										AND P.id_sessionCurrent = $session");
+										AND P.id = S.id_person
+										AND S.id = $session");
 			if($q2 === false){ return null; }
 			$data2 = $q2->fetch(PDO::FETCH_ASSOC);
 
@@ -115,9 +118,10 @@ class PersonManager
 	public function getBySessionName($session)
 	{
 		try {
-			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode
-									FROM Person P, Session S
-									WHERE P.id_sessionCurrent = S.id
+			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode, Pl.score, Pl.tutorialFinished
+									FROM Person P, Player Pl, Session S
+									WHERE P.id = Pl.id_person
+									AND P.id = S.id_person
 									AND S.name = '$session'");
 
 			if($q === false){ return null; }
@@ -127,7 +131,7 @@ class PersonManager
 			$q2 = $this->_db->query("SELECT *
 									FROM Person P, Administrator A, Session S
 									WHERE P.id = A.id_person
-									AND P.id_sessionCurrent = S.id
+									AND P.id = S.id_person
 									AND S.name = '$session'");
 
 			if($q2 === false){ return null; }

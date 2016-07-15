@@ -22,7 +22,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<?php
 
-				if($_DEBUG || $_SESSION['user'] == null) {
+				if($_DEBUG || $_SESSION['user'] == null || $_SESSION['user']->id_sessionCurrent() == null) {
 					echo "
 					<li><a id='registerButton' href='login.php?tab=register' type='button'><i class='ionicons ion-person-add'></i> Register</a></li>
 					<li><a id='activateButton' href='activateAccount.php' type='button'><i class='ionicons ion-unlocked'></i> Activate account</a></li>
@@ -38,7 +38,7 @@
 						";
 					}
 					echo "
-					<li><a id='userButton' href='#' type='button'><i class='ionicons ion-person'></i> " . $_SESSION['user']->username() . "</a></li>
+					<li><a id='userButton' href='account.php' type='button'><i class='ionicons ion-person'></i> " . $_SESSION['user']->username() . "</a></li>
 					<li><a id='logoutButton' href='logout.php' type='button'><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>
 					";
 				}

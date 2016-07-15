@@ -1,26 +1,36 @@
-<div id="disp-error" <?php
+<?php
 	if ( ! isset($_GET['e'])) {
-		echo ">";
+		echo "<div id='disp-error'>";
 		echo "<div id='disp-error-msg' class='text-center'>";
 	}
 	else {
-	
-		// in case of the user arrived on this page after a redirection
+		// in case of the user arrived on his page after a redirection
 		
-		echo "class='alert-info show'>";
-		echo "<div id='disp-error-msg' class='text-center'>";
-		// display a message to explain the redirection
-		echo "<span class='glyphicon glyphicon-info-sign'></span> ";
+		$type = "alert-info"; //default
+		$glyph = "glyphicon glyphicon-info-sign"; //default
 		switch ( $_GET['e'] ) {
 			case 'LIOR' : // Log In Or Register
-				echo "Please, log in with your account or register to access to the page.";
+				$msg = "Please, log in with your account or register to access to the page.";
 				break;
 			case 'ALI' : // Already Logged In
-				echo "Log out to access to the page.";
+				$msg = "Log out to access to the page.";
+				break;
+			case 'SELIA' : //Session Expired Log In Again
+				$msg = "Your session expired. Please, log in to resume.";
+				break;
+			case 'PCS' : //Password Changed Succesfully
+				$type = "alert-success";
+				$glyph = "glyphicon glyphicon-ok-sign";
+				$msg = "Password changed.";
 				break;
 			default :
-				echo "Error code: " . $_GET['e'];
+				$msg = "Error code: " . $_GET['e'];
 		}
+
+		echo "<div id='disp-error' class='$type show'>";
+		echo "<div id='disp-error-msg' class='text-center'>";
+		// display a message to explain the redirection
+		echo "<span class='$glyph'></span> $msg";
 	}
 	?>
 	</div>
