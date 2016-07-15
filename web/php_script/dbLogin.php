@@ -47,7 +47,7 @@ function loginAccount($username, $passwd_hash, $userSession) {
 	// has been used
 	
 	$q = $db->query("	SELECT id FROM Person
-						WHERE username = '$username'
+						WHERE (username = '$username' OR email = '$username')
 						AND password = '$passwd_hash'");
 	if ( $q ) {
 		if($result = $q->fetch(PDO::FETCH_ASSOC)) {
@@ -85,7 +85,7 @@ function loginAccount($username, $passwd_hash, $userSession) {
 		}
 		else {
 			// wrong user name or password
-			echo "Please, check your username or password.";
+			echo "Please, check your username/email or password.";
 		}
 	}
 	else {

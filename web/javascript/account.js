@@ -2,6 +2,9 @@ $( function () {
 	
 	// add in head of the html file the file needed to encrypt
 	$("head").append("<script type='text/javascript' src='javascript/sha512.js'></script>");
+
+	//enable the popover button
+	$('[data-toggle="popover"]').popover();
 	
 	//enable the popover button
 	$('[data-toggle="popover"]').popover();
