@@ -13,7 +13,8 @@ if( isset($_POST['username']) ) {
 	// get the user's password salt
 	$q = $db->query("	SELECT salt
 						FROM Person
-						WHERE username = '$username'");
+						WHERE username = '$username'
+						OR email = '$username'");
 	if($q) {
 		if ($row = $q->fetch(PDO::FETCH_ASSOC)) {
 			print $row['salt'];

@@ -114,7 +114,7 @@ function get_connected() {
 }
 
 function get_notConnected() {
-	return "Not connected. Please, check your login and password.";
+	return "Not connected. Please, check your username/e-mail and password.";
 }
 
 function get_disconnected() {

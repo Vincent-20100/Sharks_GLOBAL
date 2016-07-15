@@ -85,7 +85,7 @@ function loginAccount($username, $passwd_hash, $userSession) {
 		}
 		else {
 			// wrong user name or password
-			echo "Please, check your username/email or password.";
+			echo "Please, check your username/e-mail and password.";
 		}
 	}
 	else {
@@ -102,7 +102,7 @@ function setPlayerSession($db, $username, $userSessionId, $userId) {
 	// write the current session in the database
 	return $db->query ("UPDATE Person
 						SET id_sessionCurrent = $userSessionId
-						WHERE username = '$username'");
+						WHERE id = $userId");
 }
 
 function setNewSession($db, $userSession, $userId) {
