@@ -37,6 +37,8 @@ $( function() {
 			password_register.setCustomValidity("Password must be at least 6 character long");
 	  	} else if(password_register.validity.patternMismatch){
 	  		password_register.setCustomValidity("You entered an unautaurized character");
+	  	} else if( password_register.value.search(username_register.value) == 1) {
+	  		password_register.setCustomValidity("Password not contain the username");
 	  	} else if(!password_register.value.match(/\d/)){
 	  		password_register.setCustomValidity("Password must contain at least one digit");
 	  	} else if(!password_register.value.match(/[A-Z]/)) {
