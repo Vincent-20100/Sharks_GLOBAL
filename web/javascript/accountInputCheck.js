@@ -25,8 +25,8 @@ $( function() {
 			newpassword.setCustomValidity("Password must be at least 6 character long");
 	  	} else if(newpassword.validity.patternMismatch){
 	  		newpassword.setCustomValidity("You entered an unautaurized character");
-	  	} else if( password_register.value.search(username_register.value) == -1) {
-	  		password_register.setCustomValidity("Password not contain the username");
+	  	} else if( newpassword.value.search($("#session_id").attr("session-username")) != -1) {
+	  		newpassword.setCustomValidity("Password not contain the username");
 	  	} else if(!newpassword.value.match(/\d/)){
 	  		newpassword.setCustomValidity("Password must contain at least one digit");
 	  	} else if(!newpassword.value.match(/[A-Z]/)) {

@@ -6,9 +6,6 @@ $( function () {
 	//enable the popover button
 	$('[data-toggle="popover"]').popover();
 	
-	//enable the popover button
-	$('[data-toggle="popover"]').popover();
-	
 	
 	$("#changepassword-form").submit (function (evt) {
 		if(evt.preventDefault) {
@@ -38,6 +35,8 @@ $( function () {
 		
 	
 	});
+
+
 });
 
 function changePassword (salt) {
