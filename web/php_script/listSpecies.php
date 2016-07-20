@@ -8,7 +8,7 @@
 			
 			
 			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
-				<div ng-repeat='x in sharks' class="panel panel-default">
+				<div ng-repeat='x in sharks' class="panel panel-default" ng-if="x.name != 'undefined'">
 					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{x.id}}" aria-expanded="false" aria-controls="collapse-{{x.id}}">
 						<div class="panel-heading" role="tab" id="heading-{{x.id}}">
 							<h4 class="panel-title">

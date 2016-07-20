@@ -28,12 +28,12 @@
 	<div id="tipsMenu" class="container-fluid dontShow">
 		<p>Tips :</p>
 		<ul>
-			<li>Show/hide tips by pressing T (shortcut = 'T')</li>
-			<li>Delete the selected zone by pressing DELETE (shortcut = 'Delete')</li>
-			<li>Remove all your shapes by pressing ResetAll (shortcut = 'Esc')</li>
-			<li>NEW IMAGE : Press 'Alt' + 'N' on the keyboard or click on the 'New image' button</li>
-			<li>Move the selected zone by dragging them with the mouse  (shortcut = arrows)</li>
-			<li>Change the selected shape's width and height by grabbing points (shortcut = '+' '-')</li>
+			<li><span class="label label-success">Send</span> NEW IMAGE : Press Enter on the keyboard or click on the  button</li>
+			<li><span class="label label-warning">Delete</span> Delete the selected zone by pressing  (shortcut = 'Delete')</li>
+			<li><span class="label label-danger">Reset</span> Remove all your shapes by pressing  (shortcut = 'Esc')</li>
+			<li><span class="label label-info">Tips</span> Show/hide tips by pressing (shortcut = 'T')</li>
+			<li><span class="label label-default"><span class="glyphicon glyphicon-move"></span></span> Move the selected zone by dragging them with the mouse  (shortcut = arrows)</li>
+			<li><span class="label label-default"><span class="glyphicon glyphicon-plus"></span><span class="glyphicon glyphicon-minus"></span></span> Change the selected shape's width and height by grabbing points (shortcut = '+' '-')</li>
 		</ul>
 	</div>
 	<!--Image Container-->

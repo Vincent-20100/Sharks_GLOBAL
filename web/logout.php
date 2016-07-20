@@ -21,7 +21,7 @@ $_SESSION = array();
 
 session_destroy();
 unset($_SESSION);
-unset($_COOKIE);
+unset($_COOKIE['SESSID']);
 
 // redirection to the login page
 header("Location: login.php");

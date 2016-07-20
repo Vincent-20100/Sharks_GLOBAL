@@ -75,7 +75,7 @@ function checkNewpassword(data) {
 	console.log(data);
 
 	if(data.endsWith("Success")){
-		window.location.href = "/SharksTag/account.php?e=PCS";
+		window.location.href = "/SharksTag/menu.php?e=PCS";
 	}
 	else{ // data == "Failed"
 		dispMsg("alert-danger", "remove-sign", data );

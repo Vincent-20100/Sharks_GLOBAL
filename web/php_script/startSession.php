@@ -86,6 +86,12 @@ function initStartSession() {
 						$redirect = true;
 						$dest = "login.php?n=" . $_SERVER['REQUEST_URI'] . "&e=SELIA";
 					}
+					elseif($_SERVER['PHP_SELF'] == '/SharksTag/game.php' && !$pers->tutorialFinished()) {
+						// if the tutorial has not been played by the player,
+						// redirect him to it before starting to play
+						$redirect = true;
+						$dest = "tutorial.php";
+					}
 				}
 				else {
 					$redirect = true;
