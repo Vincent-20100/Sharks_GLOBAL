@@ -18,8 +18,6 @@ $( function() {
 	});
 
 
-
-
 	var newpassword = $("#newpassword")[0];
 
 	$("#newpassword").keyup( function (event) {
@@ -27,6 +25,8 @@ $( function() {
 			newpassword.setCustomValidity("Password must be at least 6 character long");
 	  	} else if(newpassword.validity.patternMismatch){
 	  		newpassword.setCustomValidity("You entered an unautaurized character");
+	  	} else if( password_register.value.search(username_register.value) == -1) {
+	  		password_register.setCustomValidity("Password not contain the username");
 	  	} else if(!newpassword.value.match(/\d/)){
 	  		newpassword.setCustomValidity("Password must contain at least one digit");
 	  	} else if(!newpassword.value.match(/[A-Z]/)) {
@@ -39,6 +39,7 @@ $( function() {
 	  		newpassword.setCustomValidity("");
 	  	}
 	});
+
 
 	var confirm_newpassword = $("#confirm-newpassword")[0];
 
