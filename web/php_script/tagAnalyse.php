@@ -84,17 +84,19 @@
 			echo count($tabTags[$i]);
 		}
 */
-		$willToContinue = true;
+		$needMoreTag = false;
+		$oneIsRef = false;
 		//we look at the number of person who agree on a tag
 		for($i = 0; $i<count($tabTags); $i++) {
-			if($willToContinue == false) break;
+			if($needMoreTag == true) break;
 			if(count($tabTags[$i])>=5){
+				$oneIsRef = true;
 			}
 			else if (count($tabTags[$i])>=3){
-				$willToContinue = false;
+				$needMoreTag = true;
 			}
 		}
-		if($willToContinue == false) {
+		if($needMoreTag == true || $oneIsRef == false) {
 			/**
 			The conditions to stop presenting the image doesn't match
 			so we exit the function and don't touch the presenting image parameter
@@ -170,6 +172,7 @@
 			//echo " -- taille tabTags[$i] : ";
 			//print_r(count($tabTags[$i]));
 
+			// give points to the players
 			for($j = 0; $j<count($tabTags[$i]); $j++) {
 				
 				//points if the species is correct
@@ -199,7 +202,7 @@
 				$q2->execute();
 			}
 			
-			//create the reference tags
+			//create the reference tag Image
 			$taggedImage = new TaggedImage([
 			  	'id_image' => $imageId,
 			]);
