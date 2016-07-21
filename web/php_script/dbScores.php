@@ -9,7 +9,7 @@
 							AND S.id = TI.id_session
 							AND TI.id = T.id_taggedimage
 							GROUP BY Pe.id
-							ORDER BY score DESC, NB_TAG
+							ORDER BY score DESC, NB_TAG, username
 							");
 
 
