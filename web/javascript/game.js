@@ -111,8 +111,10 @@ document.onkeydown = function(e) {
 	e = e || window.event;
 	// detect shortcut key press
 	switch(e.keyCode) {
-		case 78 : // 'N'
-			newImage();
+		case 13 : // 'Enter'
+			if($("#newImageTuto") === undefined) { //if not in the tutorial
+				newImage();
+			}
 			break;
 		case 84 : // 'T'
 			showHideTips();
@@ -1047,8 +1049,6 @@ function sendTags() {
 		// get the result
 		success: checkTagSent
 	});
-
-
 	
 
 }

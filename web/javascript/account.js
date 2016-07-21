@@ -6,9 +6,6 @@ $( function () {
 	//enable the popover button
 	$('[data-toggle="popover"]').popover();
 	
-	//enable the popover button
-	$('[data-toggle="popover"]').popover();
-	
 	
 	$("#changepassword-form").submit (function (evt) {
 		if(evt.preventDefault) {
@@ -38,6 +35,8 @@ $( function () {
 		
 	
 	});
+
+
 });
 
 function changePassword (salt) {
@@ -75,7 +74,7 @@ function checkNewpassword(data) {
 	console.log(data);
 
 	if(data.endsWith("Success")){
-		window.location.href = "/SharksTag/account.php?e=PCS";
+		window.location.href = "/SharksTag/menu.php?e=PCS";
 	}
 	else{ // data == "Failed"
 		dispMsg("alert-danger", "remove-sign", data );

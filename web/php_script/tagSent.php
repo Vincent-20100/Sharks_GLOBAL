@@ -3,20 +3,19 @@
 	include_once 'tagAnalyse.php';
 
 
-	if( !isset($_POST['imageURL']) /*|| !isset($_POST['imgWidth']) || !isset($_POST['imgHeight']) */||
+	if( !isset($_POST['imageURL']) || !isset($_POST['imageWidth']) || !isset($_POST['imageHeight']) ||
 		!isset($_POST['id_session']) || !isset($_POST['tabTagsPos'])) {
 			echo "Missing parameters !";
 	}
 	else {
 	
 		$imageURL = $_POST['imageURL'];
-		$imgWidth = test_input($_POST['imgWidth']);
-		$imgHeight = test_input($_POST['imgHeight']);
+		$imgWidth = test_input($_POST['imageWidth']);
+		$imgHeight = test_input($_POST['imageHeight']);
 		$id_session = test_input($_POST['id_session']);
 		$listPostedTags = json_decode($_POST['tabTagsPos'], true);
 		print_r($listPostedTags);
 		
-
 		$db = dbOpen();
 		$taggedImageManager = new TaggedImageManager($db);
 

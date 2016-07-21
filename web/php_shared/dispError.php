@@ -23,6 +23,11 @@
 				$glyph = "glyphicon glyphicon-ok-sign";
 				$msg = "Password changed.";
 				break;
+			case 'GG' : // 
+				$type = "alert-success";
+				$glyp = "";
+				$msg = "Tutorial completed. Have a good play!";
+				break;
 			default :
 				$msg = "Error code: " . $_GET['e'];
 		}

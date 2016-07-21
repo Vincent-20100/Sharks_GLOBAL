@@ -1,7 +1,7 @@
 <?php
 // Start the session
 include 'php_script/startSession.php';
-$_SESSION["remember"] = false;
+$_COOKIE["remember"] = false;
 $nextPage = "/SharksTag/menu.php";
 if (isset($_GET['n'])) {
 	$nextPage = test_input($_GET['n']);
@@ -15,7 +15,7 @@ function test_input($data) {
 	return $data;
 }
 
-$_SESSION["username"] = "";
+$_COOKIE["username"] = "";
 ?>
 
 <!DOCTYPE HTML>
@@ -77,7 +77,7 @@ $_SESSION["username"] = "";
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username or e-mail" value="<?php if($_SESSION["remember"] == true) { $_SESSION["username"]; } ?>" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+											<input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username or e-mail" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
 										</div>
 									</div>
 								</div>
@@ -89,7 +89,7 @@ $_SESSION["username"] = "";
 									</div>
 								</div>
 								<div class="form-group text-center">
-									<input type="checkbox" tabindex="3" class="" name="remember" id="remember" <?php echo ($_SESSION["remember"] == true ? 'checked' : '');?>/>
+									<input type="checkbox" tabindex="3" class="" name="remember" id="remember" />
 									<label for="remember"> Remember Me</label>
 								</div>
 								<div class="form-group">
