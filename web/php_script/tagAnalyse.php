@@ -172,34 +172,38 @@
 			//echo " -- taille tabTags[$i] : ";
 			//print_r(count($tabTags[$i]));
 
-			// give points to the players
-			for($j = 0; $j<count($tabTags[$i]); $j++) {
-				
-				//points if the species is correct
-				if($tabTags[$i][$j]->id_species() == $speciesIdTag[$i]){
-					$points = 2;
-				} else { //points for having just made a right selection
-					$points = 1;
+
+			//give points only to players who made tag in group of five
+			if (count($tabTags[$i])>=5){
+				// give points to the players
+				for($j = 0; $j<count($tabTags[$i]); $j++) {
+
+					//points if the species is correct
+					if($tabTags[$i][$j]->id_species() == $speciesIdTag[$i]){
+						$points = 2;
+					} else { //points for having just made a right selection
+						$points = 1;
+					}
+
+					//we look for the player id who made the tag
+					$tagId = $tabTags[$i][$j]->id();
+					$q1 = $db->query("	SELECT person.id
+										FROM Person person, Session session, TaggedImage taggedImage, Tag tag
+										WHERE tag.id_taggedImage = taggedImage.id
+										AND session.id = taggedImage.id_session
+										AND session.id_person = person.id
+										AND tag.id = ".$tagId);
+					if($q1 === false){ return null; }
+					$data = $q1->fetch(PDO::FETCH_ASSOC);
+
+					//update the player score
+					$q2 = $db->prepare("UPDATE Player
+										SET score = score + :points
+										WHERE :id_person = id_person");
+					$q2->bindValue(':id_person', $data['id']);
+					$q2->bindValue(':points', $points);
+					$q2->execute();
 				}
-
-				//we look for the player id who made the tag
-				$tagId = $tabTags[$i][$j]->id();
-				$q1 = $db->query("	SELECT person.id
-									FROM Person person, Session session, TaggedImage taggedImage, Tag tag
-									WHERE tag.id_taggedImage = taggedImage.id
-									AND session.id = taggedImage.id_session
-									AND session.id_person = person.id
-									AND tag.id = ".$tagId);
-				if($q1 === false){ return null; }
-				$data = $q1->fetch(PDO::FETCH_ASSOC);
-
-				//update the player score
-				$q2 = $db->prepare("UPDATE Player
-									SET score = score + :points
-									WHERE :id_person = id_person");
-				$q2->bindValue(':id_person', $data['id']);
-				$q2->bindValue(':points', $points);
-				$q2->execute();
 			}
 			
 			//create the reference tag Image
