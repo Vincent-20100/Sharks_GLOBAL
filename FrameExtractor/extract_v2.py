@@ -62,20 +62,21 @@ def processVideo(destination, videoFile):
 
 		# Proposed Motion and Edge Adaptive Interpolation De-interlacing Method 
 		# Proposed algorithm from http://i.cs.hku.hk/~hychung/pub/kykwong_cscc06.pdf
-		for x in range(1, width-2):
-			for y in range(1, height-2, 2):
+		for y in range(1, height-2, 2):
+			for x in range(1, width-2):
+			
 				md[1][y][x] = MotionDetection(x,y, framePrec, frameCurr, md)
 				frameCurr[y][x] = Fd(x,y, framePrec, frameCurr, md)
-				md[0][y][x] = md[1][y][x]
 
-		cv2.imwrite(destination + str(index) + ".jpg", 
-					frameCurr, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
-		cv2.imwrite(destination + "hq/" + str(index) + ".jpg", 
-					frameCurr, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
-		
-		index += 1
+		md[0] = np.copy(md[1])
 		framePrec = np.copy(frameCurr)
+		
+		cv2.imwrite(destination + str(index) + ".jpg", frameCurr, [int(cv2.IMWRITE_JPEG_QUALITY), 80])
+		cv2.imwrite(destination + "hq/" + str(index) + ".jpg", frameCurr, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+		
 		ret, frameCurr = file.read()
+		index += 1
+		
 
 	file.release()
 
@@ -95,15 +96,38 @@ def Fd(x, y, framePrec, frameCurr, matMD):
 def IN(x, y, framePrec, frameCurr, matMD):
 	'''Interpolation function within a window of size 3 around the (x,y) coordinates'''
 	T = 32 #8, 16, 32 , 64
+	
 	currMatMD = matMD[1][y][x]
+
+	# interpolations coefficients
 	au = (currMatMD*currMatMD) / (2*currMatMD*currMatMD + T*T) #coefficient for upside pixel
 	al = au #coefficient for downside pixel
 	aB = T*T / (2*currMatMD*currMatMD + T*T) # aB = 1 - au - al = 1 - 2*au
 
+	# edge orientation 45: k = 1
+	Edge45 = brighness(Fi(x+1, y-1, frameCurr) - Fi(x-1, y+1, framePrec))
+	# edge orientation -45: k = -1
+	EdgeMinus45 = brighness(Fi(x-1, y-1, frameCurr) - Fi(x+1, y+1, framePrec))
+	# edge orientation 90: k = 0
+	Edge90 = brighness(Fi(x, y-1, frameCurr) - Fi(x, y+1, framePrec))
+
+	# look for an edge orientation where the brithness delta is minimum
+	minusEdge = min(Edge45, EdgeMinus45, Edge90)
+	if minusEdge == Edge45:
+		k = 1 # edge orientation 45
+	elif minusEdge == EdgeMinus45:
+		k = -1 # edge orientation -45
+	elif minusEdge == Edge90:
+		k = 0 # edge orientation 90
+
 	# We use Fi(x+1,y-1,frameCurr) instead of frameCurr[y-1][x+1] to have a better visibility of what is done
+	return au*Fi(x+k,y-1,frameCurr) + aB*Fi(x,y,frameCurr) + al*Fi(x-k,y+1,frameCurr)
+
+	'''\
 	return (1/6) * (au*Fi(x+1,y-1,frameCurr) + aB*Fi(x,y,frameCurr) + al*Fi(x-1,y+1,frameCurr)) \
 		+ (4/6) * (au*Fi(x,y-1,frameCurr) + aB*Fi(x,y,frameCurr) + al*Fi(x,y+1,frameCurr)) \
 		+ (1/6) * (au*Fi(x+1,y-1,frameCurr) + aB*Fi(x,y,frameCurr) + al*Fi(x+1,y+1,frameCurr))
+	'''
 
 def MAD(x, y, framePrec, frameCurr):
 	'''Mean-absolute-difference
@@ -119,7 +143,6 @@ def MAD(x, y, framePrec, frameCurr):
 
 def MotionDetection(x, y, framePrec, frameCurr, matMD):
 	'''Motion detector'''
-	# TODO change framePrec - 1 by a method that stock the MD values
 	prevMatMD = matMD[0][y][x]
 	mad = MAD(x, y, framePrec, frameCurr)
 	if brighness(mad) >= brighness(prevMatMD):
