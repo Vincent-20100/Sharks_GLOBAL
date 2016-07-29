@@ -47,6 +47,7 @@ def processVideo(destination, videoFile):
 	# Extract a frame
 	ret, frame = file.read()
 	frame1 = np.copy(frame)
+	frame2 = np.copy(frame)
 
 	while ret:
 
@@ -61,9 +62,20 @@ def processVideo(destination, videoFile):
 		cv2.imwrite(destination + "hq/" + hashed + ".jpg", 
 			frame1, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
 
+		# lines writtens by Florian TALOUR
+		frame2[0][:] = frame[0][:]/2 + frame[1][:]/2
+		frame2[2:-2:2] = frame[1:-3:2]/2 + frame[3:-1:2]/2
+		frame2[-1][:] = frame[-2][:]/2 + frame[-1][:]/2
+
+		cv2.imwrite(destination + hashed + ".jpg", frame2, 
+			[int(cv2.IMWRITE_JPEG_QUALITY), 80])
+		cv2.imwrite(destination + "hq/" + hashed + ".jpg", 
+			frame2, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+
 		# Extract the next frame
 		ret, frame = file.read()
 		frame1 = np.copy(frame)
+		frame2 = np.copy(frame)
 
 		# index += 1
 

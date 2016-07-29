@@ -3,6 +3,8 @@
 # This code takes files names (videos) as arguments and extracts each frame
 # from them.
 
+# if you find a better idea to increase the image quality then delete this file
+
 import hashlib
 import sys
 import os
