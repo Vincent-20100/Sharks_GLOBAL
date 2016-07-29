@@ -13,7 +13,6 @@ Some useness command lines :
 first line OR second line to push all the files
 * git add (file) (file2) (...)
 * git add *
-* git add .
 
 and
 * git push -u origin master

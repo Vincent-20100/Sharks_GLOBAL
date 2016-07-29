@@ -1,0 +1,29 @@
+liens vers la base pour les requettes 			arguments						return
+https://povilas.ovh:8080/login					username, password				receive a session token
+https://povilas.ovh:8080/register				username, email, password		ask for email validation
+https://povilas.ovh:8080/reqimage				sessionToken					image url
+
+you have to download the image from the url
+
+https://povilas.ovh:8080/submittags				sessionToken, imageId, tags   	none
+https://povilas.ovh:8080/autologin				token
+https://povilas.ovh:8080/logout					sessionToken					disconected
+https://povilas.ovh:8080/recoverpassword			username						send you an email
+https://povilas.ovh:8080/recoverpasswordchange	username, code, pass 			send you an email
+https://povilas.ovh:8080/leaderboard				sessionToken					20 best players
+
+<script>
+function login(username, password) {
+	var xhttp = new XMLHttpRequest();
+	var url = https://povilas.ovh:8080/login
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+			return xhttp.responseText;
+		}
+	};
+	xhttp.open("POST", "url", true);
+	xhttp.send(null);
+}
+
+</script>
+

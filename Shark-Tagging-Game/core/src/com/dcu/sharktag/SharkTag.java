@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class SharkTag extends Game {
+	public static String ASSETS_REP = "../android/assets/";
+	
 	private float worldWidth = 854;
 	private float worldHeight = 480;
 	
@@ -24,12 +26,12 @@ public class SharkTag extends Game {
 	
 	@Override
 	public void create () {
-		uiSkin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+		uiSkin = new Skin(Gdx.files.internal(SharkTag.ASSETS_REP + "ui/uiskin.json"));
 		pref = Gdx.app.getPreferences("Config");
 		batch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 		
-		backgroundImage = new Texture(Gdx.files.internal("back.jpg"));
+		backgroundImage = new Texture(Gdx.files.internal(SharkTag.ASSETS_REP + "back.jpg"));
 		
 		setScreen(new IntroScreen(this));
 	}

@@ -30,7 +30,7 @@ public class RegisterScreen extends AbstractScreen{
 		super.show();
 		
 		batch = new SpriteBatch();
-		backgroundImage = new Texture(Gdx.files.internal("back.jpg"));
+		backgroundImage = new Texture(Gdx.files.internal(SharkTag.ASSETS_REP + "back.jpg"));
 		
 		buildGUI();
 	}
