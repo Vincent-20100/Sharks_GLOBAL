@@ -16,7 +16,7 @@ $( function () {
 			evt.returnValue = false;
 		}
 
-		if ( recoverCanBeSent() == true ) {
+		if ( recoverCanBeSent().endsWith('Success') ) {
 			// proceed to the login
 			$.ajax({
 				async: true,
@@ -33,10 +33,13 @@ $( function () {
 				success: changePassword
 			});
 		}
+		else if (recoverCanBeSent().endsWith('Failed')) {
+			dispMsg("alert-danger", "remove-sign", registerCanBeSent());
+		}
 	});
 
-	$("#newpassword").change (checkPasswordAreEquals);
-	$("#confirm-newpassword").change (checkPasswordAreEquals);
+	$("#newpassword").keyup (checkPasswordAreEquals);
+	$("#confirm-newpassword").keyup (checkPasswordAreEquals);
 
 });
 
@@ -118,15 +121,15 @@ function elemValidationReset(elementName) {
 
 function recoverCanBeSent () {
 	if($("#newpassword").val().length < 6) {
-		return false;
+		return 'The password must be 6 character long : Failed';
 	}
 	else if(!$("#newpassword").val().match(/[A-Za-z0-9=!?\-@._*$]*/)) {
-		return false;
+		return 'The password contain only [A-Za-z0-9=!?\-@._*$]* : Failed';
 	}
 	else if($("#confirm-newpassword").val() != $("#newpassword").val()) {
-		return false;
+		return 'The passwords must be the sames : Failed';
 	}
 	else {
-		return true;
+		return 'Success';
 	}
 }

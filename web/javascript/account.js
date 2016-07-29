@@ -34,8 +34,8 @@ $( function () {
 
 	});
 
-	$("#newpassword").change (checkPasswordAreEquals);
-	$("#confirm-newpassword").change (checkPasswordAreEquals);
+	$("#newpassword").keyup (checkPasswordAreEquals);
+	$("#confirm-newpassword").keyup (checkPasswordAreEquals);
 
 });
 

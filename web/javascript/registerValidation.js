@@ -15,8 +15,9 @@ $( function () {
 			//internet explorer
 			evt.returnValue = false;
 		}
-		
-		if ( registerCanBeSent() == true ) {
+
+		if ( registerCanBeSent().endsWith('Success') ) {
+
 			var generatedSalt = makeSalt(10);
 			// encrypt the password
 			var shaObj = new jsSHA("SHA-512", "TEXT");
@@ -41,7 +42,9 @@ $( function () {
 				success: checkCreated
 			});
 		}
-
+		else if (registerCanBeSent().endsWith('Failed')) {
+			dispMsg("alert-danger", "remove-sign", registerCanBeSent());
+		}
 		
 	});
 	
@@ -81,8 +84,8 @@ $( function () {
 		});
 	});
 	
-	$("#password-register").change (checkPasswordAreEquals);
-	$("#confirm-password-register").change (checkPasswordAreEquals);
+	$("#password-register").keyup (checkPasswordAreEquals);
+	$("#confirm-password-register").keyup (checkPasswordAreEquals);
 	
 });
 
@@ -168,18 +171,21 @@ function elemValidationReset(elementName) {
 
 function registerCanBeSent () {
 	if($("#username-register").hasClass("border-danger") || $("#email-register").hasClass("border-danger")){
-		return false;
+		return 'The username or email is already used : Failed';
 	}
 	else if($("#password-register").val().length < 6) {
-		return false;
+		return 'The password must be 6 character long : Failed';
 	}
-	else if ($("#password-register").val().search($("#username-register").val()) == -1 ) {
-		return false;
+	else if ($("#password-register").val().search($("#username-register").val()) != -1 ) {
+		return 'The password must not contain the user name : Failed';
 	}
 	else if(!$("#password-register").val().match(/[A-Za-z0-9=!?\-@._*$]*/)) {
-		return false;
+		return 'The password contain only [A-Za-z0-9=!?\-@._*$]* : Failed';
+	}
+	else if($("#password-register").val() != $("#confirm-password-register").val()) {
+		return 'The passwords must be the sames : Failed';
 	}
 	else {
-		return true;
+		return 'Success';
 	}
 }

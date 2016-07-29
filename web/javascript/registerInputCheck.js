@@ -8,7 +8,7 @@ $( function() {
 
 	var username_register = $("#username-register")[0];
 
-	$("#username-register").change( function (event) {
+	$("#username-register").keyup( function (event) {
 	  	if(username_register.validity.patternMismatch) {
 			username_register.setCustomValidity("You entered an unautaurized character");
 	  	} else if(username_register.validity.tooLong) {
@@ -20,7 +20,7 @@ $( function() {
 
 	var email_register = $("#email-register")[0];
 
-	$("#email-register").change( function (event) {
+	$("#email-register").keyup( function (event) {
 	  	if(email_register.validity.typeMismatch) {
 			email_register.setCustomValidity("Email must be valid");
 	  	} else if(username_register.validity.tooLong) {
@@ -32,7 +32,7 @@ $( function() {
 
 	var password_register = $("#password-register")[0];
 
-	$("#password-register").change( function (event) {
+	$("#password-register").keyup( function (event) {
 		if(password_register.value.length < 6) {
 			password_register.setCustomValidity("Password must be at least 6 character long");
 	  	} else if(password_register.validity.patternMismatch){
@@ -54,7 +54,7 @@ $( function() {
 
 	var confirm_password_register = $("#confirm-password-register")[0];
 
-	$("#confirm-password-register").change( function (event) {
+	$("#confirm-password-register").keyup( function (event) {
 		if($("#password-register").val() != $("#confirm-password-register").val()){
 			confirm_password_register.setCustomValidity("You must enter the same password as before");
 	  	} else {

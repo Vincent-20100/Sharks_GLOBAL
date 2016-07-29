@@ -7,7 +7,7 @@ $( function() {
 
 	var oldpassword = $("#oldpassword")[0];
 
-	$("#oldpassword").change( function (event) {
+	$("#oldpassword").keyup( function (event) {
 	  	if(oldpassword.validity.patternMismatch){
 	  		oldpassword.setCustomValidity("You entered an unautaurized character");
 	  	} else if (oldpassword.validity.tooLong) {
@@ -20,7 +20,7 @@ $( function() {
 
 	var newpassword = $("#newpassword")[0];
 
-	$("#newpassword").change( function (event) {
+	$("#newpassword").keyup( function (event) {
 		if(newpassword.value.length < 6) {
 			newpassword.setCustomValidity("Password must be at least 6 character long");
 	  	} else if(newpassword.validity.patternMismatch){
@@ -43,7 +43,7 @@ $( function() {
 
 	var confirm_newpassword = $("#confirm-newpassword")[0];
 
-	$("#confirm-newpassword").change( function (event) {
+	$("#confirm-newpassword").keyup( function (event) {
 		if($("#newpassword").val() != $("#confirm-newpassword").val()){
 			confirm_newpassword.setCustomValidity("You must enter the same password as before");
 	  	} else {

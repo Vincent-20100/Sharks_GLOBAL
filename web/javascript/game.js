@@ -71,7 +71,7 @@ $(function (){
 	
 
 		//Each time we have a change in the comboBox, this function is called
-	$("#sharkSpecies").change( function() {
+	$("#sharkSpecies").keyup( function() {
 		//What is choosen in the comboBox
 		var speciesSelected = $("#sharkSpecies :selected").attr("value");
 		//In which SelectedZone
@@ -127,7 +127,7 @@ document.onkeydown = function(e) {
 	// detect shortcut key press
 	switch(e.keyCode) {
 		case 13 : // 'Enter'
-			if($("#newImageTuto") === undefined) { //if not in the tutorial
+			if(!window.location.href.endsWith('tutorial.php')){
 				newImage();
 			}
 			break;
