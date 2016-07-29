@@ -4,6 +4,8 @@ $( function () {
 	// add in head of the html file the file needed to encrypt
 	$("head").append("<script type='text/javascript' src='javascript/sha512.js'></script>");
 	
+	//enable the popover button
+	$('[data-toggle="popover"]').popover();
 	
 	$("#register-form").submit (function (evt) {
 		if(evt.preventDefault) {
@@ -14,30 +16,33 @@ $( function () {
 			evt.returnValue = false;
 		}
 		
-		var generatedSalt = makeSalt(10);
-		// encrypt the password
-		var shaObj = new jsSHA("SHA-512", "TEXT");
-		shaObj.update( $("#password-register").val() + generatedSalt );
-		var passwordHashed = shaObj.getHash("HEX");
+		if ( registerCanBeSent() == true ) {
+			var generatedSalt = makeSalt(10);
+			// encrypt the password
+			var shaObj = new jsSHA("SHA-512", "TEXT");
+			shaObj.update( $("#password-register").val() + generatedSalt );
+			var passwordHashed = shaObj.getHash("HEX");
+			
+			$.ajax({
+				async: true,
+				// destination page
+				url: 'http://www.divelikeastone.com/Sharks/php_script/dbCreateAccount.php',
+				// use POST method 
+				type: 'POST',
+				// POST's arguments
+				data: {
+					username : $("#username-register").val(),
+					session : $("#session_id").attr("session-name"),
+					email : $("#email-register").val(),
+					password : passwordHashed,
+					salt : generatedSalt
+				},
+				// get the result
+				success: checkCreated
+			});
+		}
+
 		
-		$.ajax({
-			async: true,
-			// destination page
-			url: 'http://136.206.48.174/SharksTag/php_script/dbCreateAccount.php',
-			// use POST method 
-			type: 'POST',
-			// POST's arguments
-			data: {
-				username : $("#username-register").val(),
-				session : $("#session_id").attr("session-name"),
-				email : $("#email-register").val(),
-				password : passwordHashed,
-				salt : generatedSalt
-			},
-			// get the result
-			success: checkCreated
-		});
-	
 	});
 	
 	
@@ -46,7 +51,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.174/SharksTag/php_script/dbCheckEmailExists.php',
+			url: 'http://www.divelikeastone.com/Sharks/php_script/dbCheckEmailExists.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -64,7 +69,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.174/SharksTag/php_script/dbCheckUsernameExists.php',
+			url: 'http://www.divelikeastone.com/Sharks/php_script/dbCheckUsernameExists.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -76,12 +81,10 @@ $( function () {
 		});
 	});
 	
-	$("#password-register").keyup (checkPasswordAreEquals);
-	$("#confirm-password-register").keyup (checkPasswordAreEquals);
+	$("#password-register").change (checkPasswordAreEquals);
+	$("#confirm-password-register").change (checkPasswordAreEquals);
 	
 });
-
-
 
 function makeSalt( length ) {
 	var text = "";
@@ -94,15 +97,17 @@ function makeSalt( length ) {
 }
 
 function checkCreated(data) {
-	console.log(data);
 	if(data.endsWith('Success')){
-		dispMsg("alert-success", "ok-sign", "Account regestered. You are now connected.");
+		dispMsg("alert-success", "ok-sign", "Account registered. You are now connected.");
 		
 		window.location.href = ($("#register-form").attr("next-page") +
 			"?username=" + $("#username-register").val());
 	}
-	else{ // data == "Failed"
+	else if (data.endsWith('Failed')) {
 		dispMsg("alert-danger", "remove-sign", data);
+	}
+  else {
+		console.log(data);
 	}
 }
 
@@ -159,4 +164,22 @@ function elemValidationReset(elementName) {
 	elem.removeClass("color-danger color-warning color-info color-success");
 	elem.html("");
 	elemInput.removeClass("border-danger border-warning border-info border-success");
+}
+
+function registerCanBeSent () {
+	if($("#username-register").hasClass("border-danger") || $("#email-register").hasClass("border-danger")){
+		return false;
+	}
+	else if($("#password-register").val().length < 6) {
+		return false;
+	}
+	else if ($("#password-register").val().search($("#username-register").val()) == -1 ) {
+		return false;
+	}
+	else if(!$("#password-register").val().match(/[A-Za-z0-9=!?\-@._*$]*/)) {
+		return false;
+	}
+	else {
+		return true;
+	}
 }

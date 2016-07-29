@@ -1,6 +1,6 @@
 <?php
 // Start the session
-include 'php_script/startSession.php';
+include_once 'php_script/startSession.php';
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@ include 'php_script/startSession.php';
 		<title>Shark Tagging Game</title>
 		<meta charset="UTF-8">
 		
-		<?php include('php_shared/header.php'); ?>
+		<?php include('php_shared/shared_Links&Scripts.php'); ?>
 		
 		<link rel="stylesheet" href="css/menu.css">
 
@@ -18,7 +18,7 @@ include 'php_script/startSession.php';
 		</style>
 
 	</head>
-	<body background="images/back.jpg">
+	<body background="images/back.jpg" class="stop-scrolling">
 		<?php 
 			  include 'php_shared/head.php';
 		?>
@@ -31,11 +31,13 @@ include 'php_script/startSession.php';
 				<div class="btn-vertical">
 					<?php
 					// admins don't play because they don't have a score attribute
-					if (! $_SESSION['user']->isAdmin()) {
-						echo "
-						<a href='game.php' class='btn btn-primary btn-lg btn-block' role='button'>Play</a>
-						<a href='tutorial.php' class='btn btn-primary btn-lg btn-block' role='button'>Tutorial</a>
-						";
+					if (!$_DEBUG) {
+						if (! $_SESSION['user']->isAdmin()) {
+							echo "
+							<a href='game.php' class='btn btn-primary btn-lg btn-block' role='button'>Play</a>
+							<a href='tutorial.php' class='btn btn-primary btn-lg btn-block' role='button'>Tutorial</a>
+							";
+						}
 					}
 					?>
 					<a href="scores.php" class="btn btn-primary btn-lg btn-block" role="button">Highscores</a>

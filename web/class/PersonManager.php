@@ -1,7 +1,6 @@
 <?php
-if(!isset($_PERSON_PHP)){
-	include 'Person.php';
-}
+	include_once 'Person.php';
+
 
 class PersonManager
 {
@@ -51,6 +50,23 @@ class PersonManager
 			$data = $q->fetch(PDO::FETCH_ASSOC);
 
 	    	return new Person($data);
+    	} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+		}
+	}
+
+	public function getByRecoveryCode($recoverycode)
+	{
+		try {
+
+			$q = $this->_db->query("SELECT *
+									FROM Person
+									WHERE recoverycode = '$recoverycode'");
+			if($q === false){ return null; }
+			$data = $q->fetch(PDO::FETCH_ASSOC);
+			if($data) return new Person($data);
+			else return null;
+			
     	} catch(PDOException $e) {
 			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
@@ -171,7 +187,7 @@ class PersonManager
 	public function getList()
 	{
 		try {
-			$persons = [];
+			$persons = array();
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, activationCode FROM Person ORDER BY id');
 			if($q === false){ return null; }
 			while ($data = $q->fetch(PDO::FETCH_ASSOC))

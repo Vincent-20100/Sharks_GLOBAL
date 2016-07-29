@@ -1,6 +1,5 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
-	
 	include 'dbManager.php';
 
 	if(isset($_GET['s'])) {
@@ -71,8 +70,8 @@
 
 	function getNewImage() {
 		$dir = array();
-		$dir['html'] = 'http://136.206.48.174/SharksTag/serverFiles/public/images/sharks';
-		$dir['server'] = '/home/socguest/Desktop/serverFiles/public/images/sharks';
+		$dir['html'] = 'http://www.divelikeastone.com/private/sharks';
+		$dir['server'] = $_SERVER['DOCUMENT_ROOT'] . '/private/sharks';
 
 		// get the list of images
 		$files = scandir($dir['server'], 1);
@@ -146,7 +145,7 @@
 
 	function isSameIPLocation($ip1, $ip2){
 		$ok = false;
-		$tabIP1 = [];
+		$tabIP1 = array();
 
 		$token1 = strtok($ip1, ".");
 		array_push($tabIP1, $token1);
@@ -157,7 +156,7 @@
 		   	array_push($tabIP1, $token1);
 		}
 
-		$tabIP2 = [];
+		$tabIP2 = array();
 		$token2 = strtok($ip1, ".");
 		array_push($tabIP2, $token2);
 		 

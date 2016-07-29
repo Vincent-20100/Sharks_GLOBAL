@@ -1,7 +1,6 @@
 <?php
-if(!isset($_IMAGE_PHP)){
-	include 'Image.php';
-}
+
+	include_once 'Image.php';
 
 class ImageManager
 {
@@ -21,7 +20,7 @@ class ImageManager
 		$q->bindValue(':ldDir', $image->ldDir());
 		$q->bindValue(':width', $image->width());
 		$q->bindValue(':height', $image->height());
-print($image->name() . "   " . $image->hdDir() . "   " . $image->ldDir() . "   " . $image->width() . "   " . $image->height());
+
 		$q->execute();
 	}
 
@@ -52,19 +51,20 @@ print($image->name() . "   " . $image->hdDir() . "   " . $image->ldDir() . "   "
 			if($q === false){ return null; }
 			
 			$data = $q->fetch(PDO::FETCH_ASSOC);
-			if(! $data){
-				$image = new Image([
+
+			if(!$data){
+				$image = new Image(array(
 				  	'name' => $name,
 				  	'hdDir' => "",
 				  	'ldDir' => ""
-				]);
+				));
 				
 				$this->add($image);
 				return $this->getByName($name);
 			}
-	    		return new Image($data);
-	    	} catch(PDOException $e) {
-				exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+	    	return new Image($data);
+    	} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
 
@@ -75,28 +75,28 @@ print($image->name() . "   " . $image->hdDir() . "   " . $image->ldDir() . "   "
 			if($q === false){ return null; }
 			
 			$data = $q->fetch(PDO::FETCH_ASSOC);
-			if(! $data){
-				$image = new Image([
+			if(!$data){
+				$image = new Image(array(
 				  	'name' => $name,
 				  	'hdDir' => "",
 				  	'ldDir' => "",
 				  	'width' => $width,
 				  	'height' => $height
-				]);
+				));
 				
 				$this->add($image);
 				return $this->getByName($name);
 			}
-	    		return new Image($data);
-	    	} catch(PDOException $e) {
-				exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
+    		return new Image($data);
+    	} catch(PDOException $e) {
+			exit ('<b>Catched exception at line '. $e->getLine() .' :</b> '. $e->getMessage());
 		}
 	}
 
 	public function getList()
 	{
 		try {
-			$images = [];
+			$images = array();
 			$q = $this->_db->query('SELECT * FROM Image ORDER BY id');
 			if($q === false){ return null; }
 			while ($data = $q->fetch(PDO::FETCH_ASSOC))
@@ -146,4 +146,5 @@ print($image->name() . "   " . $image->hdDir() . "   " . $image->ldDir() . "   "
 		$db = null;
 	 */
 }
+
 ?>

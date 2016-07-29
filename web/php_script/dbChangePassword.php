@@ -1,5 +1,5 @@
 <?php
-	
+header('Access-Control-Allow-Origin: *');
 include 'dbManager.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

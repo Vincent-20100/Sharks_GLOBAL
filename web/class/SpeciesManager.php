@@ -1,7 +1,5 @@
 <?php
-if(!isset($_SPECIES_PHP)){
-	include 'Species.php';
-}
+	include_once 'Species.php';
 
 class SpeciesManager
 {
@@ -68,7 +66,7 @@ class SpeciesManager
 	public function getList()
 	{
 		try {
-			$species = [];
+			$species = array();
 			$q = $this->_db->query('SELECT id, image, length, distribution, food, commercialImportance, stateOfEndangerment, attacksOnHumans, swimmingDeep, uniqueIdentifyingFeature FROM Species ORDER BY id');
 			if($q === false){ return null; }
 			while ($data = $q->fetch(PDO::FETCH_ASSOC))

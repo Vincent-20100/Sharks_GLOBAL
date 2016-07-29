@@ -44,7 +44,7 @@
 	$ListTags = [$tag1, $tag2, $tag3, $tag4, $tag5];
 	print_r($ListTags);
 
-	$tabTags = []; //will contain multiple list of tag are overlapping 
+	$tabTags = array(); //will contain multiple list of tag are overlapping 
 	$i = $j = 0;
 	foreach($ListTags as $tag1) {
 		foreach($ListTags as $tag2){
@@ -58,7 +58,7 @@
 	echo "<br/><br/>";
 	print_r($tabTags);
 
-	$toUnset = [];
+	$toUnset = array();
 	$merged = false;
 	$tabToDel = 0;
 	$found = false;

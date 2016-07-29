@@ -1,6 +1,6 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
-	
+	header('Access-Control-Allow-Origin: *');
 	include 'dbManager.php';
 
 $return = false;
@@ -17,11 +17,11 @@ if( isset($_POST['username']) ) {
 	if ($q) {
 		if ($q->fetch(PDO::FETCH_ASSOC)) { // $result >= 1
 			// this username is already used
-			echo "Success";
+			echo "Username already exist : Success";
 			$return = true;
 		}
 		else {
-			echo "Failed";
+			echo "Username doesn't already exist";
 		}
 	}
 	
@@ -30,7 +30,7 @@ if( isset($_POST['username']) ) {
 	
 }
 else {
-	echo "Failed";
+	echo "No username post data : Failed";
 }
 return $return;
 ?>

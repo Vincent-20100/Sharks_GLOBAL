@@ -7,7 +7,7 @@ $( function() {
 
 	var username_login = $("#username-login")[0];
 
-	$("#username-login").keyup( function (event) {
+	$("#username-login").change( function (event) {
 		// input check
 	  	if(username_login.validity.patternMismatch) {
 			username_login.setCustomValidity("You entered an unautaurized character");
@@ -25,7 +25,7 @@ $( function() {
 
 	var password_login = $("#password-login")[0];
 
-	$("#password-login").keyup( function (event) {
+	$("#password-login").change( function (event) {
 	  	if(password_login.validity.patternMismatch){
 	  		password_login.setCustomValidity("You entered an unautaurized character");
 	  	} else if (password_login.validity.tooLong) {

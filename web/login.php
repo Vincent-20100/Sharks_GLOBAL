@@ -1,8 +1,8 @@
 <?php
 // Start the session
-include 'php_script/startSession.php';
+include_once 'php_script/startSession.php';
 $_COOKIE["remember"] = false;
-$nextPage = "/SharksTag/menu.php";
+$nextPage = "/Sharks/menu.php";
 if (isset($_GET['n'])) {
 	$nextPage = test_input($_GET['n']);
 }
@@ -24,7 +24,7 @@ $_COOKIE["username"] = "";
 	<title>Shark Tagging Game</title>
 
 	
-	<?php include('php_shared/header.php'); ?>
+	<?php include('php_shared/shared_Links&Scripts.php'); ?>
 
 	
 	<!-- Custom CSS for login.php -->
@@ -45,7 +45,7 @@ $_COOKIE["username"] = "";
 	</style>
 
 </head>
-<body background="images/back.jpg">
+<body background="images/back.jpg" class="stop-scrolling">
 
 <?php include 'php_shared/head.php'; ?>
 <!--
@@ -77,7 +77,7 @@ $_COOKIE["username"] = "";
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username or e-mail" maxlength="30" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+											<input type="text" name="username" id="username-login" tabindex="1" class="form-control" placeholder="Username or e-mail" maxlength="30" pattern="[A-Za-z0-9=!?\-@._*$]*" required/>
 										</div>
 									</div>
 								</div>
@@ -113,7 +113,7 @@ $_COOKIE["username"] = "";
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="text" name="username" id="username-register" tabindex="1" class="form-control" placeholder="Username" value="" maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+											<input type="text" name="username" id="username-register" tabindex="1" class="form-control" placeholder="Username" value="" maxlength="64" pattern="[A-Za-z0-9=!?\-@._*$]*" required/>
 										</div>
 										<div name="validation" id="username-validation" class="hidden-xs col-sm-1"></div>
 									</div>
@@ -129,7 +129,7 @@ $_COOKIE["username"] = "";
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password"  maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+											<input type="password" name="password" id="password-register" tabindex="3" class="form-control" placeholder="Password"  maxlength="64" pattern="[A-Za-z0-9=!?\-@._*$]*" required/>
 										</div>
 										<div name="validation" class="hidden-xs col-sm-1">
 											<div class="content show-tooltip icon-info" data-toggle="popover" data-placement="right" 
@@ -143,7 +143,7 @@ $_COOKIE["username"] = "";
 								<div class="form-group">
 									<div class="row">
 										<div class="col-sm-offset-1 col-sm-10">
-											<input type="password" name="confirm-password" id="confirm-password-register" tabindex="4" class="form-control" placeholder="Confirm Password" value="" maxlength="64" pattern="[A-Za-z0-9=!\-@._*$]*" required/>
+											<input type="password" name="confirm-password" id="confirm-password-register" tabindex="4" class="form-control" placeholder="Confirm Password" value="" maxlength="64" pattern="[A-Za-z0-9=!?\-@._*$]*" required/>
 										</div>
 										<div name="validation" id="confirm-password-validation" class="hidden-xs col-sm-1"></div>
 									</div>

@@ -1,27 +1,7 @@
 <?php
-// Start the session
-include 'php_script/startSession.php';
-?>
-
-<!DOCTYPE HTML>
-<html lang="en">
-<head>
-	<title>Shark Tagging Game</title>
-	<meta charset="UTF-8">
-	
-	<?php include('php_shared/header.php'); ?>
-	
-	<link rel="stylesheet" href="css/recover.css">
-
-	<style type="text/css">
-	.error {color: #FF0000;}
-	</style>
-
-</head>
-<body background="images/back.jpg">
-<?php 
-	include_once 'php_shared/head.php';
-	include_once 'dbSendNewPassword.php';
+	// Start the session
+	include_once 'php_script/startSession.php';
+	include_once 'php_script/dbSendRequestRecoveryCode.php';
 
 	$usernameOrEmailErr = "";
 	$usernameOrEmail = "";
@@ -43,6 +23,8 @@ include 'php_script/startSession.php';
 		    	//success !
 
 		    	sendRecoveryCode($usernameOrEmail);
+
+		    	header("Location: recoverActivation.php");
 		    }
 		}
 	}
@@ -54,6 +36,27 @@ include 'php_script/startSession.php';
 	  return $data;
 	}
 ?>
+
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Shark Tagging Game</title>
+	<meta charset="UTF-8">
+	
+	<?php include('php_shared/shared_Links&Scripts.php'); ?>
+	
+	<link rel="stylesheet" href="css/recover.css">
+
+	<style type="text/css">
+	.error {color: #FF0000;}
+	</style>
+
+</head>
+<body background="images/back.jpg" class="stop-scrolling">
+
+<?	include_once 'php_shared/head.php'; ?>
+
 
 <!--
 /****************************************************************************/
@@ -77,9 +80,10 @@ include 'php_script/startSession.php';
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-lg-12">
-							<form id="recover-form" action="" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
+							<form id="recover-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" enctype="multipart/form-data" role="form" style="display: block;">
 								<div class="form-group">
-									<input type="text" name="usernameOrEmailErr" id="usernameOrEmailErr" tabindex="1" class="form-control" placeholder="Username or Email Address" value="<?php echo $usernameOrEmail?>">
+									<input type="text" name="usernameOrEmail" id="usernameOrEmail" tabindex="1" class="form-control" placeholder="Username or Email Address" value="<?php echo $usernameOrEmail?>">
+									<span class="error"><?php echo $usernameOrEmailErr;?></span>
 								</div>
 								<div class="form-group">
 									<div class="row">

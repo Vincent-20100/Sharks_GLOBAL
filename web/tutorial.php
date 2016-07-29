@@ -1,12 +1,12 @@
- <!DOCTYPE html>
+<?php include_once 'php_script/startSession.php'; ?>
+
+<!DOCTYPE html>
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="css/tutorial.css">
 </head>
 <body class="noSelect">
-	<?php
-	include 'game.php';
-	?>
+	<?php include 'game.php'; ?>
 	<div id="tutoContainer" class="noSelect" onmousemove="passDiv()" onmouseup="endSelectZone()">
 	
 		<div id="instructions" num="0" class="tab-content">
@@ -105,7 +105,7 @@
 				$.ajax({
 					async: true,
 					// destination page
-					url: 'http://136.206.48.174/SharksTag/php_script/finishTutorial.php',
+					url: 'http://www.divelikeastone.com/Sharks/php_script/finishTutorial.php',
 					// use POST method
 					type: 'POST',
 					// POST's arguments

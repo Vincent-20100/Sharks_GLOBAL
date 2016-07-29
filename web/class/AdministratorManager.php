@@ -1,7 +1,5 @@
 <?php
-if(!isset($_PERSON_PHP)){
-	include 'Person.php';
-}
+	include_once 'Person.php';
 
 class AdministratorManager // please use the PersonManager for now because the Administrator need other atributes
 {
@@ -98,7 +96,7 @@ class AdministratorManager // please use the PersonManager for now because the A
 	public function getList()
 	{
 		try{
-			$admins = [];
+			$admins = array();
 			$q = $this->_db->query('SELECT id, id_sessionCurrent, username, email, password, salt, activationCode FROM Person P, Administrator A WHERE P.id = '.$id.' AND A.id_person = '.$id.' ORDER BY P.id');
 			if($q === false){ return null; }
 			while ($data = $q->fetch(PDO::FETCH_ASSOC))

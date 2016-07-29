@@ -1,6 +1,6 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
-	
+	header('Access-Control-Allow-Origin: *');
 	include 'dbManager.php';
 
 $return = false;
@@ -17,11 +17,11 @@ if( isset($_POST['email']) ) {
 	if ($q) {
 		if ($q->fetch(PDO::FETCH_ASSOC)) {  // $result >= 1
 			// this email is already used
-			echo "Success";
+			echo "Email already exist : Success";
 			$return = true;
 		}
 		else {
-			echo "Failed";
+			echo "Email doesn't already exist";
 		}
 	}
 	
@@ -30,7 +30,7 @@ if( isset($_POST['email']) ) {
 	
 }
 else {
-	echo "BIG Failed";
+	echo "No email post data : Failed";
 }
 return $return;
 ?>

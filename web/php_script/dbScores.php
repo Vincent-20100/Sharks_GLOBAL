@@ -1,7 +1,9 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
-	
-	$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
+	header('Access-Control-Allow-Origin: *');
+	include 'dbManager.php';
+
+	$db = dbOpen();
 	$scores = $db->query("	SELECT username, score, COUNT(*) AS NB_TAG
 							FROM Player P, Person Pe, Session S, Tag T, TaggedImage TI
 							WHERE P.id_person = Pe.id
@@ -9,7 +11,7 @@
 							AND S.id = TI.id_session
 							AND TI.id = T.id_taggedimage
 							GROUP BY Pe.id
-							ORDER BY score DESC, NB_TAG, username
+							ORDER BY score DESC, NB_TAG DESC, username
 							");
 
 
@@ -30,6 +32,6 @@
 	}
 	echo " ] } ";
 	
-	$db = null;
+	dbClose($db);
 	
 ?>

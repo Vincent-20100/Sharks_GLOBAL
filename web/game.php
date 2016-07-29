@@ -1,11 +1,11 @@
-<?php include 'php_script/startSession.php'; ?>
+<?php include_once 'php_script/startSession.php'; ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Sharks Tag game</title>
 	
-	<?php include('php_shared/header.php'); ?>
+	<?php include('php_shared/shared_Links&Scripts.php'); ?>
 	
 	<link rel="stylesheet" type="text/css" href="css/game.css">
 	<script type="text/javascript" src="javascript/game.js"></script>
@@ -16,9 +16,9 @@
 	<script type="text/javascript" src="javascript/modal.js"></script>
 	
 </head>
-<body data-spy="scroll" data-target="#navGame" >
-<embed src="/SharksTag/music/wave.wav" autostart="true" loop="-1" hidden="true"></embed>
-<audio id='player_audio' src="/SharksTag/music/buble.wav"></audio>
+<body data-spy="scroll" data-target="#navGame" class="stop-scrolling" onmouseup="endSelectZone()">
+<embed src="/Sharks/music/wave.wav" autostart="true" loop="-1" hidden="true"></embed>
+<audio id='player_audio' src="/Sharks/music/buble.wav"></audio>
 	<?php
 		include 'php_shared/head.php';
 		include 'php_script/navbarGame.php';

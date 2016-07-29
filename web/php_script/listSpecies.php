@@ -1,4 +1,5 @@
-<?php /* Vincent Bessouet, DCU School of Computing, 2016 */ ?>
+<!-- Vincent Bessouet, DCU School of Computing, 2016 -->
+
 <!-- <Angular JS> -->
 <div ng-app='sharksApp' ng-controller='sharksCtrl'>
 	<div id="modalTableSpecies" class="modal hide">
@@ -8,7 +9,7 @@
 			
 			
 			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
-				<div ng-repeat='x in sharks' class="panel panel-default" ng-if="x.name != 'undefined'">
+				<div ng-repeat='x in sharks' class="panel panel-default" ng-if="x.name != 'unknown'">
 					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{x.id}}" aria-expanded="false" aria-controls="collapse-{{x.id}}">
 						<div class="panel-heading" role="tab" id="heading-{{x.id}}">
 							<h4 class="panel-title">
@@ -50,7 +51,7 @@
 	
 	<!-- comboBox -->
 	<select id='sharkSpecies' class='form-control'>
-		<option value='undefined'>-- Select a species --</option>
+		<option value='undefined'> Sharks </option>
 		<option ng-repeat='x in sharks' value='{{x.name}}'>{{x.name}}</option>
 	</select>
     

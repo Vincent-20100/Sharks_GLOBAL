@@ -38,7 +38,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.174/SharksTag/php_script/dbGetSalt.php',
+			url: 'http://www.divelikeastone.com/Sharks/php_script/dbGetSalt.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -76,7 +76,7 @@ function checkAccount(salt) {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.174/SharksTag/php_script/dbLogin.php',
+			url: 'http://www.divelikeastone.com/Sharks/php_script/dbLogin.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -90,7 +90,7 @@ function checkAccount(salt) {
 			success: checkConnection
 		});
 	}
-};
+}
 
 function checkConnection(data) {
 	console.log(data);
@@ -98,6 +98,12 @@ function checkConnection(data) {
 	if(data.endsWith("Success")){
 		dispMsg("alert-success", "ok-sign", get_connected() );
 		window.location.href = $("#login-form").attr("next-page");
+		window.location.assign($("#login-form").attr("next-page"));
+		window.location = $("#login-form").attr("next-page");
+		window.location.replace($("#login-form").attr("next-page"));
+		$(location).attr('href', $("#login-form").attr("next-page"));
+		$(window).attr('location', $("#login-form").attr("next-page"));
+		$(location).prop('href', $("#login-form").attr("next-page"));
 	}
 	else{ // data == "Failed"
 		dispMsg("alert-danger", "remove-sign", data );
@@ -140,5 +146,4 @@ function getUrlParameter(sParam) {
         }
     }
     return false;
-};
-
+}

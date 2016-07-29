@@ -10,7 +10,7 @@ $( function() {
 	
 	$(".close").click( closeModal );
 	
-	$(document).click( function () {
+	$(document).click( function (event) {
 		if($(event.target).is(".modal")) {
 			closeModal();
 		}

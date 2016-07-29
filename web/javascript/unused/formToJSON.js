@@ -47,7 +47,7 @@
 				},
 				success: function(data) {
 					//have you service return the created object
-					var items = [];
+					var items = array();
 					items.push('<table cellpadding="4" cellspacing="4">');
 					items.push('<tr><td>username</td><td>' + data.username + '</td></tr>');
 					items.push('<tr><td>password</td><td>' + data.password + '</td></tr>');

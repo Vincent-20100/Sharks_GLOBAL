@@ -1,5 +1,5 @@
 <?php
-
+header('Access-Control-Allow-Origin: *');
 include 'getUserBySession.php';
 
 if( ! $_SESSION['user']->isAdmin() ){

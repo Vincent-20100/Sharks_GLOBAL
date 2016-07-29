@@ -1,5 +1,6 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
+	header('Access-Control-Allow-Origin: *');
 	$_DEBUG = false;
 	
 	if (!$_DEBUG) {
@@ -8,29 +9,28 @@
 	
 	
 function initStartSession() {
-	
 	session_start();
 	
 	
 	$redirect = false;
-	if(startsWith($_SERVER['PHP_SELF'], "/SharksTag/php_script/")) { }
+	if(startsWith($_SERVER['PHP_SELF'], "/Sharks/php_script/")) {
+	}
 	else {
-	
-	
 		// set the dest and put the next page in the url (GET method)
 		$dest = "login.php?n=" . $_SERVER['REQUEST_URI'] . "&e=LIOR";
 		// except some pages
-		if($_SERVER['PHP_SELF'] == '/SharksTag/login.php' ||
-			$_SERVER['PHP_SELF'] == '/SharksTag/logout.php' ||
-			$_SERVER['PHP_SELF'] == '/SharksTag/menu.php') {
+		if($_SERVER['PHP_SELF'] == '/Sharks/login.php' ||
+			$_SERVER['PHP_SELF'] == '/Sharks/logout.php' ||
+			$_SERVER['PHP_SELF'] == '/Sharks/menu.php') {
 				$dest = 'login.php'; //redirect without message
 		}
 	
-		// if no session in the history: auto redirect, except on the login page
+		// if no session in the history: auto redirect, except on the login page and exceptions
 		if(!isset($_COOKIE['PHPSESSID'])) {
-			if($_SERVER['PHP_SELF'] != '/SharksTag/login.php' &&
-				$_SERVER['PHP_SELF'] != '/SharksTag/forgotPassword.php' &&
-				$_SERVER['PHP_SELF'] != '/SharksTag/activateAccount.php') {
+			if($_SERVER['PHP_SELF'] != '/Sharks/login.php' &&
+				$_SERVER['PHP_SELF'] != '/Sharks/forgotPassword.php' &&
+				$_SERVER['PHP_SELF'] != '/Sharks/activateAccount.php'&&
+				$_SERVER['PHP_SELF'] != '/Sharks/recoverActivation.php') {
 					$redirect = true;
 			}
 		}
@@ -41,9 +41,10 @@ function initStartSession() {
 		
 			include 'getUserBySession.php';
 			
-			if($_SERVER['PHP_SELF'] == '/SharksTag/login.php' ||
-				$_SERVER['PHP_SELF'] == '/SharksTag/forgotPassword.php' ||
-				$_SERVER['PHP_SELF'] == '/SharksTag/activateAccount.php') {
+			if($_SERVER['PHP_SELF'] == '/Sharks/login.php' ||
+				$_SERVER['PHP_SELF'] == '/Sharks/forgotPassword.php' ||
+				$_SERVER['PHP_SELF'] == '/Sharks/activateAccount.php' ||
+				$_SERVER['PHP_SELF'] == '/Sharks/recoverActivation.php') {
 				// on the login page / forgotPassword page / activateAccount page :
 				// if the user is already connected, redirection to the menu page
 				// else continue
@@ -53,7 +54,7 @@ function initStartSession() {
 					$dest = "menu.php?e=ALI";
 				}
 			}
-			elseif($_SERVER['PHP_SELF'] == '/SharksTag/logout.php') {
+			elseif($_SERVER['PHP_SELF'] == '/Sharks/logout.php') {
 				// on the logout page :
 				// TODO if nobody is connected, redirection to the login page
 				// else continue
@@ -86,7 +87,7 @@ function initStartSession() {
 						$redirect = true;
 						$dest = "login.php?n=" . $_SERVER['REQUEST_URI'] . "&e=SELIA";
 					}
-					elseif($_SERVER['PHP_SELF'] == '/SharksTag/game.php' && !$pers->tutorialFinished()) {
+					elseif($_SERVER['PHP_SELF'] == '/Sharks/game.php' && !$pers->tutorialFinished()) {
 						// if the tutorial has not been played by the player,
 						// redirect him to it before starting to play
 						$redirect = true;
@@ -102,10 +103,9 @@ function initStartSession() {
 		// redirect to the login page
 		if ($redirect) {
 			// move the user to the log in page
-			header("Location: /SharksTag/$dest");
+			header("Location: /Sharks/$dest");
 			exit();
 		}
-	
 	}
 }
 

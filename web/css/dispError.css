@@ -8,12 +8,13 @@
 	-webkit-transition: top 0.5s, opacity 0.5s;
     transition: top 0.5s, opacity 0.5s;
     text-align: center;
-	z-index: 5;
+	z-index: 0;
 }
 
 #disp-error.show {
 	top: 0;
 	opacity: 1;
+	z-index: 5;
 }
 
 #disp-error-msg {
@@ -34,4 +35,17 @@
 }
 .color-success {
 	color: #3c763d;
+}
+
+.border-danger {
+	border-color: #a94442 !important;
+}
+.border-warning {
+	border-color: #8a6d3b !important;
+}
+.border-info {
+	border-color: #31708f !important;
+}
+.border-success {
+	border-color: #3c763d !important;
 }

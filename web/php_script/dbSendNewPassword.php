@@ -1,6 +1,6 @@
 <?php 
-
-require_once('../class/PersonManager.php');
+header('Access-Control-Allow-Origin: *');
+include 'dbManager.php';
 
 function sendRecoveryCode($usernameOrEmail) {
 	
@@ -9,13 +9,13 @@ function sendRecoveryCode($usernameOrEmail) {
 	if ($recoveryCode = getRecoveryCode($usernameOrEmail)){
 		if($recoveryCode != "") {
 
-			$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
+			$db = dbOpen();
 			$personManager = new PersonManager($db);
 			$person = $personManager->getByUserNameOrEmail($usernameOrEmail);
 
 			$username = $person->username();
 
-			$db = null;
+			dbClose($db);
 
 			// Send an automatic e-mail to give the recovery code
 			
@@ -31,7 +31,7 @@ function sendRecoveryCode($usernameOrEmail) {
 			<body>
 				<p>Hi $username!</p>
 				<p>Here is your recovery code. Use the link below to change your password.</p>
-				<p><a href='http://136.206.48.174/SharksTag/recoveryCode.php?user=$username&code=$recoveryCode' alt='Your activation link'>http://136.206.48.174/SharksTag/activation.php?user=$username&code=$recoveryCode</a>
+				<p><a href='http://www.divelikeastone.com/Sharks/recoveryCode.php?user=$username&code=$recoveryCode' alt='Your activation link'>http://www.divelikeastone.com/Sharks/activation.php?user=$username&code=$recoveryCode</a>
 				<p>Have a good play!</p>
 			</body>
 			</html>";
@@ -66,7 +66,7 @@ function getRecoveryCode($usernameOrEmail) {
 	$recoveryCode = bin2hex(random_bytes(5));
 
 	//store it in the database
-	$db = new PDO('mysql:host=localhost;dbname=sharksTaggingGame', 'root', '');
+	$db = dbOpen();
 	$personManager = new PersonManager($db);
 	$person = $personManager->getByUserNameOrEmail($usernameOrEmail);
 	if($person != null) {
@@ -76,7 +76,7 @@ function getRecoveryCode($usernameOrEmail) {
 		return "";
 	}
 
-	$db = null;
+	dbClose($db);
 
 	return $person;
 }

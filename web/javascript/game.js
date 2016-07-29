@@ -21,6 +21,8 @@ var isResizing4 = false;
 var curent = -1;
 var outside1 = false;
 var outside2 = false; 
+var outside3 = false;
+var outside4 = false; 
 var first = false;
 var isMousePressed = false;
 var initPos = [0, 0];
@@ -35,10 +37,23 @@ function getPos(){
 }
 
 
+
 $(function (){
 //This is a Jquery function, it's called all the time
 //We get the position of the mouse and we put it in posym
+	
+	$('#container').bind('touchmove', function(e){
+		e.preventDefault(); 
+		e.returnValue = false;
+	});
+	
+	$('#imageContainer').bind('touchmove', function(e){
+		e.preventDefault(); 
+		e.returnValue = false;
+	});
 
+	$('#modalTableSpecies').unbind('touchmove');
+	$('div.modal-content.container').unbind('touchmove');
 
 
 	$("#container").on('mousemove ', function(e) {
@@ -73,14 +88,14 @@ $(function (){
 		
 	});
 	var bod = $('body');
-	var img = $("#imageContainer img")
-	var bodwidth = bod.width();
-	var bodheight = bod.height();
+	var img = $("#container");
+	var bodwidth = img.width();
+	var bodheight = img.height();
 	getPos();
 	$(window).resize(function(){
 		getPos();
-		var pourcentbodwidth = bod.width() / bodwidth;
-		var pourcentbodheight = bod.height() / bodheight;
+		var pourcentbodwidth = img.width() / bodwidth;
+		var pourcentbodheight = img.height() / bodheight;
 		var i = 0;
 		for(i=0; i<rank; i++){
 			var elem = $("#selectedZone"+i);
@@ -98,8 +113,8 @@ $(function (){
 			    point4.offset({left : elem.offset().left - point4.width()/2, top : elem.offset().top + elem.height() - point4.height()/2});
 		    }
 		}
-		bodwidth = bod.width();
-		bodheight = bod.height();
+		bodwidth = img.width();
+		bodheight = img.height();
 	});
 });
 
@@ -152,6 +167,12 @@ document.onkeydown = function(e) {
 function initZone() {
 //Function called when we click on the div id='container'
 	if(isDragging != true && isResizing1 != true && isResizing2 != true && isResizing3 != true && isResizing4 != true){
+		
+		$("#container").on('mousemove ', function(e) {
+  		posym.x =  e.pageX
+  		posym.y =  e.pageY
+	});
+
 		
 		$("#container").on('touchstart', function(e) {
 	  		posym.x =  e.originalEvent.touches[0].pageX
@@ -260,7 +281,18 @@ function setZone() {
         }
         else{
             outside2 = false;
-        }		    
+        }	
+        
+	    if(elem.offset().top < img.offset().top){
+		    outside3 = true;
+	    }
+	    else outside3 = false;
+
+
+	    if(elem.offset().top + elem.height() > img.offset().top + img.height()){
+		    outside4 = true;
+	    }
+	    else outside4 = false;
     }
     //Even if we are moving the mouse in the container,
     //If we were dragging or resising, it will continute
@@ -492,7 +524,7 @@ function resizePoint1() {
 	    point4.addClass("dontShow");
 	   
 	    // we avoid the user to resise outside of the image
-	    if(elem.offset().left < img.offset().left){
+	  if(elem.offset().left < img.offset().left){
             outside1 = true;
         }
         else{
@@ -504,6 +536,18 @@ function resizePoint1() {
         else{
             outside2 = false;
         }	
+        
+
+	    if(elem.offset().top < img.offset().top){
+		    outside3 = true;
+	    }
+	    else outside3 = false;
+
+
+	    if(elem.offset().top + elem.height() > img.offset().top + img.height()){
+		    outside4 = true;
+	    }
+	    else outside4 = false;
 	}	
 }
 
@@ -565,6 +609,18 @@ function resizePoint2(){
         else{
             outside2 = false;
         }	
+        
+
+	    if(elem.offset().top < img.offset().top){
+		    outside3 = true;
+	    }
+	    else outside3 = false;
+
+
+	    if(elem.offset().top + elem.height() > img.offset().top + img.height()){
+		    outside4 = true;
+	    }
+	    else outside4 = false;
 	}
 }
 
@@ -625,6 +681,18 @@ function resizePoint3(){
         else{
             outside2 = false;
         }	
+        
+
+	    if(elem.offset().top < img.offset().top){
+		    outside3 = true;
+	    }
+	    else outside3 = false;
+
+
+	    if(elem.offset().top + elem.height() > img.offset().top + img.height()){
+		    outside4 = true;
+	    }
+	    else outside4 = false;
 	}
 }
 
@@ -684,10 +752,21 @@ function resizePoint4(){
         }
         else{
             outside2 = false;
-        }		
+        }	
+        
+
+	    if(elem.offset().top < img.offset().top){
+		    outside3 = true;
+	    }
+	    else outside3 = false;
+
+
+	    if(elem.offset().top + elem.height() > img.offset().top + img.height()){
+		    outside4 = true;
+	    }
+	    else outside4 = false;
 	}
 }
-
 
 
 function endSelectZone() {
@@ -695,7 +774,6 @@ function endSelectZone() {
     console.log("End Click");
 	//In this case:
 	//stop to click
-
  
     //recovery of data, the curent element etc...
 	var elem = $("#selectedZone"+curent);
@@ -704,6 +782,9 @@ function endSelectZone() {
 	var point3 = $("#point3"+curent);
 	var point4 = $("#point4"+curent);
 	var img = $('#imageContainer img');	
+
+	if (elem.length == 0) {return;};
+
 	// display the points and the label which indicates the shark species
 	point1.removeClass("dontShow");
 	point2.removeClass("dontShow");
@@ -718,11 +799,21 @@ function endSelectZone() {
 	    elem.offset({left : img.offset().left});    
         outside1 = false;	    
     }
-    else if(outside2 === true){
+    if(outside2 === true){
         elem.width(elem.width() - (elem.offset().left + elem.width() - (img.offset().left + img.width())));
         elem.offset({left : img.offset().left + img.width() - elem.width()});
         outside2 = false;
-    }   
+    }  
+    if(outside3 === true){
+    	elem.height(elem.height() - (img.offset().top - elem.offset().top));
+    	elem.offset({top : img.offset().top});
+    	outside3 = false;
+    } 
+    if(outside4 === true){
+    	elem.height(elem.height() - (elem.offset().top + elem.height() - (img.offset().top + img.height())));
+    	elem.offset({top : img.offset.top + img.height()- elem.height()});
+    	outside4 = false;
+    }
 	if (first === true){ 
 	    point1.offset({left : elem.offset().left - point1.width()/2, top : elem.offset().top - point1.height()/2});   
 	    point2.offset({left : elem.offset().left + elem.width() - point2.width()/2, top: elem.offset().top - point2.height()/2});
@@ -1004,15 +1095,14 @@ function sendTags() {
 		var elem = $("#selectedZone"+i);
    	 	var img = $('#imageContainer img');
    	 	var imgContainer = $('#imageContainer');
-		var navMain = $("#mainNavBar");
+		var navMain = $("#mainNav");
 		var navGame = $("#navGame");
 		var container = $('#container');
 
 		if(elem.length != 0){
 			listTags[i] = {};
-			
 
-			var x1 =  ((elem.offset().left - parseInt(imgContainer.css("margin-left")))/ img.width()) * img.attr("img-width");
+			var x1 = ((elem.offset().left - parseInt(imgContainer.css("margin-left")))/ img.width()) * img.attr("img-width");
 			var y1 = ((elem.offset().top - navMain.height() - navGame.height()) / img.height()) * img.attr("img-height");
 			var x2 = ((elem.offset().left + elem.width() - parseInt(imgContainer.css("margin-left")) )/ img.width()) * img.attr("img-width");
 			var y2 = ((elem.offset().top + elem.height() - navMain.height() - navGame.height()) / img.height()) * img.attr("img-height");
@@ -1022,19 +1112,18 @@ function sendTags() {
 			listTags[i]['x2'] = x2;
 			listTags[i]['y2'] = y2;
 		}
+		
 	}
 
-	
 	// we need to use a JSON to send a tab to the server
 	var jsonListTags = JSON.stringify(listTags);
-		
 	
 		
 	// send the tags to the data base
 	$.ajax({
 		async: true,
 		// destination page
-		url: 'http://136.206.48.174/SharksTag/php_script/tagSent.php',
+		url: 'http://www.divelikeastone.com/Sharks/php_script/tagSent.php',
 		// use POST method
 		type: 'POST',
 		// POST's arguments
@@ -1050,14 +1139,26 @@ function sendTags() {
 		success: checkTagSent
 	});
 	
-
+	$("#player_audio").trigger("play");
 }
 
 function checkTagSent (data) {
-	console.log(data);
 
 	if(data.endsWith('Success')){
-		$("#imageContainer").load('http://136.206.48.174/SharksTag/php_script/getAnImage.php?s=' + $("#session_id").val() );
+		$.ajax({
+			async: true,
+			// destination page
+			url: 'http://www.divelikeastone.com/Sharks/php_script/getAnImage.php?s=' + $("#session_id").val() ,
+			// use POST method
+			type: 'GET',
+			// POST's arguments
+			data: {
+			},
+			context: this,
+			// get the result
+			success: checkImageContainer
+		});
+
 		/* end by del the selected zone */
 		resetAllZone();
 	} else {
@@ -1072,7 +1173,7 @@ function checkTagSent (data) {
 	$.ajax({
 		async: true,
 		// destination page
-		url: 'http://136.206.48.174/SharksTag/php_script/getScore.php',
+		url: 'http://www.divelikeastone.com/Sharks/php_script/getScore.php',
 		// use POST method
 		type: 'POST',
 		// POST's arguments
@@ -1083,6 +1184,17 @@ function checkTagSent (data) {
 		// get the result
 		success: setScore
 	});
+}
+
+function checkImageContainer(data){
+
+		if($(data).is("img")){
+			$("#imageContainer").html(data);
+		}
+		else {
+			$("#imageContainer").html("");
+			$("#container").after(data);
+		}
 }
 
 function setScore (data) {

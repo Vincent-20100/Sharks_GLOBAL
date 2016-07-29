@@ -1,6 +1,6 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
-	
+	header('Access-Control-Allow-Origin: *');
 	include 'dbManager.php';
 	
 if( isset($_POST['username']) ) {

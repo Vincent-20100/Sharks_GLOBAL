@@ -1,7 +1,5 @@
 <?php
-if(!isset($_PERSON_PHP)){
-	include 'Person.php';
-}
+	include_once 'Person.php';
 
 class PlayerManager
 {
@@ -103,7 +101,7 @@ class PlayerManager
 	public function getList()
 	{
 		try{
-			$players = [];
+			$players = array();
 			$q = $this->_db->query("SELECT P.id, P.id_sessionCurrent, P.username, P.email, P.password, P.salt, P.activationCode, Pl.score, Pl.tutorialFinished
 									FROM Person P, Player Pl
 									WHERE P.id = Pl.id_person

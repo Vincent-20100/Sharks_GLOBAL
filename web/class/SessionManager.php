@@ -1,5 +1,5 @@
 <?php
-$_SESSION_MANAGER_PHP = true;
+include_once 'Session.php';
 
 class SessionManager
 {
@@ -65,7 +65,7 @@ class SessionManager
 	public function getList()
 	{
 		try{
-			$sessions = [];
+			$sessions = array();
 			$q = $this->_db->query("SELECT id, name, id_person, ipv4, date, os, device, browser
 									FROM Session
 									ORDER BY id_person");

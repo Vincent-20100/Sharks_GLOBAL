@@ -1,7 +1,7 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
-
-include 'dbManager.php';
+	header('Access-Control-Allow-Origin: *');
+	include 'dbManager.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			
 			
 		    // check if username only contains letters and whitespace
-		    if (!preg_match("/^[a-zA-Z0-9=!\-@._*$]*$/",$username)) {
+		    if (!preg_match("/^[A-Za-z0-9=!?\-@._*$]*$/",$username)) {
 		      	echo "Special characters are not allowed.";
 		    }
 		    else {
@@ -63,8 +63,8 @@ function loginAccount($username, $passwd_hash, $userSession) {
 					// YES it is active
 					// history the session statistics
 					$sessionIds = setNewSession($db, $userSession, $userId);
-					
-					$userSessionId = $sessionIds->fetch(PDO::FETCH_ASSOC)['id'];
+					$tmp = $sessionIds->fetch(PDO::FETCH_ASSOC);
+					$userSessionId = $tmp['id'];
 					// store the current player session
 					if(setPlayerSession($db, $username, $userSessionId, $userId)){
 						echo "Success";

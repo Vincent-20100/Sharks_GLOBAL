@@ -11,7 +11,7 @@
 	echo "pre<br/>";
 	print_r($tabTags);
 
-	$toUnset = [];
+	$toUnset = array();
 	$merged = false;
 	$tabToDel = 0;
 	$found = false;

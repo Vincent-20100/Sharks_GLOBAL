@@ -96,7 +96,7 @@ $(document).ready(function () {
 
 	$.validator.addMethod("pwcheck", 
 		function(value, element) {
-			return /^[A-Za-z0-9=!\-@._*$]*$/.test(value) // consist of only these
+			return /^[A-Za-z0-9=!?\-@._*$]*$/.test(value) // consist of only these
 				&& /[A-Z]/.test(value) // has a upper case letter
 				&& /[a-z]/.test(value) // has a lower case letter
 				&& /\d/.test(value); // has a digit},

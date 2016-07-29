@@ -1,9 +1,5 @@
 <?php
-$_TAGGED_IMAGE_MANAGER_PHP = true;
-
-if(!isset($_TAGGED_IMAGE_PHP)){
-	include 'TaggedImage.php';
-}
+	include_once 'TaggedImage.php';
 
 class TaggedImageManager
 {
@@ -95,7 +91,7 @@ class TaggedImageManager
 	public function getList()
 	{
 		try {
-			$taggedImages = [];
+			$taggedImages = array();
 			$q = $this->_db->query("SELECT *
 									FROM TaggedImage
 									ORDER BY id");
@@ -113,7 +109,7 @@ class TaggedImageManager
 	public function getListByIdImage($idImage)
 	{
 		try {
-			$taggedImages = [];
+			$taggedImages = array();
 			$q = $this->_db->query("SELECT *
 									FROM TaggedImage
 									WHERE id_image = '$idImage'");

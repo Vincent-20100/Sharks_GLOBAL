@@ -1,5 +1,5 @@
 <?php
-	
+	header('Access-Control-Allow-Origin: *');
 	include 'dbManager.php';
 
 	//at least 5 person have tagged the image
@@ -13,14 +13,14 @@
 		$ListTaggedImages = $taggedImageManager->getListByIdImage($imageId);
 		
 		$tagManager = new TagManager($db);
-		$ListTags = []; //contain all tags for the image
+		$ListTags = array(); //contain all tags for the image
 		foreach($ListTaggedImages as $taggedImage){
 			$ListTags = array_merge($ListTags, $tagManager->getListByIdTaggedImage($taggedImage->id()));
 		}
 	
 		//for each tag, we gathered the neighbour tags
 		
-		$tabTags = []; //will contain multiple list of tags that are overlapping 
+		$tabTags = array(); //will contain multiple list of tags that are overlapping 
 		$i = $j = 0;
 		foreach($ListTags as $tag1) {
 			foreach($ListTags as $tag2){
@@ -34,7 +34,7 @@
 		
 		
 		//we keep a number of list equal to the supposed number of sharks in the image (tags/users) amoung the most numerous. In case of similar list, we  merge them
-		$toUnset = [];
+		$toUnset = array();
 		$merged = false;
 		$tabToDel = 0;
 		$found = false;
@@ -107,10 +107,10 @@
 	
 
 		//we keep the barycenter of the tags in the list for each sharks as image reference		
-		$weights = []; //contain the weight of each tag
-		$tabRef = []; //contain the barycenter of the RefTag
-		$speciesIdTag = []; //contain the tagRef of the Grouped Tag
-		$tabTagSpecies = []; //contain the species of each tag
+		$weights = array(); //contain the weight of each tag
+		$tabRef = array(); //contain the barycenter of the RefTag
+		$speciesIdTag = array(); //contain the tagRef of the Grouped Tag
+		$tabTagSpecies = array(); //contain the species of each tag
 
 
 		//echo " - taille tabTags : ";
@@ -156,7 +156,7 @@
 				}
 			}
 			else{//for the tags which were tagged too few times, we don't know if there is a shark or not so they will have to be checked manually later
-				$speciesIdTag[$i] = "undefined";
+				$speciesIdTag[$i] = "unknown";
 			}
 
 			//if a species is choosen, the image cannot be tagged any longer			
@@ -207,24 +207,24 @@
 			}
 			
 			//create the reference tag Image
-			$taggedImage = new TaggedImage([
+			$taggedImage = new TaggedImage(array(
 			  	'id_image' => $imageId,
-			]);
+			));
 			$taggedImageManager = new TaggedImageManager($db);
 			$taggedImageManager->addRef($taggedImage);
 			$taggedImage = $taggedImageManager->getRefByImageId($imageId);
 			
-			$tagRef = new Tag([
+			$tagRef = new Tag(array(
 			  	'x1' => $tabRef[$i][0],
 			  	'y1' => $tabRef[$i][1],
 			  	'x2' => $tabRef[$i][2],
 			  	'y2' => $tabRef[$i][3],
 			  	'isReference' => '1'
-			]);
+			));
 
 			$tagManager = new TagManager($db);
 			$speciesManager = new SpeciesManager($db);
-			if ($speciesIdTag[$i] == "undefined") $speciesIdTag[$i] = $speciesManager->getIdByName("undefined");
+			if ($speciesIdTag[$i] == "unknown") $speciesIdTag[$i] = $speciesManager->getIdByName("unknown");
 			$tagManager->addRef($tagRef, $taggedImage->id() , $speciesIdTag[$i]);
 		}
 		

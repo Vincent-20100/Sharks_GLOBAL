@@ -1,42 +1,13 @@
 <?php
-include 'php_script/startSession.php';
-?>
+	include_once 'php_script/startSession.php';
 
-
-<!DOCTYPE HTML>
-<html lang="en">
-<head>
-	<title>Shark Tagging Game - activate your account</title>
-	<meta charset="UTF-8">
-
-	<?php include('php_shared/header.php'); ?>
-	
-	<style type="text/css">
-
-		body > .container {
-			margin-top: 10%;
-		}
-		
-		.error {color: #FF0000;}
-	</style>
-
-</head>
-<body background="images/back.jpg">
-<?php 
-	  include 'php_shared/head.php';
-?>
-
-
-<?php
 	include 'php_script/dbManager.php';
 
 	$activationCode = "";
 
 	if (isset($_POST["activationCode"])) {
 
-		if (empty($_POST["activationCode"])) {
-			echo "Please, enter an activation code.";
-		} else {
+		if (!empty($_POST["activationCode"])) {
 			//success !
 			$activationCode = test_input($_POST["activationCode"]);
 
@@ -53,10 +24,9 @@ include 'php_script/startSession.php';
 			if ($result = $db->query($querySelect)) {
 				if($result->fetch(PDO::FETCH_ASSOC)) {
 					if ($db->query($queryUpdate)) {
-						echo 'Success';
 
 						//redirection to the log in page
-						header("Location: login.php");
+						header("Location: /Sharks/login.php");
 						exit();
 					}
 					else echo 'Failed while using your valid code';
@@ -70,6 +40,8 @@ include 'php_script/startSession.php';
 			}
 
 			dbClose($db);
+		} else {
+			echo "Activation code is empty.";
 		}
 	}
 
@@ -79,6 +51,29 @@ include 'php_script/startSession.php';
 		$data = htmlspecialchars($data);
 		return $data;
 	}
+?>
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Shark Tagging Game - activate your account</title>
+	<meta charset="UTF-8">
+
+	<?php include('php_shared/shared_Links&Scripts.php'); ?>
+	
+	<style type="text/css">
+
+		body > .container {
+			margin-top: 10%;
+		}
+		
+		.error {color: #FF0000;}
+	</style>
+
+</head>
+<body background="images/back.jpg" class="stop-scrolling">
+<?php 
+	  include 'php_shared/head.php';
 ?>
 
 <!--
@@ -91,14 +86,11 @@ include 'php_script/startSession.php';
 <div class="container">
 	<div class="row">
 		<div class="col-sm-6 col-sm-offset-3">
-			<div class="panel panel-activateAccount">
+			<div class="panel panel-default text-center panel-activateAccount">
 				<div class="panel-heading">
 					<div class="row">
-						<div class="col-xs-12">
-							<a href="#" class="activate" id="activateAccount-form-link">Activate Account</a>
-						</div>
+						<h2>Activate Account</h2>
 					</div>
-					<hr>
 				</div>
 				<div class="panel-body">
 					<div class="row">

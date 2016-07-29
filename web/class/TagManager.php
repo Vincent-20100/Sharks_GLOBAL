@@ -1,7 +1,5 @@
 <?php
-if(!isset($_TAG_PHP)){
-	include 'Tag.php';
-}
+	include_once 'Tag.php';
 
 class TagManager
 {
@@ -65,7 +63,7 @@ class TagManager
 	public function getList()
 	{
 		try {
-			$tags = [];
+			$tags = array();
 			$q = $this->_db->query('SELECT id, id_taggedImage, id_species, x1, y1, x2, y2, isReference FROM Tag ORDER BY id');
 			if($q === false){ return null; }
 			while ($data = $q->fetch(PDO::FETCH_ASSOC))
@@ -81,7 +79,7 @@ class TagManager
 	public function getListByIdTaggedImage($idTaggedImage)
 	{
 		try {
-			$tags = [];
+			$tags = array();
 			$q = $this->_db->query("SELECT * FROM Tag WHERE id_taggedImage = $idTaggedImage AND isReference = 0");
 			if($q === false){ return null; }
 			while ($data = $q->fetch(PDO::FETCH_ASSOC))

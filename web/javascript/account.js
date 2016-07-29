@@ -20,7 +20,7 @@ $( function () {
 		$.ajax({
 			async: true,
 			// destination page
-			url: 'http://136.206.48.174/SharksTag/php_script/dbGetSalt.php',
+			url: 'http://www.divelikeastone.com/Sharks/php_script/dbGetSalt.php',
 			// use POST method
 			type: 'POST',
 			// POST's arguments
@@ -32,10 +32,10 @@ $( function () {
 			success: changePassword
 		});
 
-		
-	
 	});
 
+	$("#newpassword").change (checkPasswordAreEquals);
+	$("#confirm-newpassword").change (checkPasswordAreEquals);
 
 });
 
@@ -55,7 +55,7 @@ function changePassword (salt) {
 	$.ajax({
 		async: true,
 		// destination page
-		url: 'http://136.206.48.174/SharksTag/php_script/dbChangePassword.php',
+		url: 'http://www.divelikeastone.com/Sharks/php_script/dbChangePassword.php',
 		// use POST method 
 		type: 'POST',
 		// POST's arguments
@@ -74,31 +74,49 @@ function checkNewpassword(data) {
 	console.log(data);
 
 	if(data.endsWith("Success")){
-		window.location.href = "/SharksTag/menu.php?e=PCS";
+		window.location.href = "/Sharks/menu.php?e=PCS";
 	}
 	else{ // data == "Failed"
 		dispMsg("alert-danger", "remove-sign", data );
 	}
 }
 
+function checkPasswordAreEquals() {
+	if($("#confirm-newpassword").val() == $("#newpassword").val()) {
+		elemValidationReset("confirm-newpassword");
+		elemValidation("newpassword", true);
+		elemValidation("confirm-newpassword", true);
+	}
+	else {
+		elemValidation("newpassword", false);
+		elemValidation("confirm-newpassword", false);
+	}
+}
 
 function elemValidation(elementName, isValid) {
 	var elem = $("#" + elementName + "-validation");
-	var elemInput = $("#" + elementName + "-changepassword");
+	var elemInput = $("#" + elementName);
+	elem.removeClass("color-danger color-warning color-info color-success");
+	elemInput.removeClass("border-danger border-warning border-info border-success");
+	
 	if(isValid) {
-		elem.removeClass("icon-danger icon-warning icon-info icon-success");
-		elem.addClass("icon-success");
+		elem.addClass("color-success");
 		elem.html("<span class='glyphicon glyphicon-ok-sign'></span>");
-
-		elemInput.removeClass("border-danger border-warning border-info border-success");
+		
 		elemInput.addClass("border-success");
 	}
 	else {
-		elem.removeClass("icon-danger icon-warning icon-info icon-success");
-		elem.addClass("icon-danger");
+		elem.addClass("color-danger");
 		elem.html("<span class='glyphicon glyphicon-remove-sign'></span>");
-
-		elemInput.removeClass("border-danger border-warning border-info border-success");
+		
 		elemInput.addClass("border-danger");
 	}
+}
+
+function elemValidationReset(elementName) {
+	var elem = $("#" + elementName + "-validation");
+	var elemInput = $("#" + elementName);
+	elem.removeClass("color-danger color-warning color-info color-success");
+	elem.html("");
+	elemInput.removeClass("border-danger border-warning border-info border-success");
 }

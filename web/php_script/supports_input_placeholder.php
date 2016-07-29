@@ -1,5 +1,6 @@
 <?php
 // ref: https://diveintohtml5.org/detect.html
+header('Access-Control-Allow-Origin: *');
 function supports_input_placeholder()
 {
 	var i = document.createElement('input');

@@ -1,6 +1,6 @@
 <?php
 // Start the session
-include 'php_script/startSession.php';
+include_once 'php_script/startSession.php';
 ?>
 
 <!DOCTYPE html>
@@ -10,13 +10,13 @@ include 'php_script/startSession.php';
 	<title>Shark Tagging Game</title>
 	<meta charset="UTF-8"/>
 	
-	<?php include('php_shared/header.php'); ?>
+	<?php include('php_shared/shared_Links&Scripts.php'); ?>
 	
 	<script type="text/javascript" src="javascript/scores.js"></script>
 
 	<link rel="stylesheet" href="css/scores.css"/>
 </head>
-<body background="images/back.jpg">
+<body background="images/back.jpg" class="stop-scrolling">
 	<?php 
 		include 'php_shared/head.php';
 	?>
@@ -49,10 +49,10 @@ include 'php_script/startSession.php';
 				</table>
 			</div>
 		</div>
-		<div class="raw">
+		<div class="row">
 			<div class="col-lg-12 text-center">
 				<a href="menu.php" class="btn btn-primary btn-lg" role="button">Back</a>
-			</div>			
+			</div>
 		</div>
 	</div>
 </body>

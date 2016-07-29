@@ -1,6 +1,6 @@
 <?php
 	/* Vincent Bessouet, DCU School of Computing, 2016 */
-	
+	header('Access-Control-Allow-Origin: *');
 	include 'dbManager.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -12,11 +12,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	    	echo "Enter a username.\n";
 		} else {
 			$username = test_input($_POST['username']);
-			if (!preg_match("/^[a-zA-Z0-9=!\-@._*$]*$/",$username)) {
+			if (!preg_match("/^[A-Za-z0-9=!?\-@._*$]*$/",$username)) {
 		      echo "Only letters and white space allowed\n";
 		    }
-		}		
-		
+		}
 		if (empty($_POST["email"])) {
 			echo "Enter an email.\n";
 		} else {
@@ -51,20 +50,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		    $r1 = require 'dbCheckEmailExists.php';
 		    $r2 = require 'dbCheckUsernameExists.php';
 		    if ($r1 || $r2) {
-		    	echo "Your Email or Username already exist in the database\n";
+		    	echo "The Email or Username you chose already exist in the database\n";
 		    }
 		    else {
 		    	createAccount($username, $email, $password, $salt);
-		    	//uncomment later if you can send mails
-		    	//sendEMailNewAccount($email, $username);
+		    	sendEMailNewAccount($email, $username);
 		    }
 
 
-		    // uncomment it if you make the password transit in clear text throuth a https protocol
-		    /* it will check the password conformity in the server side 
-			//The password must be at least 8 character long
-	    	if(strlen($_POST["password"])<8) {
-	    		echo "Password must be at least 8 character long\n";
+		    /* uncomment it if you make the password transit in clear text throuth a https protocol
+		    // it will check the password conformity in the server side 
+			//The password must be at least 6 character long
+	    	if(strlen($_POST["password"])<6) {
+	    		echo "Password must be at least 6 character long\n";
 	    	}
 	    	else {
 	    		//success !
@@ -106,8 +104,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 									echo "Your Email or Username already exist in the database\n";
 								}
 								else {
-									createAccount($username, $email, $passwd_hash, $salt);
-									sendEMailNewAccount($email);
+									createAccount($username, $email, $password, $salt);
+									sendEMailNewAccount($email, $username);
 								}
 							}
 						}
@@ -123,24 +121,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 function createAccount($username, $email, $passwd_hash, $salt) {
 
-	// open connection
-	$db = dbOpen();
-	
-	if (setNewAccount($db, $username, $email, $passwd_hash, $salt)) {
-		echo "Success";
+	if (setNewAccount($username, $email, $passwd_hash, $salt)) {
+		echo "Your acount was created : Success";
 	}
 	else {
-		echo "An error occured. Your account was not created\n";
+		echo "An error occured. Your account was not created. : Failed\n";
 	}
 	
-	// close connection
-	dbClose($db);
+	
 }
 
-function setNewAccount($db, $username, $email, $passwd_hash, $salt) {
-	$activationCode = bin2hex(random_bytes(5));
-	
-	require 'Browser.php-master/lib/Browser.php';
+function makeActivationCode( $length ) {
+  	$text = "";
+   	$values = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	$tab = str_split($values);
+
+	if(!shuffle($tab)){echo "Activation have Failed";}
+
+	for ($i=0; $i < $length; $i++) { 
+		$text .= $tab[array_rand($tab, 1)];
+	}
+
+    return $text;
+}
+
+function setNewAccount($username, $email, $passwd_hash, $salt) {
+	$activationCode = makeActivationCode(10);
+
+	// open connection
+	$db = dbOpen();
+
+	require_once 'Browser.php-master/lib/Browser.php';
 	$browser = new Browser();
 	$device = $browser->getPlatform();
 	$os = $browser->getPlatform();
@@ -153,6 +164,9 @@ function setNewAccount($db, $username, $email, $passwd_hash, $salt) {
 						VALUES ( ( SELECT id FROM Person WHERE username = '$username') )");
 	$db->commit();
 
+	// close connection
+	dbClose($db);
+
 	return $res;
 }
 
@@ -163,65 +177,43 @@ function sendEMailNewAccount($email, $username) {
 	
 	$activationCode = "";
 
-	
 	if ($result = getActivationCode($db, $email)){
 		if($row = $result->fetch(PDO::FETCH_ASSOC)) {
 			$activationCode = $row['activationCode'];
-
-			// close connection
-			dbClose($db);
-
-			// Send an automatic e-mail to give the activation code
-			
-			// Subject
-			$subject = "[SharksTag] Your account activation code";
-
-			// message
-			$message = "
-			<html>
-			<head>
-				<title>[SharksTag] Your account activation code</title>
-			</head>
-			<body>
-				<p>Hi $username!</p>
-				<p>Here is your activation code. Use the link below to activate your account.</p>
-				<p><a href='http://136.206.48.174/SharksTag/activation.php?user=$username&code=$activationCode' alt='Your activation link'>http://136.206.48.174/SharksTag/activation.php?user=$username&code=$activationCode</a>
-				<p>Have a good play!</p>
-			</body>
-			</html>";
-
-			// e-mail header
-			$headers  = "MIME-Version: 1.0" . "\r\n";
-			$headers .= "Content-type: text/html; charset=iso-8859-1" . "\r\n";
-
-			// En-têtes additionnels
-			$headers .= "To: $email" . "\r\n";
-			$headers .= "From: SharksTag<bessouet.vincent@gmail.com>" . "\r\n";
-
-			$status = mail($email, $subject, $message, $headers);
-
-			// Envoi
-			if($status) {
-                echo "Your message has been sent !";
-            }
-            else {
-                echo "An error occurred while trying to send the mail.";
-            }
-			return $status;
 		}
 	}
+	
 	// close connection
 	dbClose($db);
 
-	return false;
+	$email_to = "To: $email" . "\r\n";
+	$email_from = "SharkTaggingGame@divelikeastone.com";
+	$email_headers = "From: SharksTag<noreply@divelikeastone.com>" . "\r\n";
+	$email_subject = "[SharksTag] Your account activation code";
+	$email_body = "Hi $username!
+
+Here is your activation code. Use the link below to activate your account.
+Your activation code : http://www.divelikeastone.com/Sharks/activateAccount.php?code=$activationCode
+Have a good play!";
+
+	$mailerResult = @mail($email_to, $email_subject, $email_body, $email_headers, '-f ' . $email_from);
+
+	if ($mailerResult) {
+		echo "Mail Sent ! : Success";
+	}
+	else {
+		echo "Error Sending Email! : Failed" . "<br/><br/>";
+		print_r(error_get_last());
+	}
+
+	return mailerResult;
 }
 
 function getActivationCode($db, $email) {
 	// get activation code
-	return $db->query("	SELECT Pl.activationCode
-						FROM Player Pl, Person Pe
-						WHERE Pl.id_person = Pe.id
-						AND Pe.email = '$email'");
+	return $db->query("	SELECT activationCode
+						FROM Person
+						WHERE email = '$email'");
 }
 
 //modify any special character like <p> </p>
