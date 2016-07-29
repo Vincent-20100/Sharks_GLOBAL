@@ -1,0 +1,45 @@
+html {
+	height: 100%;
+	width: 100%;
+}
+
+p{
+	font-size: 18px;
+	text-align: center;
+}
+
+body {
+	background-repeat: no-repeat;
+	background-position: top center;
+	margin: 0;
+	vertical-align: center;
+}
+
+body > .container {
+	margin-top: 10%;
+}
+
+h1, h2{
+	text-align: center;
+}
+
+.btn {
+	margin-bottom: 20px;
+}
+
+.menu_simple {
+	height: 69px;
+	width: 160px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.panel-heading.text-center {
+	font-size: 40px;
+}
+
+.border-info {
+	border-color: #31708f !important;
+}

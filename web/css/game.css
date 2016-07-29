@@ -1,0 +1,149 @@
+body {
+	margin: 0;
+	font-family: Arial;
+}
+
+
+#navbar{
+	line-height: 34px;
+}
+.affix {
+	top:0;
+	width: 100%;
+	z-index: 9999 !important;
+}
+.navbar {
+  margin-bottom: 0px;
+  border-radius: 0;
+}
+.affix ~ .container-fluid {
+	padding-top: 36px;
+}
+.btn-group-justified {
+	width: 50%;
+}
+
+#navGame {
+	/*position: fixed;*/
+	width: 100%;
+	background-color: #ddd;
+}
+
+#tipsMenu {
+	width: 100%;
+	background-color: #ddd;
+	color: #000;
+	transition: max-height 0.5s;
+	max-height: 200px;
+	overflow: hidden;
+}
+#tipsMenu.dontShow {
+	display: block;
+	max-height: 0;
+	overflow: hidden;
+}
+
+#container {
+	position : relative;
+	background-color: black;
+	cursor: cell;
+	width: 100% !important;
+	padding: 0 !important;
+}
+#imageContainer {
+	position: relative;
+	height: 100%;
+	width: 90%;
+	margin: 0 auto;
+}
+
+	
+div[name="selectedZoneSet"]{
+    cursor: cell;
+     /* constant style */
+	border: dashed 2px #fff; /* white */
+	position: absolute;
+}
+
+
+.selectedZone{
+    border: dashed 2px #fff; /* white */
+	position: absolute;
+	overflow: hidden;
+}
+
+div[name="touch"]{
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+div[name="grab"]{ 
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.species {
+    font-size: 16px;
+    font-weight: normal;
+    padding: 1px 5px 1px 7px;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    white-space: nowrap;
+}
+
+
+
+.point{
+    position: absolute;
+    border:2px solid #679403;
+    background:#bfd70e;
+    border-radius:50%;
+    width:20px;
+    height:20px;
+}
+
+.noSelect {
+   	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+}
+
+.avoidrag {
+	pointer-events: none
+}
+
+
+.selected{
+
+    border:3px solid rgb(220,0,0);
+}
+
+
+div[name="pointodd"]{
+    cursor: nwse-resize;
+}
+
+div[name="pointeven"]{
+    cursor: nesw-resize;
+}
+
+div[name="pointSet"]{
+    cursor: cell;
+    display: none;
+}
+
+.mask {
+	background-color: rgba(0,0,0,0.3); /* black with transparency */
+	position: absolute;
+}
+.dontShow {
+	display: none;
+}
+
